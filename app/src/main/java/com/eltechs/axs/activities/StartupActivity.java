@@ -1,30 +1,16 @@
 package com.eltechs.axs.activities;
 
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import com.eltechs.axs.AppConfig;
-import com.eltechs.axs.Globals;
-import com.eltechs.ed.R;
-import com.eltechs.axs.applicationState.ApplicationStateBase;
-import com.eltechs.axs.applicationState.ApplicationStateObject;
-import com.eltechs.axs.configuration.startup.StartupAction;
-import com.eltechs.axs.configuration.startup.StartupActionInfo;
-import com.eltechs.axs.configuration.startup.StartupActionsCollection;
-import com.eltechs.axs.configuration.startup.actions.StartupActionCompletionListener;
-import com.eltechs.axs.configuration.startup.actions.StartupStepInfoListener;
-import com.eltechs.axs.configuration.startup.actions.UserInteractionRequestListener;
-import com.eltechs.axs.helpers.AndroidHelpers;
-import com.eltechs.axs.helpers.Assert;
-import com.eltechs.axs.helpers.UiThread;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.Serializable;
-import java.util.Calendar;
+import android.content.*;
+import android.os.*;
+import android.widget.*;
+import com.eltechs.axs.*;
+import com.eltechs.axs.applicationState.*;
+import com.eltechs.axs.configuration.startup.*;
+import com.eltechs.axs.configuration.startup.actions.*;
+import com.eltechs.axs.helpers.*;
+import com.kdt.eltechsaxs.*;
+import java.io.*;
+import java.util.*;
 
 public abstract class StartupActivity<StateClass extends ApplicationStateBase<StateClass>> extends FrameworkActivity<StateClass> implements StartupActionCompletionListener, UserInteractionRequestListener, StartupStepInfoListener {
     public static final int REQUEST_CODE_GET_PERMISSIONS = 10002;

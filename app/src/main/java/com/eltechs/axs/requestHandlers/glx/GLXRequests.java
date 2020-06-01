@@ -17,6 +17,7 @@ import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.nio.charset.Charset;
 import java.util.Collection;
+import com.eltechs.axs.xserver.*;
 
 public class GLXRequests extends HandlerObjectBase {
     /* access modifiers changed from: private */

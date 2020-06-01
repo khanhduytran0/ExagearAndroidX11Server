@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	package="com.eltechs.ed"
+	package="com.kdt.eltechsaxs"
 	android:versionCode="30"
-	android:versionName="3.0.1_b67">
+	android:versionName="3.0.1">
 
 	<uses-sdk
 		android:minSdkVersion="19"
-		android:targetSdkVersion="28"/>
+		android:targetSdkVersion="26"/>
 
 	<uses-permission
 		android:name="android.permission.INTERNET"/>
@@ -47,7 +47,7 @@
 		android:logo="@drawable/logo">
 
 		<activity
-			android:name="com.eltechs.ed.activities.EDStartupActivity"
+			android:name=".XServerActivity"
 			android:theme="@style/ThemeDefaultDialogNoTitle">
 
 			<intent-filter>
@@ -61,6 +61,10 @@
 			</intent-filter>
 
 		</activity>
+
+		<activity
+			android:name="com.eltechs.ed.activities.EDStartupActivity"
+			android:theme="@style/ThemeDefaultDialogNoTitle"/>
 
 		<activity
 			android:name="com.eltechs.ed.activities.EDMainActivity"

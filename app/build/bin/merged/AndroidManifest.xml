@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.eltechs.ed"
+    package="com.kdt.eltechsaxs"
     android:versionCode="30"
-    android:versionName="3.0.1_b67" >
+    android:versionName="3.0.1" >
 
     <uses-sdk
         android:minSdkVersion="19"
-        android:targetSdkVersion="28" />
+        android:targetSdkVersion="26" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -28,12 +28,11 @@
     <uses-permission android:name="com.eltechs.ed.permission.C2D_MESSAGE" />
 
     <application
-        android:appComponentFactory="android.support.v4.app.CoreComponentFactory"
         android:icon="@drawable/logo"
         android:label="@string/host_app_name"
         android:logo="@drawable/logo" >
         <activity
-            android:name="com.eltechs.ed.activities.EDStartupActivity"
+            android:name="com.kdt.eltechsaxs.XServerActivity"
             android:theme="@style/ThemeDefaultDialogNoTitle" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -41,6 +40,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.eltechs.ed.activities.EDStartupActivity"
+            android:theme="@style/ThemeDefaultDialogNoTitle" />
         <activity
             android:name="com.eltechs.ed.activities.EDMainActivity"
             android:parentActivityName="com.eltechs.ed.activities.EDStartupActivity"
@@ -67,6 +69,10 @@
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </service>
+
+        <meta-data
+            android:name="android.support.VERSION"
+            android:value="26.0.0" />
     </application>
 
 </manifest>

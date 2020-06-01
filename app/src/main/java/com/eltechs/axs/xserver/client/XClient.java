@@ -215,7 +215,7 @@ public class XClient {
                 // break;
             } catch (Throwable throwable) {
                 throwable1 = throwable;
-                throw throwable;
+                // throw throwable;
             } finally {
                 if (xLock != null)
                     if (throwable1 != null) {
