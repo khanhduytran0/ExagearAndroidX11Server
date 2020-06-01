@@ -1,11 +1,10 @@
 package com.eltechs.ed.controls;
 
-import com.eltechs.axs.activities.XServerDisplayActivityInterfaceOverlay;
-import com.eltechs.ed.R;
-import com.eltechs.ed.controls.touchControls.DefaultTCF;
-import com.eltechs.ed.controls.uiOverlays.DefaultUIOverlay;
-import java.util.Arrays;
-import java.util.List;
+import com.eltechs.axs.activities.*;
+import com.eltechs.ed.controls.touchControls.*;
+import com.eltechs.ed.controls.uiOverlays.*;
+import com.kdt.eltechsaxs.*;
+import java.util.*;
 
 public class DefaultControls extends Controls {
     public String getId() {

@@ -1,53 +1,46 @@
 package com.eltechs.ed.activities;
 
-import android.os.Bundle;
-import android.support.design.widget.NavigationView;
-import android.support.design.widget.NavigationView.OnNavigationItemSelectedListener;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentManager.OnBackStackChangedListener;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
-import com.eltechs.axs.AppConfig;
-import com.eltechs.axs.RateAppDialog;
-import com.eltechs.axs.activities.FrameworkActivity;
-import com.eltechs.axs.applicationState.ApplicationStateBase;
-import com.eltechs.axs.helpers.AndroidHelpers;
-import com.eltechs.axs.helpers.UiThread;
-import com.eltechs.ed.ContainerPackage;
-import com.eltechs.ed.InstallRecipe;
-import com.eltechs.ed.R;
-import com.eltechs.ed.XDGLink;
-import com.eltechs.ed.fragments.ChooseFileFragment;
-import com.eltechs.ed.fragments.ChooseFileFragment.OnFileSelectedListener;
-import com.eltechs.ed.fragments.ChoosePackagesDFragment;
-import com.eltechs.ed.fragments.ChoosePackagesDFragment.OnPackagesSelectedListener;
-import com.eltechs.ed.fragments.ChooseRecipeFragment;
-import com.eltechs.ed.fragments.ChooseRecipeFragment.OnRecipeSelectedListener;
-import com.eltechs.ed.fragments.ChooseXDGLinkFragment;
-import com.eltechs.ed.fragments.ChooseXDGLinkFragment.OnXDGLinkSelectedListener;
-import com.eltechs.ed.fragments.ContainerRunGuideDFragment;
-import com.eltechs.ed.fragments.ContainerRunGuideDFragment.OnContRunGuideResListener;
-import com.eltechs.ed.fragments.ContainerSettingsFragment;
-import com.eltechs.ed.fragments.ManageContainersFragment;
-import com.eltechs.ed.fragments.ManageContainersFragment.OnManageContainersActionListener;
-import com.eltechs.ed.guestContainers.GuestContainer;
-import com.eltechs.ed.startupActions.StartGuest;
-import com.eltechs.ed.startupActions.StartGuest.*;
-import com.eltechs.ed.startupActions.WDesktop.UserRequestedAction;
-import java.io.File;
-import java.util.List;
-import com.eltechs.ed.fragments.AdvancedOptionsFragment;
-import com.eltechs.ed.fragments.AdvancedOptionsFragment.OnAdvanceSelectedListener;
-import com.eltechs.axs.applicationState.*;
-import com.eltechs.axs.ExagearImageConfiguration.*;
 import android.app.*;
 import android.content.*;
+import android.os.*;
+import android.support.design.widget.*;
+import android.support.design.widget.NavigationView.*;
+import android.support.v4.app.*;
+import android.support.v4.app.FragmentManager.*;
+import android.support.v4.view.*;
+import android.support.v4.widget.*;
+import android.support.v7.app.*;
+import android.support.v7.widget.*;
+import android.view.*;
 import android.widget.*;
+import com.eltechs.axs.*;
+import com.eltechs.axs.ExagearImageConfiguration.*;
+import com.eltechs.axs.activities.*;
+import com.eltechs.axs.applicationState.*;
+import com.eltechs.axs.helpers.*;
+import com.eltechs.ed.*;
+import com.eltechs.ed.fragments.*;
+import com.eltechs.ed.fragments.AdvancedOptionsFragment.*;
+import com.eltechs.ed.fragments.ChooseFileFragment.*;
+import com.eltechs.ed.fragments.ChoosePackagesDFragment.*;
+import com.eltechs.ed.fragments.ChooseRecipeFragment.*;
+import com.eltechs.ed.fragments.ChooseXDGLinkFragment.*;
+import com.eltechs.ed.fragments.ContainerRunGuideDFragment.*;
+import com.eltechs.ed.fragments.ManageContainersFragment.*;
+import com.eltechs.ed.guestContainers.*;
+import com.eltechs.ed.startupActions.*;
+import com.eltechs.ed.startupActions.StartGuest.*;
+import com.eltechs.ed.startupActions.WDesktop.*;
+import com.kdt.eltechsaxs.*;
+import java.io.*;
+import java.util.*;
+
+import android.app.AlertDialog;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 
 public class EDMainActivity<StateClass extends ApplicationStateBase<StateClass>> extends FrameworkActivity<StateClass> implements OnRecipeSelectedListener, OnFileSelectedListener, OnXDGLinkSelectedListener, OnManageContainersActionListener, OnPackagesSelectedListener, OnContRunGuideResListener, OnAdvanceSelectedListener {
     private static final String FRAGMENT_TAG_CHOOSE_FILE = "CHOOSE_FILE";
@@ -114,9 +107,11 @@ public class EDMainActivity<StateClass extends ApplicationStateBase<StateClass>>
 					fragment = 4;
 					str = EDMainActivity.FRAGMENT_TAG_ADVANCED_OPTIONS;
 					break;
-                case R.id.ed_main_menu_help /*2131296370*/:
+				/*
+                case R.id.ed_main_menu_help:
                     EDMainActivity.this.startActivity(EDHelpActivity.class);
                     break;
+				*/
             }
             // fragment = null;
             // str = null;

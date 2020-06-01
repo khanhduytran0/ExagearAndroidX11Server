@@ -1,32 +1,27 @@
 package com.eltechs.ed.controls.uiOverlays;
 
-import android.content.DialogInterface;
-import android.support.constraint.ConstraintLayout;
-import android.support.v7.app.AlertDialog.Builder;
-import android.util.DisplayMetrics;
-import android.view.MotionEvent;
-import android.view.View;
+import android.content.*;
+import android.support.constraint.*;
+import android.support.v7.app.AlertDialog.*;
+import android.util.*;
+import android.view.*;
+import android.view.View.*;
+import android.widget.*;
+import android.widget.FrameLayout.*;
+import com.eltechs.axs.*;
+import com.eltechs.axs.activities.*;
+import com.eltechs.axs.configuration.*;
+import com.eltechs.axs.helpers.*;
+import com.eltechs.axs.widgets.touchScreenControlsOverlay.*;
+import com.eltechs.axs.widgets.viewOfXServer.*;
+import com.eltechs.axs.xserver.*;
+import com.eltechs.ed.controls.*;
+import com.eltechs.ed.controls.touchControls.*;
+import com.kdt.eltechsaxs.*;
+
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.FrameLayout.LayoutParams;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
-import com.eltechs.axs.KeyCodesX;
-import com.eltechs.axs.activities.StartupActivity;
-import com.eltechs.axs.activities.XServerDisplayActivity;
-import com.eltechs.axs.activities.XServerDisplayActivityInterfaceOverlay;
-import com.eltechs.axs.configuration.TouchScreenControlsInputConfiguration;
-import com.eltechs.axs.helpers.AndroidHelpers;
-import com.eltechs.axs.widgets.touchScreenControlsOverlay.TouchScreenControlsWidget;
-import com.eltechs.axs.widgets.viewOfXServer.ViewOfXServer;
-import com.eltechs.axs.xserver.ViewFacade;
-import com.eltechs.ed.R;
-import com.eltechs.ed.controls.Controls;
-import com.eltechs.ed.controls.touchControls.AbstractTCF;
+import com.kdt.eltechsaxs.R;
 
 public class DefaultUIOverlay implements XServerDisplayActivityInterfaceOverlay {
     private static final float displaySizeThresholdHeightInches = 3.0f;

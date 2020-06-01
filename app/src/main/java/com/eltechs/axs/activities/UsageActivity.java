@@ -1,10 +1,10 @@
 package com.eltechs.axs.activities;
 
-import android.os.Bundle;
-import android.view.View;
-import android.widget.ImageView;
-import com.eltechs.ed.R;
-import com.eltechs.axs.applicationState.ApplicationStateBase;
+import android.os.*;
+import android.view.*;
+import android.widget.*;
+import com.eltechs.axs.applicationState.*;
+import com.kdt.eltechsaxs.*;
 
 public class UsageActivity extends FrameworkActivity<ApplicationStateBase> {
     /* access modifiers changed from: protected */

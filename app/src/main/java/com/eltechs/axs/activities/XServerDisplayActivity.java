@@ -5,20 +5,20 @@ import android.os.*;
 import android.support.v4.app.*;
 import android.view.*;
 import android.widget.*;
-import android.widget.FrameLayout.*;
 import com.eltechs.axs.*;
 import com.eltechs.axs.applicationState.*;
 import com.eltechs.axs.container.annotations.*;
 import com.eltechs.axs.environmentService.*;
 import com.eltechs.axs.environmentService.components.*;
 import com.eltechs.axs.helpers.*;
-// import com.eltechs.axs.payments.*;
 import com.eltechs.axs.widgets.actions.*;
 import com.eltechs.axs.widgets.popupMenu.*;
 import com.eltechs.axs.widgets.viewOfXServer.*;
 import com.eltechs.axs.xserver.*;
-import com.eltechs.ed.R;
+import com.kdt.eltechsaxs.*;
 import java.util.*;
+
+import com.eltechs.axs.BuildConfig;
 
 public class XServerDisplayActivity<StateClass extends ApplicationStateBase<StateClass> /* & PurchasableComponentsCollectionAware */& XServerDisplayActivityConfigurationAware & SelectedExecutableFileAware<StateClass>> extends FrameworkActivity<StateClass> {
     private static final long COUNT_DOWN_INTERVAL = 20000;

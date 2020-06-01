@@ -8,7 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import org.apache.commons.io.IOUtils;
+// import org.apache.commons.io.IOUtils;
 
 public class PerApplicationSettingsStore {
     private final String ecpFile;
@@ -16,7 +16,7 @@ public class PerApplicationSettingsStore {
 
     private PerApplicationSettingsStore(DetectedExecutableFile<?> detectedExecutableFile) {
         this.settingsFor = detectedExecutableFile;
-        String replace = new File(detectedExecutableFile.getParentDir(), detectedExecutableFile.getFileName()).getAbsolutePath().replace(IOUtils.DIR_SEPARATOR_UNIX, '_');
+        String replace = new File(detectedExecutableFile.getParentDir(), detectedExecutableFile.getFileName()).getAbsolutePath().replace(/* IOUtils.DIR_SEPARATOR_UNIX */ '/', '_');
         StringBuilder sb = new StringBuilder();
         sb.append("ecp_");
         sb.append(replace);

@@ -412,11 +412,34 @@ public class IabHelper {
             }
             return true;
         }
-        int responseCodeFromIntent = getResponseCodeFromIntent(intent);
+		
+		// MOD: Unused for bypassed
+        // int responseCodeFromIntent = getResponseCodeFromIntent(intent);
         String stringExtra = intent.getStringExtra(RESPONSE_INAPP_PURCHASE_DATA);
         String stringExtra2 = intent.getStringExtra(RESPONSE_INAPP_SIGNATURE);
+
+		try {
+			Purchase purchase = new Purchase(this.mPurchasingItemType, stringExtra, stringExtra2);
+			// MOD: Bypass In-app purchase
+			logDebug("Purchase signature successfully verified.");
+			IabResult iabResult4 = new IabResult(0, "Success");
+			if (this.mPurchaseListener != null) {
+				this.mPurchaseListener.onIabPurchaseFinished(iabResult4, purchase);
+			}
+		} catch (JSONException e) {
+			logError("Failed to parse purchase data.");
+			e.printStackTrace();
+			IabResult iabResult5 = new IabResult(IABHELPER_BAD_RESPONSE, "Failed to parse purchase data.");
+			if (this.mPurchaseListener != null) {
+				this.mPurchaseListener.onIabPurchaseFinished(iabResult5, null);
+			}
+			return true;
+		}
+		
+		/*
         if (i2 == -1 && responseCodeFromIntent == 0) {
             logDebug("Successful resultcode from purchase activity.");
+			
             StringBuilder sb = new StringBuilder();
             sb.append("Purchase data: ");
             sb.append(stringExtra);
@@ -506,6 +529,7 @@ public class IabHelper {
                 this.mPurchaseListener.onIabPurchaseFinished(iabResult8, null);
             }
         }
+		*/
         return true;
     }
 
@@ -770,7 +794,8 @@ public class IabHelper {
                     String str3 = (String) stringArrayList2.get(i2);
                     String str4 = (String) stringArrayList3.get(i2);
                     String str5 = (String) stringArrayList.get(i2);
-                    if (Security.verifyPurchase(this.mSignatureBase64, str3, str4)) {
+					// MOD: Bypass In-app purchase
+                    // if (Security.verifyPurchase(this.mSignatureBase64, str3, str4)) {
                         StringBuilder sb6 = new StringBuilder();
                         sb6.append("Sku is owned: ");
                         sb6.append(str5);
@@ -784,6 +809,7 @@ public class IabHelper {
                             logDebug(sb7.toString());
                         }
                         inventory.addPurchase(purchase);
+					/*
                     } else {
                         logWarn("Purchase signature verification **FAILED**. Not adding item.");
                         StringBuilder sb8 = new StringBuilder();
@@ -796,6 +822,7 @@ public class IabHelper {
                         logDebug(sb9.toString());
                         z2 = true;
                     }
+					*/
                 }
                 str2 = purchases.getString(INAPP_CONTINUATION_TOKEN);
                 StringBuilder sb10 = new StringBuilder();

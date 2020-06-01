@@ -1,11 +1,9 @@
 package com.eltechs.ed.controls;
 
-import com.eltechs.axs.activities.XServerDisplayActivityInterfaceOverlay;
-import com.eltechs.axs.gamesControls.BasicStrategiesUI;
-import com.eltechs.axs.gamesControls.HoMM3TouchScreenControlsFactory;
-import com.eltechs.ed.R;
-import java.util.Arrays;
-import java.util.List;
+import com.eltechs.axs.activities.*;
+import com.eltechs.axs.gamesControls.*;
+import com.kdt.eltechsaxs.*;
+import java.util.*;
 
 public class HoMM3Controls extends Controls {
     public String getId() {

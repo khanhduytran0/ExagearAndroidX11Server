@@ -216,7 +216,7 @@ public class ViewFacade {
             return;
         } catch (Throwable throwable) {
             throwable1 = throwable;
-            throw throwable;
+            // throw throwable;
         } finally {
             if (xLock != null)
                 if (throwable1 != null) {
@@ -602,7 +602,7 @@ public class ViewFacade {
             return point2;
         } catch (Throwable throwable1) {
             throwable = throwable1;
-            throw throwable1;
+            // throw throwable1;
         } finally {
             if (xLock != null)
                 if (throwable != null) {
