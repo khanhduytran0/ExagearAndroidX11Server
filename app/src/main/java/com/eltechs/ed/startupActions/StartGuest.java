@@ -19,7 +19,6 @@ import com.eltechs.axs.xserver.ScreenInfo;
 import com.eltechs.ed.ContainerPackage;
 import com.eltechs.ed.InstallRecipe;
 import com.kdt.eltechsaxs.R;
-import com.eltechs.ed.activities.EDStartupActivity;
 import com.eltechs.ed.controls.Controls;
 import java.io.File;
 import java.io.IOException;
