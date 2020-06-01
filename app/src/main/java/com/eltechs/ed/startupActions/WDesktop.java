@@ -21,7 +21,7 @@ public class WDesktop<StateClass> extends InteractiveStartupActionBase<StateClas
                 sendDone();
                 return;
             case RESTART_ME:
-                getStartupActions().addAction(new InitGuestContainersManager());
+                // getStartupActions().addAction(new InitGuestContainersManager());
                 getStartupActions().addAction(new WDesktop());
                 sendDone();
                 return;

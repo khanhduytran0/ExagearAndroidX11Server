@@ -1,7 +1,6 @@
 package com.eltechs.axs.configuration.startup.actions;
 
 import com.eltechs.axs.ExagearImageConfiguration.ExagearImage;
-import com.eltechs.axs.ExagearImageConfiguration.TempDirMaintenanceComponent;
 import com.eltechs.axs.applicationState.EnvironmentAware;
 import com.eltechs.axs.applicationState.ExagearImageAware;
 import com.eltechs.axs.applicationState.SelectedExecutableFileAware;
@@ -10,9 +9,6 @@ import com.eltechs.axs.configuration.startup.EnvironmentCustomisationParameters;
 import com.eltechs.axs.environmentService.AXSEnvironment;
 import com.eltechs.axs.environmentService.components.ALSAServerComponent;
 import com.eltechs.axs.environmentService.components.DirectSoundServerComponent;
-import com.eltechs.axs.environmentService.components.EtcHostsFileUpdaterComponent;
-import com.eltechs.axs.environmentService.components.GuestApplicationsTrackerComponent;
-import com.eltechs.axs.environmentService.components.SysVIPCEmulatorComponent;
 import com.eltechs.axs.environmentService.components.XServerComponent;
 import com.eltechs.axs.network.SocketPaths;
 import com.eltechs.axs.productsRegistry.ProductIDs;
@@ -38,14 +34,11 @@ public class CreateTypicalEnvironmentConfiguration<StateClass extends Environmen
         EnvironmentCustomisationParameters environmentCustomisationParameters = ((SelectedExecutableFileAware) environmentAware).getSelectedExecutableFile().getEnvironmentCustomisationParameters();
         AXSEnvironment aXSEnvironment = new AXSEnvironment(getAppContext());
         int i = this.productId;
-        aXSEnvironment.addComponent(new SysVIPCEmulatorComponent(ProductIDs.getPackageName(this.productId)));
+        // aXSEnvironment.addComponent(new SysVIPCEmulatorComponent(ProductIDs.getPackageName(this.productId)));
         aXSEnvironment.addComponent(new XServerComponent(environmentCustomisationParameters.getScreenInfo(), i, createXServerSocketConf()));
         aXSEnvironment.addComponent(new ALSAServerComponent(createALSASocketConf()));
         aXSEnvironment.addComponent(new DirectSoundServerComponent(createDSoundServerSocketConf()));
-        aXSEnvironment.addComponent(new GuestApplicationsTrackerComponent(createGATServerSocketConf()));
-        ExagearImage exagearImage = ((ExagearImageAware) environmentAware).getExagearImage();
-        aXSEnvironment.addComponent(new TempDirMaintenanceComponent(exagearImage));
-        aXSEnvironment.addComponent(new EtcHostsFileUpdaterComponent(exagearImage));
+        // aXSEnvironment.addComponent(new GuestApplicationsTrackerComponent(createGATServerSocketConf()));
         environmentAware.setEnvironment(aXSEnvironment);
         environmentAware.setXServerViewConfiguration(this.xServerConf);
         sendDone();

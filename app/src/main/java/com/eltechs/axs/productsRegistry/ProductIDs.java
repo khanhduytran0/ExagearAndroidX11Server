@@ -1,7 +1,6 @@
 package com.eltechs.axs.productsRegistry;
 
 import com.eltechs.axs.helpers.Assert;
-import com.eltechs.ed.BuildConfig;
 
 public abstract class ProductIDs {
     public static final int ARCANUM_DEMO = 1;
@@ -47,7 +46,7 @@ public abstract class ProductIDs {
             case 11:
                 return "ru.buka.shtirlitz_1";
             case 12:
-                return BuildConfig.APPLICATION_ID;
+                return "com.eltechs.ed"; // BuildConfig.APPLICATION_ID;
         }
         Assert.isTrue(false, "Invalid product ID");
         return null;

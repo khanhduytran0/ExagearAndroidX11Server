@@ -1,14 +1,12 @@
 package com.eltechs.axs.activities.menus;
 
-import com.eltechs.axs.Globals;
-import com.eltechs.ed.R;
-import com.eltechs.axs.activities.FrameworkActivity;
-import com.eltechs.axs.activities.UsageActivity;
-import com.eltechs.axs.activities.XServerDisplayActivity;
-import com.eltechs.axs.applicationState.SelectedExecutableFileAware;
-import com.eltechs.axs.configuration.startup.DetectedExecutableFile;
-import com.eltechs.axs.helpers.AndroidHelpers;
-import com.eltechs.axs.widgets.actions.AbstractAction;
+import com.eltechs.axs.*;
+import com.eltechs.axs.activities.*;
+import com.eltechs.axs.applicationState.*;
+import com.eltechs.axs.configuration.startup.*;
+import com.eltechs.axs.helpers.*;
+import com.eltechs.axs.widgets.actions.*;
+import com.kdt.eltechsaxs.*;
 
 public class ShowUsage extends AbstractAction {
     public ShowUsage() {

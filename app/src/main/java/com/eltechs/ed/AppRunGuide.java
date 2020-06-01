@@ -1,7 +1,7 @@
 package com.eltechs.ed;
 
-import java.util.HashMap;
-import com.eltechs.ed.R;
+import com.kdt.eltechsaxs.*;
+import java.util.*;
 
 public class AppRunGuide {
     public static String ID_CIV3 = "civ3";

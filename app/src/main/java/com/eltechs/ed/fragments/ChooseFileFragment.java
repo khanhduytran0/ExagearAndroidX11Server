@@ -1,31 +1,22 @@
 package com.eltechs.ed.fragments;
 
-import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.content.*;
+import android.net.*;
+import android.os.*;
+import android.support.v4.app.*;
+import android.support.v7.app.*;
+import android.support.v7.widget.*;
+import android.support.v7.widget.RecyclerView.*;
+import android.view.*;
+import android.view.View.*;
+import android.widget.*;
+import com.eltechs.axs.helpers.*;
+import com.kdt.eltechsaxs.*;
+import java.io.*;
+import java.util.*;
+
 import android.support.v7.widget.RecyclerView.Adapter;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.TextView;
-import com.eltechs.axs.helpers.AndroidHelpers;
-import com.eltechs.ed.R;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 public class ChooseFileFragment extends Fragment {
     public static final String ARG_DOWNLOAD_URL = "DOWNLOAD_URL";

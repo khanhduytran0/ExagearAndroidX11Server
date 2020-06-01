@@ -1,25 +1,17 @@
 package com.eltechs.axs.activities;
 
-import android.os.Bundle;
-import android.view.View;
-import android.widget.ImageButton;
-import android.widget.TextView;
-import com.eltechs.axs.Locales;
-import com.eltechs.ed.R;
-import com.eltechs.axs.applicationState.ApplicationStateBase;
-// import com.eltechs.axs.applicationState.PurchasableComponentsCollectionAware;
-import com.eltechs.axs.applicationState.SelectedExecutableFileAware;
-import com.eltechs.axs.configuration.startup.EnvironmentCustomisationParameters;
-import com.eltechs.axs.configuration.startup.PerApplicationSettingsStore;
-// import com.eltechs.axs.payments.PurchasableComponent;
-// import com.eltechs.axs.payments.PurchasableComponentsCollection;
-import com.eltechs.axs.widgets.actions.AbstractAction;
-import com.eltechs.axs.widgets.actions.ActionGroup;
-import com.eltechs.axs.widgets.popupMenu.AXSPopupMenu;
-import com.eltechs.axs.xserver.ScreenInfo;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import android.os.*;
+import android.view.*;
+import android.widget.*;
+import com.eltechs.axs.*;
+import com.eltechs.axs.applicationState.*;
+import com.eltechs.axs.configuration.startup.*;
+import com.eltechs.axs.widgets.actions.*;
+import com.eltechs.axs.widgets.popupMenu.*;
+import com.eltechs.axs.xserver.*;
+import com.kdt.eltechsaxs.*;
+import java.io.*;
+import java.util.*;
 
 public class AdvancedRunOptions<StateClass extends ApplicationStateBase<StateClass> & SelectedExecutableFileAware<StateClass> /* & PurchasableComponentsCollectionAware*/ > extends FrameworkActivity<StateClass> {
     private static final int[] SUPPORTED_COLOUR_DEPTHS = {15, 16, 32};

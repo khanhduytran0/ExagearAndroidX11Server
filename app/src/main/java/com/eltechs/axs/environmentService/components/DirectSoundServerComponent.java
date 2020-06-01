@@ -11,6 +11,7 @@ import com.eltechs.axs.sysvipc.SHMEngine;
 import com.eltechs.axs.xconnectors.epoll.FairEpollConnector;
 import com.eltechs.axs.xconnectors.epoll.UnixSocketConfiguration;
 import java.io.IOException;
+import com.eltechs.axs.sysvipc.*;
 
 public class DirectSoundServerComponent extends EnvironmentComponent {
     private DirectSoundConnectionHandler connectionHandler;
@@ -26,7 +27,8 @@ public class DirectSoundServerComponent extends EnvironmentComponent {
     public void start() throws IOException {
         boolean z = false;
         Assert.state(this.connector == null, "DirectSound server component already started.");
-        SHMEngine shmEngine = ((SysVIPCEmulatorComponent) getEnvironment().getComponent(SysVIPCEmulatorComponent.class)).getShmEngine();
+        SHMEngine shmEngine = new SHMEngineImpl("");
+		// ((SysVIPCEmulatorComponent) getEnvironment().getComponent(SysVIPCEmulatorComponent.class)).getShmEngine();
         if (shmEngine != null) {
             z = true;
         }

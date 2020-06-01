@@ -71,8 +71,8 @@ public class XServerComponent extends EnvironmentComponent {
     }
 
     private XServer createXServer(ScreenInfo screenInfo2, KeyboardModel keyboardModel) {
-        SysVIPCEmulatorComponent sysVIPCEmulatorComponent = (SysVIPCEmulatorComponent) getEnvironment().getComponent(SysVIPCEmulatorComponent.class);
-        XServer xServer2 = new XServer(screenInfo2, keyboardModel, GLDrawablesFactory.create(screenInfo2.depth), sysVIPCEmulatorComponent != null ? sysVIPCEmulatorComponent.getShmEngine() : null, new VirglRedererEngine(), 512);
+        // SysVIPCEmulatorComponent sysVIPCEmulatorComponent = (SysVIPCEmulatorComponent) getEnvironment().getComponent(SysVIPCEmulatorComponent.class);
+        XServer xServer2 = new XServer(screenInfo2, keyboardModel, GLDrawablesFactory.create(screenInfo2.depth), /* sysVIPCEmulatorComponent != null ? sysVIPCEmulatorComponent.getShmEngine() : */ null, new VirglRedererEngine(), 512);
         return xServer2;
     }
 

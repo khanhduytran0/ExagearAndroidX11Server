@@ -1,14 +1,13 @@
 package com.eltechs.axs.activities;
 
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.text.Html;
-import android.text.method.LinkMovementMethod;
-import android.widget.TextView;
-import com.eltechs.axs.Globals;
-import com.eltechs.ed.R;
-import com.eltechs.axs.applicationState.ApplicationStateBase;
+import android.content.*;
+import android.os.*;
+import android.text.*;
+import android.text.method.*;
+import android.widget.*;
+import com.eltechs.axs.*;
+import com.eltechs.axs.applicationState.*;
+import com.kdt.eltechsaxs.*;
 
 public class FatalErrorActivity extends FrameworkActivity<ApplicationStateBase<?>> {
     public static void showFatalError(String str) {

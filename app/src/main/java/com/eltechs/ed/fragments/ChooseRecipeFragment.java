@@ -1,23 +1,20 @@
 package com.eltechs.ed.fragments;
 
-import android.content.Context;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.content.*;
+import android.os.*;
+import android.support.v4.app.*;
+import android.support.v7.app.*;
+import android.support.v7.widget.*;
+import android.support.v7.widget.RecyclerView.*;
+import android.view.*;
+import android.view.View.*;
+import android.widget.*;
+import com.eltechs.ed.*;
+import com.kdt.eltechsaxs.*;
+import java.util.*;
+
 import android.support.v7.widget.RecyclerView.Adapter;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.TextView;
-import com.eltechs.ed.InstallRecipe;
-import com.eltechs.ed.R;
-import java.util.List;
 
 public class ChooseRecipeFragment extends Fragment {
     /* access modifiers changed from: private */

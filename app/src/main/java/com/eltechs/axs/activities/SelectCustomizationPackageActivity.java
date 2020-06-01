@@ -1,19 +1,12 @@
 package com.eltechs.axs.activities;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import com.eltechs.ed.R;
-import com.eltechs.axs.applicationState.ApplicationStateBase;
-// import com.eltechs.axs.applicationState.PurchasableComponentsCollectionAware;
-import com.eltechs.axs.applicationState.SelectedExecutableFileAware;
+import android.content.*;
+import android.os.*;
+import android.view.*;
+import android.view.View.*;
+import android.widget.*;
+import com.eltechs.axs.applicationState.*;
+import com.kdt.eltechsaxs.*;
 // import com.eltechs.axs.payments.PurchasableComponent;
 
 public class SelectCustomizationPackageActivity<StateClass extends ApplicationStateBase<StateClass> /* & PurchasableComponentsCollectionAware */ & SelectedExecutableFileAware<StateClass>> extends FrameworkActivity<StateClass> {

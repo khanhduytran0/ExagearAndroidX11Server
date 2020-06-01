@@ -1,9 +1,9 @@
 package com.eltechs.axs.activities.menus;
 
-import com.eltechs.ed.R;
-import com.eltechs.axs.activities.StartupActivity;
-import com.eltechs.axs.helpers.AndroidHelpers;
-import com.eltechs.axs.widgets.actions.AbstractAction;
+import com.eltechs.axs.activities.*;
+import com.eltechs.axs.helpers.*;
+import com.eltechs.axs.widgets.actions.*;
+import com.kdt.eltechsaxs.*;
 
 public class Quit extends AbstractAction {
     public Quit() {

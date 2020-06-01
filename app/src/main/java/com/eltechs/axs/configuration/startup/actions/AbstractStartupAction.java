@@ -8,7 +8,6 @@ import com.eltechs.axs.configuration.startup.StartupActionsCollection;
 import com.eltechs.axs.helpers.Assert;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import org.apache.commons.lang3.StringEscapeUtils;
 
 public abstract class AbstractStartupAction<StateClass> implements StartupAction<StateClass> {
     private volatile StartupActionsCollection<StateClass> startupActions;
@@ -49,14 +48,14 @@ public abstract class AbstractStartupAction<StateClass> implements StartupAction
 
     /* access modifiers changed from: protected */
     public final void sendError(String str) {
-        sendErrorHtml(String.format("<html><body>%s</body></html>", new Object[]{StringEscapeUtils.escapeHtml4(str)}));
+        sendErrorHtml(String.format("<html><body>" + str + "</body></html>"));
     }
 
     /* access modifiers changed from: protected */
     public final void sendError(String str, Throwable th) {
         StringWriter stringWriter = new StringWriter();
         th.printStackTrace(new PrintWriter(stringWriter));
-        sendErrorHtml(String.format("<html><body>%s<br><br><pre>%s</pre></body></html>", new Object[]{StringEscapeUtils.escapeHtml4(str), StringEscapeUtils.escapeHtml4(stringWriter.toString())}));
+        sendErrorHtml(String.format("<html><body>%s<br><br><pre>%s</pre></body></html>", new Object[]{str, stringWriter.toString()}));
     }
 
     /* access modifiers changed from: protected */

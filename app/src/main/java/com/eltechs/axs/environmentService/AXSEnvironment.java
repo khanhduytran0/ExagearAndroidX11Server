@@ -5,8 +5,6 @@ import android.content.Intent;
 import com.eltechs.axs.Globals;
 import com.eltechs.axs.applicationState.EnvironmentAware;
 import com.eltechs.axs.environmentService.components.DirectSoundServerComponent;
-import com.eltechs.axs.environmentService.components.GuestApplicationsTrackerComponent;
-import com.eltechs.axs.environmentService.components.NativeLibsConfiguration;
 import com.eltechs.axs.helpers.Assert;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -26,7 +24,7 @@ public class AXSEnvironment implements Iterable<EnvironmentComponent> {
 
     public AXSEnvironment(Context context) {
         this.applicationContext = context;
-        addComponent(new NativeLibsConfiguration(context));
+        // addComponent(new NativeLibsConfiguration(context));
     }
 
     public void addComponent(EnvironmentComponent environmentComponent) {
@@ -50,11 +48,11 @@ public class AXSEnvironment implements Iterable<EnvironmentComponent> {
         }
         return null;
     }
-
+/*
     public NativeLibsConfiguration getNativeLibsConfiguration() {
         return (NativeLibsConfiguration) getComponent(NativeLibsConfiguration.class);
     }
-
+*/
     public Iterator<EnvironmentComponent> iterator() {
         return this.components.iterator();
     }
@@ -71,23 +69,27 @@ public class AXSEnvironment implements Iterable<EnvironmentComponent> {
 
     public void freezeEnvironment() {
         Assert.state(getService() != null);
-        GuestApplicationsTrackerComponent guestApplicationsTrackerComponent = (GuestApplicationsTrackerComponent) getComponent(GuestApplicationsTrackerComponent.class);
+        // GuestApplicationsTrackerComponent guestApplicationsTrackerComponent = (GuestApplicationsTrackerComponent) getComponent(GuestApplicationsTrackerComponent.class);
         DirectSoundServerComponent directSoundServerComponent = (DirectSoundServerComponent) getComponent(DirectSoundServerComponent.class);
         if (directSoundServerComponent != null) {
             directSoundServerComponent.suspendPlayback();
         }
+		/*
         if (guestApplicationsTrackerComponent != null) {
             guestApplicationsTrackerComponent.freezeGuestApplications();
         }
+		*/
     }
 
     public void resumeEnvironment() {
         Assert.state(getService() != null);
-        GuestApplicationsTrackerComponent guestApplicationsTrackerComponent = (GuestApplicationsTrackerComponent) getComponent(GuestApplicationsTrackerComponent.class);
+        // GuestApplicationsTrackerComponent guestApplicationsTrackerComponent = (GuestApplicationsTrackerComponent) getComponent(GuestApplicationsTrackerComponent.class);
         DirectSoundServerComponent directSoundServerComponent = (DirectSoundServerComponent) getComponent(DirectSoundServerComponent.class);
-        if (guestApplicationsTrackerComponent != null) {
+        /*
+		if (guestApplicationsTrackerComponent != null) {
             guestApplicationsTrackerComponent.resumeGuestApplications();
         }
+		*/
         if (directSoundServerComponent != null) {
             directSoundServerComponent.resumePlayback();
         }

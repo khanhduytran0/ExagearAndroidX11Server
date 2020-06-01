@@ -12,7 +12,7 @@ import java.nio.MappedByteBuffer;
 public class SHMEngineImpl implements SHMEngine {
     private static final int SIZE_OF_INT32 = 4;
     private static final int SIZE_OF_INT64 = 8;
-    private final Communicator communicator;
+    // private final Communicator communicator;
 
     private static native boolean initialiseNativeParts();
 
@@ -21,16 +21,16 @@ public class SHMEngineImpl implements SHMEngine {
     private native void unmapAshmemSegment(MappedByteBuffer mappedByteBuffer, long j);
 
     static {
-        System.loadLibrary("ipc-helpers");
-        Assert.state(initialiseNativeParts(), "Managed and native parts of SHMEngineImpl do not match one another.");
+        // System.loadLibrary("ipc-helpers");
+        // Assert.state(initialiseNativeParts(), "Managed and native parts of SHMEngineImpl do not match one another.");
     }
 
     public SHMEngineImpl(String str) throws IOException {
-        this.communicator = new Communicator(str);
+        // this.communicator = new Communicator(str);
     }
 
     public void stop() throws IOException {
-        this.communicator.close();
+        // this.communicator.close();
     }
 
     public AttachedSHMSegment attachSegment(int i, boolean z) {
@@ -43,7 +43,7 @@ public class SHMEngineImpl implements SHMEngine {
             ByteBuffer wrap2 = ByteBuffer.wrap(bArr2);
             wrap2.order(ByteOrder.LITTLE_ENDIAN);
             wrap.putInt(i);
-            this.communicator.communicate(RequestCodes.SHM_GET_SIZE_AND_FD, bArr, bArr2, fileDescriptorArr);
+            // this.communicator.communicate(RequestCodes.SHM_GET_SIZE_AND_FD, bArr, bArr2, fileDescriptorArr);
             long j = wrap2.getLong();
             int intWrap2;
             if ((intWrap2 = wrap2.getInt()) != 0) {
@@ -57,7 +57,7 @@ public class SHMEngineImpl implements SHMEngine {
             }
             mapAshmemSegment.order(ByteOrder.nativeOrder());
             return new AttachedSHMSegmentImpl(mapAshmemSegment, j);
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             Log.w("EXAGEAR", "An exception occurred. Program might crashed.");
             return null;

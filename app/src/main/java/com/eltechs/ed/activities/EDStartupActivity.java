@@ -1,22 +1,18 @@
 package com.eltechs.ed.activities;
 
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
-import android.support.v7.app.AlertDialog.Builder;
-import com.eltechs.axs.ExagearImageConfiguration.ExagearImage;
-import com.eltechs.axs.activities.StartupActivity;
-import com.eltechs.axs.configuration.MemsplitConfiguration;
-import com.eltechs.axs.configuration.startup.StartupActionsCollection;
-import com.eltechs.axs.configuration.startup.actions.RequestPermissions;
-import com.eltechs.axs.configuration.startup.actions.UnpackExagearImageObb;
-import com.eltechs.ed.EDApplicationState;
-import com.eltechs.ed.R;
-import com.eltechs.ed.startupActions.InitGuestContainersManager;
-import com.eltechs.ed.startupActions.InstallRecipesFromAssets;
-import com.eltechs.ed.startupActions.WDesktop;
-import java.io.File;
+import android.content.*;
+import android.content.DialogInterface.*;
+import android.support.v7.app.AlertDialog.*;
 import com.eltechs.axs.ExagearImageConfiguration.*;
+import com.eltechs.axs.activities.*;
+import com.eltechs.axs.configuration.*;
+import com.eltechs.axs.configuration.startup.*;
+import com.eltechs.axs.configuration.startup.actions.*;
+import com.eltechs.ed.*;
+import com.eltechs.ed.startupActions.*;
+import com.kdt.eltechsaxs.*;
+
+import android.content.DialogInterface.OnClickListener;
 
 public class EDStartupActivity extends StartupActivity<EDApplicationState> {
     // private static final String BASE64_APP_PUBLIC_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAozYFhPvaURKRrOcUfVLV8l+M8A9tdU9NmOe8nzc9hNEtUyfTb9XDaClrojl54no1xJmMjCum/xmhd5qub9wclA5voW6D2gSD/R54Y/TAHlLVdhqdnN8eJnBaPw8eSe23DfXqG7S+/zjRbUuW56CPPgvCZCKrfiTi7b9x9WADf50egN/f2IkYhI/2n17ew80S5CyHSd+ZNNU03w72JDEOsCL2NLeWLKaJ5F+yxJ6Xzg9tutoTCNigOogLY+BdigFIITFz1EVBL+3POJDyKE6Sqt3dl+iCjWUA7MHBuYHd0bVo5NDbMMuMxtPFOhh31o89WNyOqKOHpSCsUxYGJOUHUwIDAQAB";
@@ -52,7 +48,7 @@ public class EDStartupActivity extends StartupActivity<EDApplicationState> {
         EDApplicationState eDApplicationState = (EDApplicationState) getApplicationState();
         Context applicationContext = getApplicationContext();
         StartupActionsCollection startupActionsCollection = eDApplicationState.getStartupActionsCollection();
-        eDApplicationState.setMemsplitConfiguration(new MemsplitConfiguration(true));
+        // eDApplicationState.setMemsplitConfiguration(new MemsplitConfiguration(true));
         eDApplicationState.setExagearImage(ExagearImage.find(applicationContext, GENERIC_IMAGE_DIRECTORY_NAME, true));
         startupActionsCollection.addAction(new RequestPermissions(this, StartupActivity.REQUEST_CODE_GET_PERMISSIONS));
 		// startupActionsCollection.addAction(new UnpackExagearImageObb(true, new String[]{"/home"}, new File(applicationContext.getFilesDir(), PROGRESS_FILE_NAME).getAbsolutePath()));

@@ -1,22 +1,17 @@
 package com.eltechs.ed.fragments;
 
-import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.os.*;
+import android.support.v4.app.*;
+import android.support.v7.widget.*;
+import android.support.v7.widget.RecyclerView.*;
+import android.view.*;
+import android.widget.*;
+import com.eltechs.axs.helpers.*;
+import com.eltechs.ed.controls.*;
+import com.kdt.eltechsaxs.*;
+import java.util.*;
+
 import android.support.v7.widget.RecyclerView.Adapter;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.ScrollView;
-import android.widget.TextView;
-import com.eltechs.axs.helpers.AndroidHelpers;
-import com.eltechs.ed.R;
-import com.eltechs.ed.controls.Controls;
-import com.eltechs.ed.controls.ControlsInfoElem;
-import java.util.List;
 
 public class ControlsInfoDFragment extends DialogFragment {
     public static final String ARG_CONTROLS_ID = "CONTROLS_ID";

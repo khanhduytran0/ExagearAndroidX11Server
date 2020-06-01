@@ -1,26 +1,21 @@
 package com.eltechs.ed.fragments;
 
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.preference.EditTextPreference;
-import android.support.v7.preference.Preference;
-import android.support.v7.preference.PreferenceFragmentCompat;
-import android.support.v7.preference.PreferenceManager;
-import com.eltechs.ed.R;
-import com.eltechs.ed.guestContainers.GuestContainerConfig;
+import android.content.*;
+import android.content.SharedPreferences.*;
+import android.os.*;
+import android.support.v7.app.*;
+import android.support.v7.preference.*;
+// import com.eltechs.ed.guestContainers.*;
+import com.kdt.eltechsaxs.*;
+
+import com.kdt.eltechsaxs.R;
 
 public class ContainerSettingsFragment extends PreferenceFragmentCompat implements OnSharedPreferenceChangeListener {
     public static final String ARG_CONT_ID = "CONT_ID";
 
     public void onCreatePreferences(Bundle bundle, String str) {
-        Long valueOf = Long.valueOf(getArguments().getLong("CONT_ID"));
         PreferenceManager preferenceManager = getPreferenceManager();
-        StringBuilder sb = new StringBuilder();
-        sb.append(GuestContainerConfig.CONTAINER_CONFIG_FILE_KEY_PREFIX);
-        sb.append(valueOf);
-        preferenceManager.setSharedPreferencesName(sb.toString());
+        preferenceManager.setSharedPreferencesName("com.eltechs.ed.CONTAINER_CONFIG_" + Long.toString(getArguments().getLong("CONT_ID")));
         setPreferencesFromResource(R.xml.container_prefs, str);
     }
 

@@ -1,10 +1,10 @@
 package com.eltechs.axs.activities.menus;
 
-import com.eltechs.axs.CommonApplicationConfigurationAccessor;
-import com.eltechs.ed.R;
-import com.eltechs.axs.activities.XServerDisplayActivity;
-import com.eltechs.axs.helpers.AndroidHelpers;
-import com.eltechs.axs.widgets.actions.AbstractAction;
+import com.eltechs.axs.*;
+import com.eltechs.axs.activities.*;
+import com.eltechs.axs.helpers.*;
+import com.eltechs.axs.widgets.actions.*;
+import com.kdt.eltechsaxs.*;
 
 public class ToggleHorizontalStretch extends AbstractAction {
     public ToggleHorizontalStretch() {

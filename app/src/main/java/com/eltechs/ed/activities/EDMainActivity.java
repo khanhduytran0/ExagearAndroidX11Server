@@ -24,10 +24,6 @@ import com.eltechs.ed.fragments.AdvancedOptionsFragment.*;
 import com.eltechs.ed.fragments.ChooseFileFragment.*;
 import com.eltechs.ed.fragments.ChoosePackagesDFragment.*;
 import com.eltechs.ed.fragments.ChooseRecipeFragment.*;
-import com.eltechs.ed.fragments.ChooseXDGLinkFragment.*;
-import com.eltechs.ed.fragments.ContainerRunGuideDFragment.*;
-import com.eltechs.ed.fragments.ManageContainersFragment.*;
-import com.eltechs.ed.guestContainers.*;
 import com.eltechs.ed.startupActions.*;
 import com.eltechs.ed.startupActions.StartGuest.*;
 import com.eltechs.ed.startupActions.WDesktop.*;
@@ -42,7 +38,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 
-public class EDMainActivity<StateClass extends ApplicationStateBase<StateClass>> extends FrameworkActivity<StateClass> implements OnRecipeSelectedListener, OnFileSelectedListener, OnXDGLinkSelectedListener, OnManageContainersActionListener, OnPackagesSelectedListener, OnContRunGuideResListener, OnAdvanceSelectedListener {
+public class EDMainActivity<StateClass extends ApplicationStateBase<StateClass>> extends FrameworkActivity<StateClass> implements OnRecipeSelectedListener, OnFileSelectedListener, OnPackagesSelectedListener, OnAdvanceSelectedListener {
     private static final String FRAGMENT_TAG_CHOOSE_FILE = "CHOOSE_FILE";
     private static final String FRAGMENT_TAG_CONTAINER_PROP = "CONTAINER_PROP";
     private static final String FRAGMENT_TAG_DESKTOP = "DESKTOP";
@@ -54,8 +50,6 @@ public class EDMainActivity<StateClass extends ApplicationStateBase<StateClass>>
     private static final String TAG = "EDMainActivity";
     private static final File mUserAreaDir = new File(AndroidHelpers.getMainSDCard(), "Download");
     private AppConfig mAppCfg = AppConfig.getInstance(this);
-    private GuestContainer mChoosenCont;
-    private XDGLink mChoosenXDGLink;
     private InstallRecipe mChosenRecipe;
     /* access modifiers changed from: private */
     public DrawerLayout mDrawerLayout;
@@ -152,34 +146,6 @@ public class EDMainActivity<StateClass extends ApplicationStateBase<StateClass>>
 		
 		this.fragments = new Fragment[5];
 		
-		Bundle bundleFrag1 = new Bundle();
-		bundleFrag1.putBoolean(ChooseXDGLinkFragment.ARG_IS_START_MENU, false);
-		this.fragments[0] = new ChooseXDGLinkFragment();
-		this.fragments[0].setArguments(bundleFrag1);
-		
-		Bundle bundleFrag2 = new Bundle();
-		bundleFrag2.putBoolean(ChooseXDGLinkFragment.ARG_IS_START_MENU, true);
-		this.fragments[1] = new ChooseXDGLinkFragment();
-		this.fragments[1].setArguments(bundleFrag2);
-		
-		this.fragments[2] = new ChooseRecipeFragment();
-		this.fragments[3] = new ManageContainersFragment();
-		this.fragments[4] = new AdvancedOptionsFragment();
-		
-		
-        if (bundle == null) {
-            Integer eDMainOnStartAction = this.mAppCfg.getEDMainOnStartAction();
-            navigationItemSelectedListener.onNavigationItemSelected(this.mNavigationView.getMenu().findItem(R.id.ed_main_menu_desktop));
-            if (eDMainOnStartAction.intValue() == 0) {
-                navigationItemSelectedListener.onNavigationItemSelected(this.mNavigationView.getMenu().findItem(R.id.ed_main_menu_manage_containers));
-            }
-            this.mAppCfg.setEDMainOnStartAction(Integer.valueOf(-1));
-            UiThread.postDelayed(1250, new Runnable() {
-                public void run() {
-                    RateAppDialog.checkCondAndShow(EDMainActivity.this);
-                }
-            });
-        }
     }
 	
 	@Override
@@ -316,20 +282,10 @@ public class EDMainActivity<StateClass extends ApplicationStateBase<StateClass>>
     }
 
     public void onFileSelected(String str) {
-        getApplicationState().getStartupActionsCollection().addAction(new StartGuest(new InstallApp(null, str, this.mChosenRecipe)));
+        getApplicationState().getStartupActionsCollection().addAction(new StartGuest());
         signalUserInteractionFinished(UserRequestedAction.GO_FURTHER);
     }
-
-    public void onXDGLinkSelected(XDGLink xDGLink) {
-        this.mChoosenXDGLink = xDGLink;
-        GuestContainer guestContainer = xDGLink.guestCont;
-        if (guestContainer == null || guestContainer.mConfig.getRunGuide() == null || guestContainer.mConfig.getRunGuide().isEmpty() || guestContainer.mConfig.getRunGuideShown().booleanValue()) {
-            startXDGLink(xDGLink);
-        } else {
-            ContainerRunGuideDFragment.createDialog(guestContainer, false).show(getSupportFragmentManager(), "CONT_RUN_GUIDE");
-        }
-    }
-
+/*
     public void onContRunGuideRes(boolean z) {
         if (this.mChoosenXDGLink != null) {
             startXDGLink(this.mChoosenXDGLink);
@@ -340,71 +296,17 @@ public class EDMainActivity<StateClass extends ApplicationStateBase<StateClass>>
         getApplicationState().getStartupActionsCollection().addAction(new StartGuest(new RunXDGLink(xDGLink)));
         signalUserInteractionFinished(UserRequestedAction.GO_FURTHER);
     }
-	
-	public void onManageContainersRunLinuxEnv(final GuestContainer guestContainer) {
-		final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle(R.string.linux_option_title);
-		builder.setPositiveButton(R.string.linux_option_runxterm, new DialogInterface.OnClickListener(){
-
-				@Override
-				public void onClick(DialogInterface p1, int p2)
-				{
-					startLinuxWithCmd(guestContainer, new String[]{"/bin/bash", "-x", StartGuest.getRecipeGuestPath("run/simple_linux.sh")});
-				}
-			});
-		builder.setNegativeButton(R.string.linux_option_runcustom, new DialogInterface.OnClickListener(){
-
-				@Override
-				public void onClick(DialogInterface p1, int p2)
-				{
-					final EditText edit = new EditText(EDMainActivity.this);
-					edit.setSingleLine(true);
-					
-					AlertDialog.Builder builder2 = new AlertDialog.Builder(EDMainActivity.this);
-					builder2.setTitle(R.string.linux_runcustom_title);
-					builder2.setView(edit);
-					builder2.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener(){
-
-							@Override
-							public void onClick(DialogInterface p1, int p2)
-							{
-								startLinuxWithCmd(guestContainer, edit.getText().toString().split(" "));
-							}
-						});
-					builder2.setNegativeButton(android.R.string.cancel, null);
-					builder2.show();
-				}
-			});
-		builder.setNeutralButton(android.R.string.cancel, null);
-		builder.show();
-	}
-	
-	private void startLinuxWithCmd(GuestContainer guestContainer, String[] command) {
-		getApplicationState().getStartupActionsCollection().addAction(new StartGuest(new RunLinuxCommand(guestContainer, command)));
-		signalUserInteractionFinished(UserRequestedAction.GO_FURTHER);
-	}
-
-    public void onManageContainersRunExplorer(GuestContainer guestContainer) {
-        getApplicationState().getStartupActionsCollection().addAction(new StartGuest(new RunExplorer(guestContainer)));
-        signalUserInteractionFinished(UserRequestedAction.GO_FURTHER);
-    }
-
-    public void onManageContainersInstallPackages(GuestContainer guestContainer) {
-        this.mChoosenCont = guestContainer;
-        new ChoosePackagesDFragment().show(getSupportFragmentManager(), "CHOOSE_PACKAGES");
-    }
-
+*/
     public void onPackagesSelected(List<ContainerPackage> list) {
-        getApplicationState().getStartupActionsCollection().addAction(new StartGuest(new InstallPackage(this.mChoosenCont, list)));
+        // getApplicationState().getStartupActionsCollection().addAction(new StartGuest(new InstallPackage(this.mChoosenCont, list)));
         this.mAppCfg.setEDMainOnStartAction(Integer.valueOf(0));
         signalUserInteractionFinished(UserRequestedAction.GO_FURTHER);
     }
 
-    public void onManageContainerSettingsClick(GuestContainer guestContainer) {
-        this.mChoosenCont = guestContainer;
+    public void onManageContainerSettingsClick() {
         ContainerSettingsFragment containerSettingsFragment = new ContainerSettingsFragment();
         Bundle bundle = new Bundle();
-        bundle.putLong("CONT_ID", guestContainer.mId.longValue());
+        bundle.putLong("CONT_ID", 0l);
         containerSettingsFragment.setArguments(bundle);
         FragmentTransaction beginTransaction = getSupportFragmentManager().beginTransaction();
         beginTransaction.replace(R.id.ed_main_fragment_container, containerSettingsFragment, FRAGMENT_TAG_CONTAINER_PROP);

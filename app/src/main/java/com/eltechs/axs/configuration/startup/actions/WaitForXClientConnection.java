@@ -4,7 +4,6 @@ import com.eltechs.axs.AppConfig;
 import com.eltechs.axs.applicationState.EnvironmentAware;
 import com.eltechs.axs.configuration.startup.StartupActionInfo;
 import com.eltechs.axs.environmentService.AXSEnvironment;
-import com.eltechs.axs.environmentService.components.GuestApplicationsTrackerComponent;
 import com.eltechs.axs.environmentService.components.XServerComponent;
 // import com.eltechs.axs.firebase.FAHelper;
 import com.eltechs.axs.guestApplicationsTracker.GuestApplicationsLifecycleAdapter;
@@ -18,34 +17,26 @@ import com.eltechs.axs.xserver.WindowContentModificationListener;
 public class WaitForXClientConnection<StateClass extends EnvironmentAware> extends AbstractStartupAction<StateClass> {
     private GuestApplicationsLifecycleListener guestApplicationTerminationListener;
     private final boolean hideXServerImage;
-    private final String progressFileName;
     private WindowContentModificationListener putImageListener;
     private boolean receivedEvent;
 
-    public WaitForXClientConnection(String str, boolean z) {
-        this.progressFileName = str;
+    public WaitForXClientConnection(boolean z) {
         this.hideXServerImage = z;
     }
 
-    public WaitForXClientConnection(String str) {
-        this.progressFileName = str;
-        this.hideXServerImage = false;
-    }
-
     public WaitForXClientConnection() {
-        this.progressFileName = null;
         this.hideXServerImage = false;
     }
 
     public StartupActionInfo getInfo() {
-        return new StartupActionInfo("", this.progressFileName);
+        return new StartupActionInfo("");
     }
 
     /* JADX INFO: finally extract failed */
     public void execute() {
         AXSEnvironment environment = ((EnvironmentAware) getApplicationState()).getEnvironment();
         XServerComponent xServerComponent = (XServerComponent) environment.getComponent(XServerComponent.class);
-        final GuestApplicationsTrackerComponent guestApplicationsTrackerComponent = (GuestApplicationsTrackerComponent) environment.getComponent(GuestApplicationsTrackerComponent.class);
+        // final GuestApplicationsTrackerComponent guestApplicationsTrackerComponent = (GuestApplicationsTrackerComponent) environment.getComponent(GuestApplicationsTrackerComponent.class);
         this.putImageListener = new WindowContentModificationListener() {
             public void frontBufferReplaced(Window window) {
             }
@@ -54,6 +45,7 @@ public class WaitForXClientConnection<StateClass extends EnvironmentAware> exten
                 WaitForXClientConnection.this.startedDrawing();
             }
         };
+		/*
         this.guestApplicationTerminationListener = new GuestApplicationsLifecycleAdapter() {
             public void translatorExited(Translator translator) {
                 if (!guestApplicationsTrackerComponent.haveGuestApplications()) {
@@ -61,16 +53,19 @@ public class WaitForXClientConnection<StateClass extends EnvironmentAware> exten
                 }
             }
         };
+		*/
         XLock lock = xServerComponent.getXServer().getLocksManager().lock(Subsystem.WINDOWS_MANAGER);
         try {
             if (!this.hideXServerImage) {
                 xServerComponent.getXServer().getWindowsManager().addWindowContentModificationListner(this.putImageListener);
             }
-            guestApplicationsTrackerComponent.addListener(this.guestApplicationTerminationListener);
+            // guestApplicationsTrackerComponent.addListener(this.guestApplicationTerminationListener);
             lock.close();
+			/*
             if (!guestApplicationsTrackerComponent.haveGuestApplications()) {
                 guestApplicationsTerminated();
             }
+			*/
         } catch (Throwable th) {
             lock.close();
             throw new RuntimeException(th);
@@ -86,7 +81,7 @@ public class WaitForXClientConnection<StateClass extends EnvironmentAware> exten
             }
             instance.setGuestLaunchesCount(instance.getGuestLaunchesCount() + 1);
             this.receivedEvent = true;
-            ((GuestApplicationsTrackerComponent) ((EnvironmentAware) getApplicationState()).getEnvironment().getComponent(GuestApplicationsTrackerComponent.class)).freezeGuestApplications();
+            // ((GuestApplicationsTrackerComponent) ((EnvironmentAware) getApplicationState()).getEnvironment().getComponent(GuestApplicationsTrackerComponent.class)).freezeGuestApplications();
             sendDone();
             removeListeners();
         }
@@ -105,14 +100,14 @@ public class WaitForXClientConnection<StateClass extends EnvironmentAware> exten
     private void removeListeners() {
         AXSEnvironment environment = ((EnvironmentAware) getApplicationState()).getEnvironment();
         XServerComponent xServerComponent = (XServerComponent) environment.getComponent(XServerComponent.class);
-        GuestApplicationsTrackerComponent guestApplicationsTrackerComponent = (GuestApplicationsTrackerComponent) environment.getComponent(GuestApplicationsTrackerComponent.class);
+        // GuestApplicationsTrackerComponent guestApplicationsTrackerComponent = (GuestApplicationsTrackerComponent) environment.getComponent(GuestApplicationsTrackerComponent.class);
         XLock lock = xServerComponent.getXServer().getLocksManager().lock(Subsystem.WINDOWS_MANAGER);
         try {
             xServerComponent.getXServer().getWindowsManager().removeWindowContentModificationListner(this.putImageListener);
-            guestApplicationsTrackerComponent.removeListener(this.guestApplicationTerminationListener);
+            // guestApplicationsTrackerComponent.removeListener(this.guestApplicationTerminationListener);
             lock.close();
             this.putImageListener = null;
-            this.guestApplicationTerminationListener = null;
+            // this.guestApplicationTerminationListener = null;
         } catch (Throwable th) {
             lock.close();
             throw new RuntimeException(th);

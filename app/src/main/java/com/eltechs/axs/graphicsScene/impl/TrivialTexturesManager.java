@@ -7,7 +7,6 @@ import com.eltechs.axs.helpers.Assert;
 import com.eltechs.axs.helpers.GLHelpers;
 import com.eltechs.axs.helpers.MathHelpers;
 import com.eltechs.axs.xserver.impl.drawables.gl.PersistentGLDrawable;
-import org.apache.commons.compress.archivers.tar.TarConstants;
 
 public class TrivialTexturesManager implements TexturesManager {
     private int[] textureSizes;
@@ -52,7 +51,7 @@ public class TrivialTexturesManager implements TexturesManager {
         }
         GLES20.glBindTexture(3553, this.textures[i]);
         GLES20.glTexParameteri(3553, 10241, 9729);
-        GLES20.glTexParameteri(3553, TarConstants.DEFAULT_BLKSIZE, 9729);
+        GLES20.glTexParameteri(3553, 0x2800 /* TarConstants.DEFAULT_BLKSIZE */ , 9729);
         GLES20.glTexParameteri(3553, 10242, 33071);
         GLES20.glTexParameteri(3553, 10243, 33071);
         GLES20.glTexImage2D(3553, 0, 6408, i5, i4, 0, 6408, 5121, null);

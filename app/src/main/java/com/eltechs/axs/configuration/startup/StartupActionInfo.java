@@ -8,12 +8,12 @@ public class StartupActionInfo {
         this.stepDescription = str;
         this.progressFilename = null;
     }
-
+/*
     public StartupActionInfo(String str, String str2) {
         this.stepDescription = str;
         this.progressFilename = str2;
     }
-
+*/
     public String getStepDescription() {
         return this.stepDescription;
     }

@@ -1,24 +1,24 @@
 package com.eltechs.ed.fragments;
 
-import android.app.Dialog;
-import android.content.Context;
-import android.content.DialogInterface;
+import android.app.*;
+import android.content.*;
+import android.content.DialogInterface.*;
+import android.os.*;
+import android.support.annotation.*;
+import android.support.v4.app.*;
+import android.support.v7.app.*;
+import android.support.v7.app.AlertDialog.*;
+import android.view.*;
+import android.widget.*;
+import android.widget.AdapterView.*;
+import com.eltechs.ed.*;
+import com.kdt.eltechsaxs.*;
+import java.util.*;
+
 import android.content.DialogInterface.OnClickListener;
 import android.content.DialogInterface.OnShowListener;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AlertDialog.Builder;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
-import android.widget.CheckedTextView;
-import com.eltechs.ed.ContainerPackage;
-import com.eltechs.ed.R;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ChoosePackagesDFragment extends DialogFragment {
     OnPackagesSelectedListener mListener;

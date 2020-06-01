@@ -322,7 +322,7 @@ public class ViewFacade {
                 continue;
             } catch (Throwable throwable3) {
                 throwable1 = throwable3;
-                throw throwable3;
+                // throw throwable3;
             } finally {
                 if (xLock != null)
                     if (throwable1 != null) {
@@ -356,7 +356,7 @@ public class ViewFacade {
                 continue;
             } catch (Throwable throwable3) {
                 throwable1 = throwable3;
-                throw throwable3;
+                // throw throwable3;
             } finally {
                 if (xLock != null)
                     if (throwable1 != null) {
@@ -591,15 +591,12 @@ public class ViewFacade {
     public Point getPointerLocation() {
         Throwable throwable = null;
         LocksManager.XLock xLock = this.xServer.getLocksManager().lockForInputDevicesManipulation();
-        Point point2 = null;
-        Point point1 = point2;
+        Point point2 = new Point(100, 100);
         try {
             Pointer pointer = this.xServer.getPointer();
-            point1 = point2;
             point2 = new Point(pointer.getX(), pointer.getY());
             if (xLock != null)
                 xLock.close();
-            return point2;
         } catch (Throwable throwable1) {
             throwable = throwable1;
             // throw throwable1;
@@ -616,6 +613,7 @@ public class ViewFacade {
                     xLock.close();
                 }
         }
+		return point2;
     }
 
     public void addKeyboardListener(KeyboardListener keyboardListener) {

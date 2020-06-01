@@ -4,7 +4,6 @@ import android.support.v4.view.PointerIconCompat;
 import android.support.v7.widget.helper.ItemTouchHelper.Callback;
 import android.view.KeyEvent;
 import com.eltechs.axs.xserver.KeyboardModel;
-import org.apache.commons.compress.archivers.tar.TarConstants;
 
 public class Keyboard {
     private final KeyCodesX[] AKeycodeToXKeycodeMap = new KeyCodesX[(KeyEvent.getMaxKeyCode() + 1)];
@@ -456,7 +455,7 @@ public class Keyboard {
         this.UnicodeToXKeyMap[342] = new XKey(KeyCodesX.KEY_G, 931);
         this.UnicodeToXKeyMap[343] = new XKey(KeyCodesX.KEY_H, 947);
         this.UnicodeToXKeyMap[344] = new XKey(KeyCodesX.KEY_I, 472);
-        this.UnicodeToXKeyMap[345] = new XKey(KeyCodesX.KEY_J, TarConstants.SPARSELEN_GNU_SPARSE);
+        this.UnicodeToXKeyMap[345] = new XKey(KeyCodesX.KEY_J, 0x1f8 /* TarConstants.SPARSELEN_GNU_SPARSE */);
         this.UnicodeToXKeyMap[346] = new XKey(KeyCodesX.KEY_K, 422);
         this.UnicodeToXKeyMap[347] = new XKey(KeyCodesX.KEY_L, 438);
         this.UnicodeToXKeyMap[348] = new XKey(KeyCodesX.KEY_M, 734);

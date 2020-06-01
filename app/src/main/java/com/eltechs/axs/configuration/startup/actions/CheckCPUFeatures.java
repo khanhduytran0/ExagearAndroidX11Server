@@ -2,7 +2,6 @@ package com.eltechs.axs.configuration.startup.actions;
 
 import com.eltechs.axs.Globals;
 import com.eltechs.axs.applicationState.ApplicationStateBase;
-import com.eltechs.axs.helpers.EnvironmentInfoHelpers;
 
 public class CheckCPUFeatures extends AbstractStartupAction<ApplicationStateBase<?>> {
     private final RequiredCPUFeatures requiredCPUFeatures;
@@ -20,6 +19,7 @@ public class CheckCPUFeatures extends AbstractStartupAction<ApplicationStateBase
     }
 
     public void execute() {
+		/*
         if (!EnvironmentInfoHelpers.canRunUbtOnCpu(false)) {
             sendError("Sorry, your CPU is not supported.");
         } else if (!this.requiredCPUFeatures.isNeonRequired || EnvironmentInfoHelpers.canRunUbtOnCpu(true)) {
@@ -27,5 +27,9 @@ public class CheckCPUFeatures extends AbstractStartupAction<ApplicationStateBase
         } else {
             sendError("No NEON support.");
         }
+		*/
+		
+		// MOD: A X11 Server does not running an UBT.
+		sendDone();
     }
 }

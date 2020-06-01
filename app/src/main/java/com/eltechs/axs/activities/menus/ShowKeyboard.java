@@ -1,8 +1,8 @@
 package com.eltechs.axs.activities.menus;
 
-import com.eltechs.ed.R;
-import com.eltechs.axs.helpers.AndroidHelpers;
-import com.eltechs.axs.widgets.actions.AbstractAction;
+import com.eltechs.axs.helpers.*;
+import com.eltechs.axs.widgets.actions.*;
+import com.kdt.eltechsaxs.*;
 
 public class ShowKeyboard extends AbstractAction {
     public ShowKeyboard() {
