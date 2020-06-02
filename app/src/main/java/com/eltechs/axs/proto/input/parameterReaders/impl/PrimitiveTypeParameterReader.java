@@ -3,13 +3,12 @@ package com.eltechs.axs.proto.input.parameterReaders.impl;
 import com.eltechs.axs.helpers.ArithHelpers;
 import com.eltechs.axs.helpers.Assert;
 import com.eltechs.axs.proto.input.XProtocolError;
-import com.eltechs.axs.proto.input.annotations.Signed;
-import com.eltechs.axs.proto.input.annotations.Unsigned;
 import com.eltechs.axs.proto.input.annotations.Width;
 import com.eltechs.axs.proto.input.annotations.impl.ParameterDescriptor;
 import com.eltechs.axs.proto.input.annotations.impl.ParametersCollectionContext;
 import com.eltechs.axs.proto.input.annotations.impl.RequestDataReader;
 import com.eltechs.axs.proto.input.annotations.impl.RequestDataRetrievalContext;
+import com.eltechs.axs.integersign.*;
 
 public abstract class PrimitiveTypeParameterReader extends ParameterReaderBase {
     private final boolean isZXT;
@@ -25,7 +24,7 @@ public abstract class PrimitiveTypeParameterReader extends ParameterReaderBase {
         } else {
             this.width = width2.value();
         }
-        
+        /*
         Signed signed = (Signed) parameterDescriptor.getAnnotation(Signed.class);
         Unsigned unsigned = (Unsigned) parameterDescriptor.getAnnotation(Unsigned.class);
         boolean z2 = false;
@@ -36,6 +35,19 @@ public abstract class PrimitiveTypeParameterReader extends ParameterReaderBase {
         if (this.width == 1 || this.width == 2 || this.width == 4) {
             z2 = true;
         }
+		*/
+		
+		boolean signed = parameterDescriptor.getType() instanceof IntegerSigned;
+		boolean unsigned = parameterDescriptor.getType() instanceof IntegerUnsigned;
+        boolean z2 = false;
+        boolean z3 = width2 != null && i > width2.value();
+        Assert.isTrue(z || !z3 || (!signed && unsigned) || (signed && !unsigned), "Primitive type with extension must be specified with extension type and extension type must be specified only once.");
+        this.isZXT = z || (z3 && unsigned);
+        Assert.isTrue(this.naturalWidth == 1 || this.naturalWidth == 2 || this.naturalWidth == 4, "Primitive types can only be 1, 2 or 4 bytes wide.");
+        if (this.width == 1 || this.width == 2 || this.width == 4) {
+            z2 = true;
+        }
+		
         Assert.isTrue(z2, "Primitive types can only be 1, 2 or 4 bytes wide.");
     }
 

@@ -7,8 +7,6 @@ import com.eltechs.axs.proto.input.annotations.Locks;
 import com.eltechs.axs.proto.input.annotations.NewXId;
 import com.eltechs.axs.proto.input.annotations.RequestHandler;
 import com.eltechs.axs.proto.input.annotations.RequestParam;
-import com.eltechs.axs.proto.input.annotations.Signed;
-import com.eltechs.axs.proto.input.annotations.Unsigned;
 import com.eltechs.axs.proto.input.annotations.Width;
 import com.eltechs.axs.proto.input.errors.BadAccess;
 import com.eltechs.axs.proto.input.errors.BadImplementation;
@@ -26,6 +24,7 @@ import com.eltechs.axs.xserver.XServer;
 import com.eltechs.axs.xserver.graphicsContext.PixelCompositionRule;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import com.eltechs.axs.integersign.*;
 
 public class MITShmRequests extends HandlerObjectBase {
     public static final byte SHARED_PIXMAPS_AVAILABLE = 0;
@@ -61,7 +60,7 @@ public class MITShmRequests extends HandlerObjectBase {
 
     @RequestHandler(opcode = 3)
     @Locks({"SHM_SEGMENTS_MANAGER", "DRAWABLES_MANAGER", "WINDOWS_MANAGER", "PIXMAPS_MANAGER", "GRAPHICS_CONTEXTS_MANAGER"})
-    public void PutImage(@RequestParam Drawable drawable, @RequestParam GraphicsContext graphicsContext, @RequestParam @Width(2) @Unsigned int i, @RequestParam @Width(2) @Unsigned int i2, @RequestParam @Width(2) @Unsigned int i3, @RequestParam @Width(2) @Unsigned int i4, @RequestParam @Width(2) @Unsigned int i5, @RequestParam @Width(2) @Unsigned int i6, @RequestParam @Width(2) @Signed int i7, @RequestParam @Width(2) @Signed int i8, @RequestParam byte b, @RequestParam IncomingImageFormat incomingImageFormat, @RequestParam boolean z, @RequestParam byte b2, @RequestParam ShmSegment shmSegment, @RequestParam int i9) throws XProtocolError {
+    public void PutImage(@RequestParam Drawable drawable, @RequestParam GraphicsContext graphicsContext, @RequestParam @Width(2) IntegerUnsigned i, @RequestParam @Width(2) IntegerUnsigned i2, @RequestParam @Width(2) IntegerUnsigned i3, @RequestParam @Width(2) IntegerUnsigned i4, @RequestParam @Width(2) IntegerUnsigned i5, @RequestParam @Width(2) IntegerUnsigned i6, @RequestParam @Width(2) IntegerSigned i7, @RequestParam @Width(2) IntegerSigned i8, @RequestParam byte b, @RequestParam IncomingImageFormat incomingImageFormat, @RequestParam boolean z, @RequestParam byte b2, @RequestParam ShmSegment shmSegment, @RequestParam int i9) throws XProtocolError {
         byte b3 = b;
         IncomingImageFormat incomingImageFormat2 = incomingImageFormat;
         if (z) {
@@ -88,7 +87,7 @@ public class MITShmRequests extends HandlerObjectBase {
                 if (drawable.getVisual().getDepth() != b3) {
                     throw new BadMatch();
                 }
-                painter.drawZPixmap(graphicsContext.getFunction(), b3, i7, i8, i3, i4, i5, i6, shmSegment.getContent(), i, i2);
+                painter.drawZPixmap(graphicsContext.getFunction(), b3, i7.value, i8.value, i3.value, i4.value, i5.value, i6.value, shmSegment.getContent(), i.value, i2.value);
                 return;
             default:
                 Assert.state(false, String.format("Unknown IncomingImageFormat %s.", new Object[]{incomingImageFormat2}));
@@ -98,11 +97,11 @@ public class MITShmRequests extends HandlerObjectBase {
 
     @RequestHandler(opcode = 4)
     @Locks({"DRAWABLES_MANAGER", "PIXMAPS_MANAGER"})
-    public void GetImage(XResponse xResponse, @RequestParam Drawable drawable, @RequestParam @Width(2) @Signed int i, @RequestParam @Width(2) @Signed int i2, @RequestParam @Width(2) @Unsigned int i3, @RequestParam @Width(2) @Unsigned int i4, @RequestParam int i5, @RequestParam IncomingImageFormat incomingImageFormat, @RequestParam byte b, @RequestParam byte b2, @RequestParam byte b3, @RequestParam ShmSegment shmSegment, @RequestParam int i6) throws XProtocolError, IOException {
+    public void GetImage(XResponse xResponse, @RequestParam Drawable drawable, @RequestParam @Width(2) IntegerSigned i, @RequestParam @Width(2) IntegerSigned i2, @RequestParam @Width(2) IntegerUnsigned i3, @RequestParam @Width(2) IntegerUnsigned i4, @RequestParam int i5, @RequestParam IncomingImageFormat incomingImageFormat, @RequestParam byte b, @RequestParam byte b2, @RequestParam byte b3, @RequestParam ShmSegment shmSegment, @RequestParam int i6) throws XProtocolError, IOException {
         if (incomingImageFormat == IncomingImageFormat.BITMAP) {
             throw new BadValue(incomingImageFormat.ordinal());
         }
-        Rectangle rectangle = new Rectangle(i, i2, i3, i4);
+        Rectangle rectangle = new Rectangle(i.value, i2.value, i3.value, i4.value);
         int i7 = 0;
         byte depth = (byte) drawable.getVisual().getDepth();
         if (!(this.xServer.getPixmapsManager().getPixmap(drawable.getId()) != null)) {
@@ -125,7 +124,7 @@ public class MITShmRequests extends HandlerObjectBase {
 
     @RequestHandler(opcode = 5)
     @Locks({"PIXMAPS_MANAGER", "DRAWABLES_MANAGER"})
-    public void CreatePixmap(@NewXId @RequestParam int i, @RequestParam Drawable drawable, @RequestParam @Width(2) @Unsigned int i2, @RequestParam @Width(2) @Unsigned int i3, @RequestParam byte b, @RequestParam byte b2, @RequestParam byte b3, @RequestParam byte b4, @RequestParam ShmSegment shmSegment, @RequestParam int i4) throws XProtocolError {
+    public void CreatePixmap(@NewXId @RequestParam int i, @RequestParam Drawable drawable, @RequestParam @Width(2) IntegerUnsigned i2, @RequestParam @Width(2) IntegerUnsigned i3, @RequestParam byte b, @RequestParam byte b2, @RequestParam byte b3, @RequestParam byte b4, @RequestParam ShmSegment shmSegment, @RequestParam int i4) throws XProtocolError {
         if (!shmSegment.isWritable()) {
             throw new BadAccess();
         }

@@ -12,9 +12,7 @@ import com.eltechs.axs.proto.input.annotations.Optional;
 import com.eltechs.axs.proto.input.annotations.ParamName;
 import com.eltechs.axs.proto.input.annotations.RequestHandler;
 import com.eltechs.axs.proto.input.annotations.RequestParam;
-import com.eltechs.axs.proto.input.annotations.Signed;
 import com.eltechs.axs.proto.input.annotations.SpecialNullValue;
-import com.eltechs.axs.proto.input.annotations.Unsigned;
 import com.eltechs.axs.proto.input.annotations.Width;
 import com.eltechs.axs.proto.input.errors.BadAccess;
 import com.eltechs.axs.proto.input.errors.BadIdChoice;
@@ -50,6 +48,7 @@ import com.eltechs.axs.xserver.impl.drawables.Visual;
 import com.eltechs.axs.xserver.impl.masks.Mask;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import com.eltechs.axs.integersign.*;
 
 public class WindowManipulationRequests extends HandlerObjectBase {
 
@@ -248,7 +247,7 @@ public class WindowManipulationRequests extends HandlerObjectBase {
 
     @RequestHandler(opcode = 1)
     @Locks({"WINDOWS_MANAGER", "DRAWABLES_MANAGER", "INPUT_DEVICES", "COLORMAPS_MANAGER", "CURSORS_MANAGER", "FOCUS_MANAGER"})
-    public void CreateWindow(XClient xClient, @OOBParam @RequestParam byte b, @NewXId @RequestParam int i, @RequestParam Window window, @RequestParam @Width(2) @Signed int i2, @RequestParam @Width(2) @Signed int i3, @RequestParam @Width(2) @Unsigned int i4, @RequestParam @Width(2) @Unsigned int i5, @RequestParam @Width(2) @Unsigned int i6, @RequestParam @Width(2) WindowClass windowClass, @RequestParam @SpecialNullValue(0) Visual visual, @RequestParam @ParamName("mask") Mask<WindowAttributeNames> mask, @RequestParam @Optional(bit = "BACKGROUND_PIXMAP") Integer num, @RequestParam @Optional(bit = "BACKGROUND_PIXEL") Integer num2, @RequestParam @Optional(bit = "BORDER_PIXMAP") Integer num3, @RequestParam @Optional(bit = "BORDER_PIXEL") Integer num4, @RequestParam @Width(4) @Optional(bit = "BIT_GRAVITY") BitGravity bitGravity, @RequestParam @Width(4) @Optional(bit = "WIN_GRAVITY") WinGravity winGravity, @RequestParam @Width(4) @Optional(bit = "BACKING_STORE") BackingStore backingStore, @RequestParam @Optional(bit = "BACKING_PLANES") Integer num5, @RequestParam @Optional(bit = "BACKING_PIXEL") Integer num6, @RequestParam @Width(4) @Optional(bit = "OVERRIDE_REDIRECT") Boolean bool, @RequestParam @Width(4) @Optional(bit = "SAVE_UNDER") Boolean bool2, @RequestParam @Optional(bit = "EVENT_MASK") Mask<EventName> mask2, @RequestParam @Optional(bit = "DO_NOT_PROPAGATE_MASK") Mask<EventName> mask3, @RequestParam @Optional(bit = "COLORMAP") Integer num7, @RequestParam @SpecialNullValue(0) @Optional(bit = "CURSOR") Cursor cursor) throws XProtocolError {
+    public void CreateWindow(XClient xClient, @OOBParam @RequestParam byte b, @NewXId @RequestParam int i, @RequestParam Window window, @RequestParam @Width(2) IntegerSigned i2, @RequestParam @Width(2) IntegerSigned i3, @RequestParam @Width(2) IntegerUnsigned i4, @RequestParam @Width(2) IntegerUnsigned i5, @RequestParam @Width(2) IntegerUnsigned i6, @RequestParam @Width(2) WindowClass windowClass, @RequestParam @SpecialNullValue(0) Visual visual, @RequestParam @ParamName("mask") Mask<WindowAttributeNames> mask, @RequestParam @Optional(bit = "BACKGROUND_PIXMAP") Integer num, @RequestParam @Optional(bit = "BACKGROUND_PIXEL") Integer num2, @RequestParam @Optional(bit = "BORDER_PIXMAP") Integer num3, @RequestParam @Optional(bit = "BORDER_PIXEL") Integer num4, @RequestParam @Width(4) @Optional(bit = "BIT_GRAVITY") BitGravity bitGravity, @RequestParam @Width(4) @Optional(bit = "WIN_GRAVITY") WinGravity winGravity, @RequestParam @Width(4) @Optional(bit = "BACKING_STORE") BackingStore backingStore, @RequestParam @Optional(bit = "BACKING_PLANES") Integer num5, @RequestParam @Optional(bit = "BACKING_PIXEL") Integer num6, @RequestParam @Width(4) @Optional(bit = "OVERRIDE_REDIRECT") Boolean bool, @RequestParam @Width(4) @Optional(bit = "SAVE_UNDER") Boolean bool2, @RequestParam @Optional(bit = "EVENT_MASK") Mask<EventName> mask2, @RequestParam @Optional(bit = "DO_NOT_PROPAGATE_MASK") Mask<EventName> mask3, @RequestParam @Optional(bit = "COLORMAP") Integer num7, @RequestParam @SpecialNullValue(0) @Optional(bit = "CURSOR") Cursor cursor) throws XProtocolError {
         boolean z;
         byte b2;
         WindowManipulationRequests windowManipulationRequests;
@@ -289,13 +288,13 @@ public class WindowManipulationRequests extends HandlerObjectBase {
             windowManipulationRequests = this;
             visual2 = visual;
         }
-        Window createWindow = windowManipulationRequests.xServer.getWindowsManager().createWindow(i, window, i2, i3, i4, i5, visual2, z, xClient2);
+        Window createWindow = windowManipulationRequests.xServer.getWindowsManager().createWindow(i, window, i2.value, i3.value, i4.value, i5.value, visual2, z, xClient2);
         if (createWindow == null) {
             throw new BadIdChoice(i);
         }
         xClient2.installEventListener(createWindow, emptyMask);
         WindowAttributes windowAttributes = createWindow.getWindowAttributes();
-        windowAttributes.setBorderWidth(i6);
+        windowAttributes.setBorderWidth(i6.value);
         windowAttributes.update(mask4, num3, num4, bitGravity, winGravity, backingStore, num5, num6, bool, bool2, mask3, num7, cursor);
         mask4.isSet(WindowAttributeNames.BACKGROUND_PIXMAP);
         if (mask4.isSet(WindowAttributeNames.BACKGROUND_PIXEL)) {
@@ -336,8 +335,8 @@ public class WindowManipulationRequests extends HandlerObjectBase {
 
     @RequestHandler(opcode = 40)
     @Locks({"WINDOWS_MANAGER"})
-    public void TranslateCoordinates(XResponse xResponse, @RequestParam Window window, @RequestParam Window window2, @RequestParam @Width(2) @Signed int i, @RequestParam @Width(2) @Signed int i2) throws IOException, XProtocolError {
-        Point convertWindowCoordsToRoot = WindowHelpers.convertWindowCoordsToRoot(window, i, i2);
+    public void TranslateCoordinates(XResponse xResponse, @RequestParam Window window, @RequestParam Window window2, @RequestParam @Width(2) IntegerSigned i, @RequestParam @Width(2) IntegerSigned i2) throws IOException, XProtocolError {
+        Point convertWindowCoordsToRoot = WindowHelpers.convertWindowCoordsToRoot(window, i.value, i2.value);
         final Point convertRootCoordsToWindow = WindowHelpers.convertRootCoordsToWindow(window2, convertWindowCoordsToRoot.x, convertWindowCoordsToRoot.y);
         final Window directMappedSubWindowByCoords = WindowHelpers.getDirectMappedSubWindowByCoords(window2, convertWindowCoordsToRoot.x, convertWindowCoordsToRoot.y);
         xResponse.sendSimpleSuccessReply((byte) 1, (ResponseDataWriter) new ResponseDataWriter() {
@@ -355,7 +354,7 @@ public class WindowManipulationRequests extends HandlerObjectBase {
 
     @RequestHandler(opcode = 7)
     @Locks({"WINDOWS_MANAGER"})
-    public void ReparentWindow(XResponse xResponse, @RequestParam Window window, @RequestParam Window window2, @RequestParam @Width(2) @Signed int i, @RequestParam @Width(2) @Signed int i2) {
+    public void ReparentWindow(XResponse xResponse, @RequestParam Window window, @RequestParam Window window2, @RequestParam @Width(2) IntegerSigned i, @RequestParam @Width(2) IntegerSigned i2) {
         Window parent = window.getParent();
         if (parent != null) {
             parent.getChildrenList().remove(window);

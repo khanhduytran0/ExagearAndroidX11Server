@@ -6,7 +6,6 @@ import com.eltechs.axs.proto.input.annotations.NewXId;
 import com.eltechs.axs.proto.input.annotations.RequestHandler;
 import com.eltechs.axs.proto.input.annotations.RequestParam;
 import com.eltechs.axs.proto.input.annotations.SpecialNullValue;
-import com.eltechs.axs.proto.input.annotations.Unsigned;
 import com.eltechs.axs.proto.input.annotations.Width;
 import com.eltechs.axs.proto.input.errors.BadIdChoice;
 import com.eltechs.axs.proto.input.errors.BadMatch;
@@ -17,6 +16,7 @@ import com.eltechs.axs.xserver.Drawable;
 import com.eltechs.axs.xserver.Pixmap;
 import com.eltechs.axs.xserver.XServer;
 import com.eltechs.axs.xserver.client.XClient;
+import com.eltechs.axs.integersign.*;
 
 public class CursorManipulationRequests extends HandlerObjectBase {
     public CursorManipulationRequests(XServer xServer) {
@@ -25,7 +25,7 @@ public class CursorManipulationRequests extends HandlerObjectBase {
 
     @RequestHandler(opcode = 93)
     @Locks({"CURSORS_MANAGER", "PIXMAPS_MANAGER", "DRAWABLES_MANAGER"})
-    public void CreateCursor(XClient xClient, @NewXId @RequestParam int i, @RequestParam Pixmap pixmap, @RequestParam @SpecialNullValue(0) Pixmap pixmap2, @RequestParam @Width(2) @Unsigned int i2, @RequestParam @Width(2) @Unsigned int i3, @RequestParam @Width(2) @Unsigned int i4, @RequestParam @Width(2) @Unsigned int i5, @RequestParam @Width(2) @Unsigned int i6, @RequestParam @Width(2) @Unsigned int i7, @RequestParam @Width(2) @Unsigned int i8, @RequestParam @Width(2) @Unsigned int i9) throws XProtocolError {
+    public void CreateCursor(XClient xClient, @NewXId @RequestParam int i, @RequestParam Pixmap pixmap, @RequestParam @SpecialNullValue(0) Pixmap pixmap2, @RequestParam @Width(2) IntegerUnsigned i2, @RequestParam @Width(2) IntegerUnsigned i3, @RequestParam @Width(2) IntegerUnsigned i4, @RequestParam @Width(2) IntegerUnsigned i5, @RequestParam @Width(2) IntegerUnsigned i6, @RequestParam @Width(2) IntegerUnsigned i7, @RequestParam @Width(2) IntegerUnsigned i8, @RequestParam @Width(2) IntegerUnsigned i9) throws XProtocolError {
         Drawable backingStore = pixmap.getBackingStore();
         if (pixmap2 != null) {
             Drawable backingStore2 = pixmap2.getBackingStore();
@@ -33,16 +33,14 @@ public class CursorManipulationRequests extends HandlerObjectBase {
                 throw new BadMatch();
             }
         }
-        int i10 = i8;
-        if (i10 <= backingStore.getWidth()) {
-            int i11 = i9;
-            if (i11 <= backingStore.getHeight()) {
+        if (i8.value <= backingStore.getWidth()) {
+            if (i9.value <= backingStore.getHeight()) {
                 CursorsManager cursorsManager = this.xServer.getCursorsManager();
-                Cursor createCursor = cursorsManager.createCursor(i, i10, i11, pixmap, pixmap2);
+                Cursor createCursor = cursorsManager.createCursor(i, i8.value, i9.value, pixmap, pixmap2);
                 if (createCursor == null) {
                     throw new BadIdChoice(i);
                 }
-                cursorsManager.recolorCursor(createCursor, i2, i3, i4, i5, i6, i7);
+                cursorsManager.recolorCursor(createCursor, i2.value, i3.value, i4.value, i5.value, i6.value, i7.value);
                 xClient.registerAsOwnerOfCursor(createCursor);
                 return;
             }
@@ -52,14 +50,14 @@ public class CursorManipulationRequests extends HandlerObjectBase {
 
     @RequestHandler(opcode = 94)
     @Locks({"CURSORS_MANAGER", "PIXMAPS_MANAGER", "DRAWABLES_MANAGER"})
-    public void CreateGlyphCursor(XClient xClient, @NewXId @RequestParam int i, @RequestParam Integer num, @RequestParam Integer num2, @RequestParam @Width(2) @Unsigned int i2, @RequestParam @Width(2) @Unsigned int i3, @RequestParam @Width(2) @Unsigned int i4, @RequestParam @Width(2) @Unsigned int i5, @RequestParam @Width(2) @Unsigned int i6, @RequestParam @Width(2) @Unsigned int i7, @RequestParam @Width(2) @Unsigned int i8, @RequestParam @Width(2) @Unsigned int i9) throws XProtocolError {
+    public void CreateGlyphCursor(XClient xClient, @NewXId @RequestParam int i, @RequestParam Integer num, @RequestParam Integer num2, @RequestParam @Width(2) IntegerUnsigned i2, @RequestParam @Width(2) IntegerUnsigned i3, @RequestParam @Width(2) IntegerUnsigned i4, @RequestParam @Width(2) IntegerUnsigned i5, @RequestParam @Width(2) IntegerUnsigned i6, @RequestParam @Width(2) IntegerUnsigned i7, @RequestParam @Width(2) IntegerUnsigned i8, @RequestParam @Width(2) IntegerUnsigned i9) throws XProtocolError {
         int i10 = i;
         CursorsManager cursorsManager = this.xServer.getCursorsManager();
         Cursor createFakeCursor = cursorsManager.createFakeCursor(i10);
         if (createFakeCursor == null) {
             throw new BadIdChoice(i10);
         }
-        cursorsManager.recolorCursor(createFakeCursor, i4, i5, i6, i7, i8, i9);
+        cursorsManager.recolorCursor(createFakeCursor, i4.value, i5.value, i6.value, i7.value, i8.value, i9.value);
         xClient.registerAsOwnerOfCursor(createFakeCursor);
     }
 
@@ -71,7 +69,7 @@ public class CursorManipulationRequests extends HandlerObjectBase {
 
     @RequestHandler(opcode = 96)
     @Locks({"CURSORS_MANAGER", "DRAWABLES_MANAGER"})
-    public void RecolorCursor(@RequestParam Cursor cursor, @RequestParam @Width(2) @Unsigned int i, @RequestParam @Width(2) @Unsigned int i2, @RequestParam @Width(2) @Unsigned int i3, @RequestParam @Width(2) @Unsigned int i4, @RequestParam @Width(2) @Unsigned int i5, @RequestParam @Width(2) @Unsigned int i6) {
-        this.xServer.getCursorsManager().recolorCursor(cursor, i, i2, i3, i4, i5, i6);
+    public void RecolorCursor(@RequestParam Cursor cursor, @RequestParam @Width(2) IntegerUnsigned i, @RequestParam @Width(2) IntegerUnsigned i2, @RequestParam @Width(2) IntegerUnsigned i3, @RequestParam @Width(2) IntegerUnsigned i4, @RequestParam @Width(2) IntegerUnsigned i5, @RequestParam @Width(2) IntegerUnsigned i6) {
+        this.xServer.getCursorsManager().recolorCursor(cursor, i.value, i2.value, i3.value, i4.value, i5.value, i6.value);
     }
 }

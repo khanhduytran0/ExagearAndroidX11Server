@@ -7,8 +7,6 @@ import com.eltechs.axs.proto.input.annotations.Locks;
 import com.eltechs.axs.proto.input.annotations.OOBParam;
 import com.eltechs.axs.proto.input.annotations.RequestHandler;
 import com.eltechs.axs.proto.input.annotations.RequestParam;
-import com.eltechs.axs.proto.input.annotations.Signed;
-import com.eltechs.axs.proto.input.annotations.Unsigned;
 import com.eltechs.axs.proto.input.annotations.Width;
 import com.eltechs.axs.proto.input.errors.BadMatch;
 import com.eltechs.axs.proto.input.errors.BadValue;
@@ -24,6 +22,7 @@ import com.eltechs.axs.xserver.XServer;
 import com.eltechs.axs.xserver.graphicsContext.PixelCompositionRule;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import com.eltechs.axs.integersign.*;
 
 public class DrawingRequests extends HandlerObjectBase {
 
@@ -48,7 +47,7 @@ public class DrawingRequests extends HandlerObjectBase {
 
     @RequestHandler(opcode = 72)
     @Locks({"DRAWABLES_MANAGER", "WINDOWS_MANAGER", "PIXMAPS_MANAGER", "GRAPHICS_CONTEXTS_MANAGER"})
-    public void PutImage(@OOBParam @RequestParam IncomingImageFormat incomingImageFormat, @RequestParam Drawable drawable, @RequestParam GraphicsContext graphicsContext, @RequestParam @Width(2) @Unsigned int i, @RequestParam @Width(2) @Unsigned int i2, @RequestParam @Width(2) @Signed int i3, @RequestParam @Width(2) @Signed int i4, @RequestParam byte b, @RequestParam byte b2, @RequestParam short s, @RequestParam ByteBuffer byteBuffer) throws XProtocolError {
+    public void PutImage(@OOBParam @RequestParam IncomingImageFormat incomingImageFormat, @RequestParam Drawable drawable, @RequestParam GraphicsContext graphicsContext, @RequestParam @Width(2) IntegerUnsigned i, @RequestParam @Width(2) IntegerUnsigned i2, @RequestParam @Width(2) IntegerSigned i3, @RequestParam @Width(2) IntegerSigned i4, @RequestParam byte b, @RequestParam byte b2, @RequestParam short s, @RequestParam ByteBuffer byteBuffer) throws XProtocolError {
         IncomingImageFormat incomingImageFormat2 = incomingImageFormat;
         byte b3 = b2;
         Painter painter = drawable.getPainter();
@@ -63,7 +62,7 @@ public class DrawingRequests extends HandlerObjectBase {
                 if (b3 != 1) {
                     throw new BadMatch();
                 }
-                painter.drawBitmap(i3, i4, i, i2, byteBuffer);
+                painter.drawBitmap(i3.value, i4.value, i.value, i2.value, byteBuffer);
                 return;
             case XY_PIXMAP:
                 if (drawable.getVisual().getDepth() != b3) {
@@ -72,7 +71,7 @@ public class DrawingRequests extends HandlerObjectBase {
                 return;
             case Z_PIXMAP:
                 if (drawable.getVisual().getDepth() == b3 && b == 0) {
-                    painter.drawZPixmap(graphicsContext.getFunction(), b3, i3, i4, 0, 0, i, i2, byteBuffer, i, i2);
+                    painter.drawZPixmap(graphicsContext.getFunction(), b3, i3.value, i4.value, 0, 0, i.value, i2.value, byteBuffer, i.value, i2.value);
                     return;
                 }
                 throw new BadMatch();
@@ -84,12 +83,12 @@ public class DrawingRequests extends HandlerObjectBase {
 
     @RequestHandler(opcode = 73)
     @Locks({"DRAWABLES_MANAGER", "PIXMAPS_MANAGER"})
-    public void GetImage(XResponse xResponse, @OOBParam @RequestParam IncomingImageFormat incomingImageFormat, @RequestParam Drawable drawable, @RequestParam @Width(2) @Signed int i, @RequestParam @Width(2) @Signed int i2, @RequestParam @Width(2) @Unsigned int i3, @RequestParam @Width(2) @Unsigned int i4, @RequestParam int i5) throws XProtocolError, IOException {
+    public void GetImage(XResponse xResponse, @OOBParam @RequestParam IncomingImageFormat incomingImageFormat, @RequestParam Drawable drawable, @RequestParam @Width(2) IntegerSigned i, @RequestParam @Width(2) IntegerSigned i2, @RequestParam @Width(2) IntegerUnsigned i3, @RequestParam @Width(2) IntegerUnsigned i4, @RequestParam int i5) throws XProtocolError, IOException {
         final int i6;
         if (incomingImageFormat == IncomingImageFormat.BITMAP) {
             throw new BadValue(incomingImageFormat.ordinal());
         }
-        Rectangle rectangle = new Rectangle(i, i2, i3, i4);
+        Rectangle rectangle = new Rectangle(i.value, i2.value, i3.value, i4.value);
         if (!(this.xServer.getPixmapsManager().getPixmap(drawable.getId()) != null)) {
             i6 = drawable.getVisual().getId();
         } else if (!new Rectangle(0, 0, drawable.getWidth(), drawable.getHeight()).containsInnerRectangle(rectangle)) {
@@ -104,7 +103,7 @@ public class DrawingRequests extends HandlerObjectBase {
                 Assert.notImplementedYet("Reading data as XY Pixmap is unimplemented yet.");
                 break;
             case Z_PIXMAP:
-                bArr = painter.getZPixmap(i, i2, i3, i4);
+                bArr = painter.getZPixmap(i.value, i2.value, i3.value, i4.value);
                 break;
             default:
                 Assert.state(false, String.format("Unknown IncomingImageFormat %s.", new Object[]{incomingImageFormat}));
@@ -124,14 +123,14 @@ public class DrawingRequests extends HandlerObjectBase {
 
     @RequestHandler(opcode = 62)
     @Locks({"DRAWABLES_MANAGER", "GRAPHICS_CONTEXTS_MANAGER"})
-    public void CopyArea(@RequestParam Drawable drawable, @RequestParam Drawable drawable2, @RequestParam GraphicsContext graphicsContext, @RequestParam @Width(2) @Signed int i, @RequestParam @Width(2) @Signed int i2, @RequestParam @Width(2) @Signed int i3, @RequestParam @Width(2) @Signed int i4, @RequestParam @Width(2) @Unsigned int i5, @RequestParam @Width(2) @Unsigned int i6) {
-        drawable2.getPainter().copyArea(graphicsContext, drawable, i, i2, i3, i4, i5, i6);
+    public void CopyArea(@RequestParam Drawable drawable, @RequestParam Drawable drawable2, @RequestParam GraphicsContext graphicsContext, @RequestParam @Width(2) IntegerSigned i, @RequestParam @Width(2) IntegerSigned i2, @RequestParam @Width(2) IntegerSigned i3, @RequestParam @Width(2) IntegerSigned i4, @RequestParam @Width(2) IntegerUnsigned i5, @RequestParam @Width(2) IntegerUnsigned i6) {
+        drawable2.getPainter().copyArea(graphicsContext, drawable, i.value, i2.value, i3.value, i4.value, i5.value, i6.value);
     }
 
     @RequestHandler(opcode = 61)
     @Locks({"WINDOWS_MANAGER"})
-    public void ClearArea(@OOBParam @RequestParam Boolean bool, @RequestParam Window window, @RequestParam @Width(2) @Signed int i, @RequestParam @Width(2) @Signed int i2, @RequestParam @Width(2) @Unsigned int i3, @RequestParam @Width(2) @Unsigned int i4) {
-        if (i3 != 0 || i4 != 0) {
+    public void ClearArea(@OOBParam @RequestParam Boolean bool, @RequestParam Window window, @RequestParam @Width(2) IntegerSigned i, @RequestParam @Width(2) IntegerSigned i2, @RequestParam @Width(2) IntegerUnsigned i3, @RequestParam @Width(2) IntegerUnsigned i4) {
+        if (i3.value != 0 || i4.value != 0) {
             Assert.notImplementedYet("ClearArea is not implemented");
         }
     }

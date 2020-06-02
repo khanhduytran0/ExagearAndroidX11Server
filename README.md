@@ -6,9 +6,11 @@ A X11 Server for Android take from Exagear AXS library in Exagear Windows Emulat
 
 ## TODO replace `Param Annotation` with other
 `AIDE`, the current development don't support `Annotation` in Parameter of Method.
-- [ ] com.eltechs.axs.proto.input.annotations.OOBParamParam
-- [ ] com.eltechs.axs.proto.input.annotations.ParamName
-- [ ] com.eltechs.axs.proto.input.annotations.RequestParam
+- [x] `Signed` (int)
+- [x] `Unsigned` (int)
+- [ ] `OOBParamParam`
+- [ ] `ParamName`
+- [ ] `RequestParam`
 
 ## Building
 - Clone to Android Studio or other similar IDEs.
