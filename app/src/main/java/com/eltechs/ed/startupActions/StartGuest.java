@@ -74,6 +74,7 @@ public class StartGuest<StateClass extends ApplicationStateBase<StateClass> & Se
             }
         });
         arrayList.add(new CreateTypicalEnvironmentConfiguration(12, false));
+        arrayList.add(new StartEnvironmentService(new TrayConfiguration(R.drawable.tray, R.string.host_app_name, R.string.host_app_name)));
         arrayList.add(new WaitForXClientConnection(this.mHideXServerImage));
         UiThread.post(new Runnable() {
             public void run() {

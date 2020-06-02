@@ -19,6 +19,7 @@ import com.kdt.eltechsaxs.*;
 import java.util.*;
 
 import com.eltechs.axs.BuildConfig;
+import com.eltechs.ed.startupActions.*;
 
 public class XServerDisplayActivity<StateClass extends ApplicationStateBase<StateClass> /* & PurchasableComponentsCollectionAware */& XServerDisplayActivityConfigurationAware & SelectedExecutableFileAware<StateClass>> extends FrameworkActivity<StateClass> {
     private static final long COUNT_DOWN_INTERVAL = 20000;
@@ -27,21 +28,23 @@ public class XServerDisplayActivity<StateClass extends ApplicationStateBase<Stat
     private static final int REQUEST_CODE_INFORMER = 10003;
     private Runnable contextMenuRequestHandler;
     private XServerDisplayActivityInterfaceOverlay interfaceOverlay;
+
+	// MOD: Bypass iab check.
+	/*
     private CountDownTimer periodicIabCheckTimer = new CountDownTimer(COUNT_DOWN_TOTAL, COUNT_DOWN_INTERVAL) {
         public void onTick(long j) {
             XServerDisplayActivity.this.checkUiThread();
-			// MOD: Bypass iab check.
-			/*
+			
             if (XServerDisplayActivity.this.isActivityResumed()) {
                 XServerDisplayActivity.this.checkIab();
             }
-			*/
         }
 
         public void onFinish() {
             XServerDisplayActivity.this.periodicIabCheckTimer.start();
         }
     };
+	*/
     private View uiOverlayView;
     private ViewOfXServer viewOfXServer;
 
@@ -49,7 +52,7 @@ public class XServerDisplayActivity<StateClass extends ApplicationStateBase<Stat
     private void setXServerDisplayActivityInterfaceOverlay(XServerDisplayActivityInterfaceOverlay xServerDisplayActivityInterfaceOverlay) {
         this.interfaceOverlay = xServerDisplayActivityInterfaceOverlay;
     }
-
+	
     public void onCreate(Bundle bundle) {
         ViewFacade viewFacade = null;
         super.onCreate(bundle);
@@ -62,29 +65,21 @@ public class XServerDisplayActivity<StateClass extends ApplicationStateBase<Stat
             } catch (Exception unused) {
                 Assert.state(false);
             }
-            getWindow().addFlags(128);
-            getWindow().addFlags(4194304);
-            setContentView(R.layout.main);
-            if (checkForSuddenDeath()) {
-                this.viewOfXServer = new ViewOfXServer(this, xServerComponent.getXServer(), viewFacade, applicationState.getXServerViewConfiguration());
-                this.periodicIabCheckTimer.start();
-                return;
-            }
-            return;
         }
-        viewFacade = null;
+        
         getWindow().addFlags(128);
         getWindow().addFlags(4194304);
         setContentView(R.layout.main);
-        if (checkForSuddenDeath()) {
-        }
+        checkForSuddenDeath();
 		
+		this.viewOfXServer = new ViewOfXServer(this, xServerComponent.getXServer(), viewFacade, applicationState.getXServerViewConfiguration());
 		setXServerDisplayActivityInterfaceOverlay(new TrivialInterfaceOverlay());
     }
-
+	
     /* access modifiers changed from: protected */
     public void onResume() {
         super.onResume();
+		
         if (!checkForSuddenDeath()) {
             this.contextMenuRequestHandler = NoMenuPopup.INSTANCE;
             buildUI();
@@ -110,7 +105,6 @@ public class XServerDisplayActivity<StateClass extends ApplicationStateBase<Stat
     }
 
     private void buildUI() {
-        setContentView(R.layout.main);
         getRootLayout().addView(this.viewOfXServer);
         this.uiOverlayView = this.interfaceOverlay.attach(this, this.viewOfXServer);
         getRootLayout().addView(this.uiOverlayView);
@@ -142,8 +136,10 @@ public class XServerDisplayActivity<StateClass extends ApplicationStateBase<Stat
         super.onDestroy();
         this.viewOfXServer = null;
         setContentView((View) new TextView(this));
+		/*
         this.periodicIabCheckTimer.cancel();
         this.periodicIabCheckTimer = null;
+		*/
     }
 
     /* access modifiers changed from: protected */

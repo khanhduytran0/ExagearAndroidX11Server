@@ -6,6 +6,7 @@ import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
+import com.eltechs.ed.startupActions.*;
 
 public class EnvironmentCustomisationParameters implements Externalizable {
     public static String DEFAULT_CONTROLS_NAME_NONE = "None";
@@ -17,15 +18,20 @@ public class EnvironmentCustomisationParameters implements Externalizable {
     private ScreenInfo screenInfo;
 
     public EnvironmentCustomisationParameters() {
-        ScreenInfo screenInfo2 = new ScreenInfo(800, 600, 80, 60, 32);
+        ScreenInfo screenInfo2 = screenInfo = new ScreenInfo(StartGuest.defaultScreenSize[0], StartGuest.defaultScreenSize[1], 32);
         this.screenInfo = screenInfo2;
     }
 
     public ScreenInfo getScreenInfo() {
+		// if (this.screenInfo == null) screenInfo = new ScreenInfo(StartGuest.defaultScreenSize[0], StartGuest.defaultScreenSize[1], 24);
         return this.screenInfo;
     }
 
     public void setScreenInfo(ScreenInfo screenInfo2) {
+		if (screenInfo2 == null) {
+			System.out.println("Warning: attempg to setting a null ScreenInfo, ignoring.");
+			return;
+		}
         this.screenInfo = screenInfo2;
     }
 

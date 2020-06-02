@@ -77,7 +77,10 @@ public class XServerComponent extends EnvironmentComponent {
     }
 
     private void startXConnector(XServer xServer2) throws IOException {
-        this.connector = FairEpollConnector.listenOnSpecifiedUnixSocket(this.socketConf, new XClientConnectionHandler(xServer2), RootXRequestHandlerConfigurer.createRequestHandler(xServer2));
+		// Listening on port 0???
+        this.connector =
+		FairEpollConnector.listenOnLoopbackInetAddress(0, new XClientConnectionHandler(xServer2), RootXRequestHandlerConfigurer.createRequestHandler(xServer2));
+		// FairEpollConnector.listenOnSpecifiedUnixSocket(this.socketConf, new XClientConnectionHandler(xServer2), RootXRequestHandlerConfigurer.createRequestHandler(xServer2));
         this.connector.setInitialInputBufferCapacity(262144);
         this.connector.start();
     }

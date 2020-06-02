@@ -31,16 +31,6 @@
 	<uses-permission
 		android:name="android.permission.WAKE_LOCK"/>
 
-	<uses-permission
-		android:name="com.google.android.c2dm.permission.RECEIVE"/>
-
-	<permission
-		android:name="com.eltechs.ed.permission.C2D_MESSAGE"
-		android:protectionLevel="signature"/>
-
-	<uses-permission
-		android:name="com.eltechs.ed.permission.C2D_MESSAGE"/>
-
 	<application
 		android:icon="@drawable/logo"
 		android:label="@string/host_app_name"
@@ -61,20 +51,6 @@
 			</intent-filter>
 
 		</activity>
-
-		<activity
-			android:name="com.eltechs.ed.activities.EDStartupActivity"
-			android:theme="@style/ThemeDefaultDialogNoTitle"/>
-
-		<activity
-			android:name="com.eltechs.ed.activities.EDMainActivity"
-			android:parentActivityName="com.eltechs.ed.activities.EDStartupActivity"
-			android:theme="@style/ThemeDefault"/>
-
-		<activity
-			android:name="com.eltechs.ed.activities.EDHelpActivity"
-			android:parentActivityName="com.eltechs.ed.activities.EDMainActivity"
-			android:theme="@style/ThemeDefault"/>
 
 		<activity
 			android:name="com.eltechs.axs.activities.XServerDisplayActivity"

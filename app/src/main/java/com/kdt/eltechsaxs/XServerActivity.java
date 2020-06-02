@@ -13,6 +13,7 @@ import com.eltechs.ed.startupActions.*;
 
 public class XServerActivity extends StartupActivity<EDApplicationState>
 {
+	private static final String GENERIC_IMAGE_DIRECTORY_NAME = "image";
 	public XServerActivity() {
 		super(EDApplicationState.class);
 	}
@@ -23,6 +24,8 @@ public class XServerActivity extends StartupActivity<EDApplicationState>
 		com.eltechs.ed.startupActions.StartGuest.defaultScreenSize = new int[]{metrics.widthPixels, metrics.heightPixels};
 		
         EDApplicationState eDApplicationState = (EDApplicationState) getApplicationState();
+		eDApplicationState.setExagearImage(ExagearImage.find(getApplicationContext(), GENERIC_IMAGE_DIRECTORY_NAME, true));
+		
         StartupActionsCollection startupActionsCollection = eDApplicationState.getStartupActionsCollection();
         startupActionsCollection.addAction(new RequestPermissions(this, StartupActivity.REQUEST_CODE_GET_PERMISSIONS));
 		startupActionsCollection.addAction(new StartGuest());
@@ -37,7 +40,7 @@ public class XServerActivity extends StartupActivity<EDApplicationState>
 		builder.setMessage((CharSequence) "Shutdown while startup in progress may corrupt application state!\n\nAre you sure you want to exit?");
 		builder.setPositiveButton((CharSequence) "OK", new DialogInterface.OnClickListener() {
 									  public void onClick(DialogInterface dialogInterface, int i) {
-										  StartupActivity.shutdownAXSApplication(true);
+										  StartupActivity.shutdownAXSApplication(false);
 										  dialogInterface.dismiss();
 									  }
 								  });

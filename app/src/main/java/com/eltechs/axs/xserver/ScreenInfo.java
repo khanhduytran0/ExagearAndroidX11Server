@@ -19,11 +19,7 @@ public class ScreenInfo implements Serializable {
     }
 
     public ScreenInfo(int i, int i2, int i3) {
-        this.widthInPixels = i;
-        this.heightInPixels = i2;
-        this.widthInMillimeters = i / 10;
-        this.heightInMillimeters = i2 / 10;
-        this.depth = i3;
+		this(i, i2, i / 10, i2 / 10, i3);
     }
 
     public String toString() {

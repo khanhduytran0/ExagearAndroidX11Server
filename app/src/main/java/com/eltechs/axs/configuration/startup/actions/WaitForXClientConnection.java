@@ -13,8 +13,10 @@ import com.eltechs.axs.xserver.LocksManager.Subsystem;
 import com.eltechs.axs.xserver.LocksManager.XLock;
 import com.eltechs.axs.xserver.Window;
 import com.eltechs.axs.xserver.WindowContentModificationListener;
+import java.util.*;
 
 public class WaitForXClientConnection<StateClass extends EnvironmentAware> extends AbstractStartupAction<StateClass> {
+	private final boolean NEED_WAIT_FOR_CLIENT = true;
     private GuestApplicationsLifecycleListener guestApplicationTerminationListener;
     private final boolean hideXServerImage;
     private WindowContentModificationListener putImageListener;
@@ -42,9 +44,21 @@ public class WaitForXClientConnection<StateClass extends EnvironmentAware> exten
             }
 
             public void contentChanged(Window window, int i, int i2, int i3, int i4) {
-                WaitForXClientConnection.this.startedDrawing();
+                if (NEED_WAIT_FOR_CLIENT) WaitForXClientConnection.this.startedDrawing();
             }
         };
+		
+		if (!NEED_WAIT_FOR_CLIENT) {
+			new Timer().schedule(new TimerTask(){
+
+					@Override
+					public void run()
+					{
+						WaitForXClientConnection.this.startedDrawing();
+					}
+				}, 500);
+		}
+		
 		/*
         this.guestApplicationTerminationListener = new GuestApplicationsLifecycleAdapter() {
             public void translatorExited(Translator translator) {
@@ -54,6 +68,7 @@ public class WaitForXClientConnection<StateClass extends EnvironmentAware> exten
             }
         };
 		*/
+		
         XLock lock = xServerComponent.getXServer().getLocksManager().lock(Subsystem.WINDOWS_MANAGER);
         try {
             if (!this.hideXServerImage) {
