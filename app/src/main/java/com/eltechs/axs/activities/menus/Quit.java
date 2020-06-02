@@ -11,6 +11,7 @@ public class Quit extends AbstractAction {
     }
 
     public void run() {
-        StartupActivity.shutdownAXSApplication(true);
+		System.exit(0);
+        // StartupActivity.shutdownAXSApplication(true);
     }
 }

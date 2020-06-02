@@ -17,16 +17,21 @@ public class LocksManagerImpl implements LocksManager {
 
         public MultiXLock(Subsystem[] subsystemArr) {
             this.systems = subsystemArr;
-            EnumMap access$100 = LocksManagerImpl.this.locks;
+            EnumMap access = LocksManagerImpl.this.locks;
             for (Subsystem subsystem : subsystemArr) {
-                ((ReentrantLock) access$100.get(subsystem)).lock();
+                ((ReentrantLock) access.get(subsystem)).lock();
             }
         }
 
         public void close() {
-            EnumMap access$100 = LocksManagerImpl.this.locks;
+            EnumMap access = LocksManagerImpl.this.locks;
             for (int length = this.systems.length - 1; length >= 0; length--) {
-                ((ReentrantLock) access$100.get(this.systems[length])).unlock();
+                try {
+					// MOD: FIXME ABOUT IllegalMonitorStateException
+					((ReentrantLock) access.get(this.systems[length])).unlock();
+				} catch (IllegalMonitorStateException e) {
+					e.printStackTrace();
+				}
             }
         }
     }

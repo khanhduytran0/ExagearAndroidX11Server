@@ -6,7 +6,7 @@ import com.eltechs.axs.helpers.Assert;
 import com.eltechs.axs.rendering.RenderingEngine;
 
 public class VirglRedererEngine implements RenderingEngine {
-    private final EGLDisplay eglDisplay = EGL14.eglGetDisplay(0);
+    private final EGLDisplay eglDisplay = EGL14.eglGetDisplay(EGL14.EGL_DEFAULT_DISPLAY);
 
     public boolean isRenderingAvailable() {
         return this.eglDisplay != null;

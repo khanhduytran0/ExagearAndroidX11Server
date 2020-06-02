@@ -5,9 +5,7 @@ import com.eltechs.axs.desktopExperience.DesktopExperienceImpl;
 import com.eltechs.axs.environmentService.EnvironmentComponent;
 import com.eltechs.axs.helpers.Assert;
 import com.eltechs.axs.proto.RootXRequestHandlerConfigurer;
-import com.eltechs.axs.rendering.impl.virglRenderer.VirglRedererEngine;
-import com.eltechs.axs.xconnectors.epoll.FairEpollConnector;
-import com.eltechs.axs.xconnectors.epoll.UnixSocketConfiguration;
+import com.eltechs.axs.xconnectors.nio.NioConnector;
 import com.eltechs.axs.xserver.DesktopExperience;
 import com.eltechs.axs.xserver.KeyButNames;
 import com.eltechs.axs.xserver.KeyboardLayout;
@@ -19,23 +17,24 @@ import com.eltechs.axs.xserver.client.XClient;
 import com.eltechs.axs.xserver.client.XClientConnectionHandler;
 import com.eltechs.axs.xserver.impl.drawables.gl.GLDrawablesFactory;
 import com.eltechs.axs.xserver.keysyms.FunctionKeysyms;
-import com.eltechs.axs.xserver.keysyms.KeypadKeysyms;
 import com.eltechs.axs.xserver.keysyms.ModifierKeysyms;
 import com.eltechs.axs.xserver.keysyms.NavigationKeysyms;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import com.eltechs.axs.rendering.impl.virglRenderer.*;
+import com.eltechs.axs.xserver.keysyms.*;
 
 public class XServerComponent extends EnvironmentComponent {
-    private FairEpollConnector<XClient> connector;
+    private NioConnector<XClient> connector;
     private DesktopExperience desktopExperience;
     private final int displayNumber;
     private final ScreenInfo screenInfo;
-    private UnixSocketConfiguration socketConf;
     private XServer xServer;
 
-    public XServerComponent(ScreenInfo screenInfo2, int i, UnixSocketConfiguration unixSocketConfiguration) {
-        this.screenInfo = screenInfo2;
-        this.displayNumber = i;
-        this.socketConf = unixSocketConfiguration;
+    public XServerComponent(ScreenInfo screenInfo, int displayNumber) {
+        this.screenInfo = screenInfo;
+        this.displayNumber = displayNumber;
     }
 
     public void start() throws IOException {
@@ -50,7 +49,7 @@ public class XServerComponent extends EnvironmentComponent {
         Assert.state(this.connector != null, "X-server component is not yet started.");
         try {
             this.connector.stop();
-        } catch (IOException unused) {
+        } catch (IOException e) {
         }
         this.xServer = null;
         this.desktopExperience = null;
@@ -72,15 +71,11 @@ public class XServerComponent extends EnvironmentComponent {
 
     private XServer createXServer(ScreenInfo screenInfo2, KeyboardModel keyboardModel) {
         // SysVIPCEmulatorComponent sysVIPCEmulatorComponent = (SysVIPCEmulatorComponent) getEnvironment().getComponent(SysVIPCEmulatorComponent.class);
-        XServer xServer2 = new XServer(screenInfo2, keyboardModel, GLDrawablesFactory.create(screenInfo2.depth), /* sysVIPCEmulatorComponent != null ? sysVIPCEmulatorComponent.getShmEngine() : */ null, new VirglRedererEngine(), 512);
-        return xServer2;
+        return new XServer(screenInfo2, keyboardModel, GLDrawablesFactory.create(screenInfo2.depth), /* sysVIPCEmulatorComponent != null ? sysVIPCEmulatorComponent.getShmEngine() : */ null, new VirglRedererEngine(), 512);
     }
-
-    private void startXConnector(XServer xServer2) throws IOException {
-		// Listening on port 0???
-        this.connector =
-		FairEpollConnector.listenOnLoopbackInetAddress(0, new XClientConnectionHandler(xServer2), RootXRequestHandlerConfigurer.createRequestHandler(xServer2));
-		// FairEpollConnector.listenOnSpecifiedUnixSocket(this.socketConf, new XClientConnectionHandler(xServer2), RootXRequestHandlerConfigurer.createRequestHandler(xServer2));
+	
+    private void startXConnector(XServer xServer) throws IOException {
+        this.connector = new NioConnector(new InetSocketAddress(InetAddress.getLocalHost(), this.displayNumber + 6000), new XClientConnectionHandler(xServer), RootXRequestHandlerConfigurer.createRequestHandler(xServer));
         this.connector.setInitialInputBufferCapacity(262144);
         this.connector.start();
     }
@@ -196,3 +191,4 @@ public class XServerComponent extends EnvironmentComponent {
         return new KeyboardModel(keyboardModifiersLayout, keyboardLayout);
     }
 }
+

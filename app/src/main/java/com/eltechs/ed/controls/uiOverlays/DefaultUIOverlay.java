@@ -119,7 +119,8 @@ public class DefaultUIOverlay implements XServerDisplayActivityInterfaceOverlay 
                 builder.setMessage((CharSequence) "Are you sure you want to exit?");
                 builder.setPositiveButton((CharSequence) "OK", (DialogInterface.OnClickListener) new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        StartupActivity.shutdownAXSApplication(true);
+                        // StartupActivity.shutdownAXSApplication(true);
+						System.exit(0);
                         dialogInterface.dismiss();
                     }
                 });

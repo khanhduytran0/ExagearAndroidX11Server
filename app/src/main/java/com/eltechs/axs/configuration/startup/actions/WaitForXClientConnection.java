@@ -5,10 +5,6 @@ import com.eltechs.axs.applicationState.EnvironmentAware;
 import com.eltechs.axs.configuration.startup.StartupActionInfo;
 import com.eltechs.axs.environmentService.AXSEnvironment;
 import com.eltechs.axs.environmentService.components.XServerComponent;
-// import com.eltechs.axs.firebase.FAHelper;
-import com.eltechs.axs.guestApplicationsTracker.GuestApplicationsLifecycleAdapter;
-import com.eltechs.axs.guestApplicationsTracker.GuestApplicationsLifecycleListener;
-import com.eltechs.axs.guestApplicationsTracker.impl.Translator;
 import com.eltechs.axs.xserver.LocksManager.Subsystem;
 import com.eltechs.axs.xserver.LocksManager.XLock;
 import com.eltechs.axs.xserver.Window;
@@ -16,8 +12,7 @@ import com.eltechs.axs.xserver.WindowContentModificationListener;
 import java.util.*;
 
 public class WaitForXClientConnection<StateClass extends EnvironmentAware> extends AbstractStartupAction<StateClass> {
-	private final boolean NEED_WAIT_FOR_CLIENT = true;
-    private GuestApplicationsLifecycleListener guestApplicationTerminationListener;
+	private final boolean NEED_WAIT_FOR_CLIENT = false;
     private final boolean hideXServerImage;
     private WindowContentModificationListener putImageListener;
     private boolean receivedEvent;
