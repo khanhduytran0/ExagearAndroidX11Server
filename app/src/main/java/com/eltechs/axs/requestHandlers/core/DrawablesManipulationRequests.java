@@ -64,7 +64,8 @@ public class DrawablesManipulationRequests extends HandlerObjectBase {
 
     @RequestHandler(opcode = 97)
     @Locks({"DRAWABLES_MANAGER"})
-    public void QueryBestSize(XResponse xResponse, @OOBParam @RequestParam QuerySizeObject querySizeObject, @RequestParam Drawable drawable, @RequestParam final short s, @RequestParam final short s2) throws IOException {
+	@OOBParam(index = 1)
+    public void QueryBestSize(XResponse xResponse, @RequestParam QuerySizeObject querySizeObject, @RequestParam Drawable drawable, @RequestParam final short s, @RequestParam final short s2) throws IOException {
         xResponse.sendSimpleSuccessReply((byte) 0, (ResponseDataWriter) new ResponseDataWriter() {
             public void write(ByteBuffer byteBuffer) {
                 byteBuffer.putShort((short)s);

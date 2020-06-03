@@ -14,7 +14,8 @@ public class ForceScreenSaverRequest extends HandlerObjectBase {
     }
 
     @RequestHandler(opcode = 115)
-    public void ForceScreenSaver(@OOBParam @RequestParam Mode mode) {
+	@OOBParam(index = 0)
+    public void ForceScreenSaver(@RequestParam Mode mode) {
     }
 
     public ForceScreenSaverRequest(XServer xServer) {

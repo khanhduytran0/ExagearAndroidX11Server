@@ -52,6 +52,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.nio.ByteBuffer;
 import java.lang.annotation.*;
+import android.support.v4.graphics.*;
 
 public class XRequestParameterReaderFactories {
     public static final RequestContextParamReadersFactory CONTEXT_PARAM_READERS_FACTORY = new RequestContextParamReadersFactory() {
@@ -120,10 +121,10 @@ public class XRequestParameterReaderFactories {
                 return new MaskParameterReader(access, parameterDescriptor, configurationContext);
             }
             if (Enum.class.isAssignableFrom(rawType)) {
-                return new EnumParameterReader(XRequestParameterReaderFactories.selectRequestDataReaderForParameter(parameterDescriptor), parameterDescriptor);
+                return new EnumParameterReader(access, parameterDescriptor);
             }
             if (Event.class.isAssignableFrom(rawType)) {
-                return new EventParameterReader(XRequestParameterReaderFactories.selectRequestDataReaderForParameter(parameterDescriptor));
+                return new EventParameterReader(access);
             }
             if (rawType == ByteBuffer.class) {
                 return XRequestParameterReaderFactories.createByteBufferReader(parameterDescriptor, configurationContext);
@@ -138,7 +139,12 @@ public class XRequestParameterReaderFactories {
 
     /* access modifiers changed from: private */
     public static RequestDataReader selectRequestDataReaderForParameter(ParameterDescriptor parameterDescriptor) {
-        return parameterDescriptor.getAnnotation(OOBParam.class) == null ? NormalRequestDataReader.INSTANCE : OOBRequestDataReader.INSTANCE;
+		OOBParam oobParam = parameterDescriptor.getAnnotation(OOBParam.class);
+		if (oobParam == null && oobParam.index() != parameterDescriptor.getIndex()) {
+			return NormalRequestDataReader.INSTANCE;
+		} else {
+			return OOBRequestDataReader.INSTANCE;
+		}
     }
 
     /* access modifiers changed from: private */

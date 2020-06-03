@@ -26,7 +26,8 @@ public class ColormapManipulationRequests extends HandlerObjectBase {
 
     @RequestHandler(opcode = 78)
     @Locks({"COLORMAPS_MANAGER", "WINDOWS_MANAGER"})
-    public void CreateColormap(XClient xClient, @OOBParam @RequestParam Alloc alloc, @NewXId @RequestParam int i, @RequestParam Window window, @RequestParam int i2) throws XProtocolError {
+	@OOBParam(index = 1)
+    public void CreateColormap(XClient xClient, @RequestParam Alloc alloc, @NewXId @RequestParam int i, @RequestParam Window window, @RequestParam int i2) throws XProtocolError {
         Colormap createColormap = this.xServer.getColormapsManager().createColormap(i);
         if (createColormap == null) {
             throw new BadIdChoice(i);

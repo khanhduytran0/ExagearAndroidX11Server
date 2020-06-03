@@ -21,7 +21,8 @@ public class EventsRelatedRequests extends HandlerObjectBase {
 
     @RequestHandler(opcode = 25)
     @GiantLocked
-    public void SendEvent(XResponse xResponse, @OOBParam @RequestParam boolean z, @RequestParam int i, @RequestParam Mask<EventName> mask, @RequestParam Event event) throws XProtocolError {
+	@OOBParam(index = 1)
+    public void SendEvent(XResponse xResponse, @RequestParam boolean z, @RequestParam int i, @RequestParam Mask<EventName> mask, @RequestParam Event event) throws XProtocolError {
         boolean z2 = true;
         if (i == 0 || i == 1) {
             z2 = false;

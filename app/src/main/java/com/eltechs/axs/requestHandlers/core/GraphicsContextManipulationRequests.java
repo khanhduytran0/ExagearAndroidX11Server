@@ -42,7 +42,8 @@ public class GraphicsContextManipulationRequests extends HandlerObjectBase {
 
     @RequestHandler(opcode = 59)
     @Locks({"GRAPHICS_CONTEXTS_MANAGER"})
-    public void SetClipRectangles(@OOBParam @RequestParam ClipRectanglesOrdering clipRectanglesOrdering, @RequestParam GraphicsContext graphicsContext, @RequestParam short s, @RequestParam short s2, @RequestParam ByteBuffer byteBuffer) {
+	@OOBParam(index = 0)
+    public void SetClipRectangles(@RequestParam ClipRectanglesOrdering clipRectanglesOrdering, @RequestParam GraphicsContext graphicsContext, @RequestParam short s, @RequestParam short s2, @RequestParam ByteBuffer byteBuffer) {
     }
 
     @RequestHandler(opcode = 58)

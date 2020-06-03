@@ -8,101 +8,108 @@ import com.eltechs.axs.proto.input.annotations.impl.ParameterDescriptor;
 import com.eltechs.axs.proto.input.parameterReaders.ParameterReader;
 import com.eltechs.axs.xserver.LocksManager.Subsystem;
 import java.lang.reflect.Method;
+import com.eltechs.axs.xserver.client.*;
+import com.eltechs.axs.xconnectors.*;
 
 public class AnnotationDrivenRequestDispatcherConfigurer {
     private final RequestContextParamReadersFactory reqCtxParamReadersFactory;
     private final RequestParamReadersFactory reqParamReadersFactory;
     private final ConfigurableRequestsDispatcher target;
 
-    public AnnotationDrivenRequestDispatcherConfigurer(ConfigurableRequestsDispatcher configurableRequestsDispatcher, RequestContextParamReadersFactory requestContextParamReadersFactory, RequestParamReadersFactory requestParamReadersFactory) {
-        this.target = configurableRequestsDispatcher;
-        this.reqCtxParamReadersFactory = requestContextParamReadersFactory;
-        this.reqParamReadersFactory = requestParamReadersFactory;
+    public AnnotationDrivenRequestDispatcherConfigurer(ConfigurableRequestsDispatcher target, RequestContextParamReadersFactory reqCtxParamReadersFactory, RequestParamReadersFactory reqParamReadersFactory) {
+        this.target = target;
+        this.reqCtxParamReadersFactory = reqCtxParamReadersFactory;
+        this.reqParamReadersFactory = reqParamReadersFactory;
     }
 
-    public void configureDispatcher(final Object... objArr) {
-        // Method[] methods;
-        for (Object obj : objArr) {
-            for (Method method : obj.getClass().getMethods()) {
-                RequestHandler requestHandler = method.getAnnotation(RequestHandler.class);
-                if (requestHandler != null) {
-                    processOneHandler(requestHandler.opcode(), obj, method);
+    public void configureDispatcher(Object... handlers) {
+        for (Object h : handlers) {
+            for (Method method : h.getClass().getMethods()) {
+                RequestHandler rh = (RequestHandler) method.getAnnotation(RequestHandler.class);
+                if (rh != null) {
+                    processOneHandler(rh.opcode(), h, method);
                 }
             }
         }
     }
 
-    private void processOneHandler(final int i, final Object obj, final Method method) {
-        this.target.installRequestHandler(i, new AnnotationDrivenOpcodeHandler(obj, method, getNeededLocks(method), buildRequestParser(method)));
+    private void processOneHandler(int opcode, Object handlerObject, Method handlerMethod) {
+        this.target.installRequestHandler(opcode, new AnnotationDrivenOpcodeHandler(handlerObject, handlerMethod, getNeededLocks(handlerMethod), buildRequestParser(handlerMethod)));
     }
 
-    private AnnotationDrivenRequestParser buildRequestParser(Method method) {
-        ParameterDescriptor[] methodParameters = ParameterDescriptor.getMethodParameters(method);
-        int length = methodParameters.length;
-        ParameterReader[] parameterReaderArr = new ParameterReader[length];
-        for (int i = 0; i < length; i++) {
-            parameterReaderArr[i] = configureParameterReader(method, methodParameters, i);
+    private AnnotationDrivenRequestParser buildRequestParser(Method handler) {
+        ParameterDescriptor[] parameterDescriptors = ParameterDescriptor.getMethodParameters(handler);
+        int parametersCount = parameterDescriptors.length;
+        ParameterReader[] parameterReaders = new ParameterReader[parametersCount];
+        for (int i = 0; i < parametersCount; i++) {
+            parameterReaders[i] = configureParameterReader(handler, parameterDescriptors, i);
         }
-        return new AnnotationDrivenRequestParser(parameterReaderArr);
+        return new AnnotationDrivenRequestParser(parameterReaders);
     }
 
-    private ParameterReader configureParameterReader(final Method method, final ParameterDescriptor[] parameterDescriptorArr, int i) {
-        ParameterReader parameterReader;
-        ParameterDescriptor parameterDescriptor = parameterDescriptorArr[i];
-        ConfigurationContext configurationContext = new ConfigurationContext() {
+    private ParameterReader configureParameterReader(final Method handlerMethod, final ParameterDescriptor[] parameterDescriptors, int idx) {
+        ParameterDescriptor pd = parameterDescriptors[idx];
+        ConfigurationContext confCtx = new ConfigurationContext() {
             public String getHandlerMethodName() {
-                return String.format("%s::%s()", method.getDeclaringClass().getSimpleName(), method.getName());
+                return String.format("%s::%s()", new Object[]{handlerMethod.getDeclaringClass().getSimpleName(), handlerMethod.getName()});
             }
 
             public int getParametersCount() {
-                return parameterDescriptorArr.length;
+                return parameterDescriptors.length;
             }
 
-            public ParameterDescriptor getParameter(int i) {
-                return parameterDescriptorArr[i];
+            public ParameterDescriptor getParameter(int idx) {
+                return parameterDescriptors[idx];
             }
 
-            public ParameterDescriptor findNamedParameter(String str) {
-                return AnnotationDrivenRequestDispatcherConfigurer.this.findNamedParameter(parameterDescriptorArr, str);
+            public ParameterDescriptor findNamedParameter(String name) {
+                return AnnotationDrivenRequestDispatcherConfigurer.this.findNamedParameter(parameterDescriptors, name);
             }
         };
-
-        if (parameterDescriptor.getAnnotation(RequestParam.class) == null) {
-            parameterReader = this.reqCtxParamReadersFactory.createReader(parameterDescriptor, configurationContext);
-        } else {
-            parameterReader = this.reqParamReadersFactory.createReader(parameterDescriptor, configurationContext);
-        }
-
-		Assert.notNull(method, String.format("Resolved no parameter reader for the context parameter %d of the request handler method %s.", Integer.valueOf(parameterDescriptor.getIndex()), configurationContext.getHandlerMethodName()));
 		
-		return parameterReader;
+		/*
+        ParameterReader reader = ((RequestParam) pd.getAnnotation(RequestParam.class)) == null ?
+			this.reqCtxParamReadersFactory.createReader(pd, confCtx) :
+			this.reqParamReadersFactory.createReader(pd, confCtx);
+        z = reader != null;
+        Assert.state(z, String.format("Resolved no parameter reader for the context parameter %d of the request handler method %s.", new Object[]{Integer.valueOf(pd.getIndex()), confCtx.getHandlerMethodName()}));
+		*/
+		
+		ParameterReader reader = this.reqCtxParamReadersFactory.createReader(pd, confCtx);
+		if (reader == null) {
+			reader = this.reqParamReadersFactory.createReader(pd, confCtx);
+		}
+		
+		Assert.state(reader != null, String.format("Resolved no parameter reader for the context parameter %d of the request handler method %s.", new Object[]{Integer.valueOf(pd.getIndex()), confCtx.getHandlerMethodName()}));
+		
+        return reader;
     }
 
-    /* access modifiers changed from: private */
-    private ParameterDescriptor findNamedParameter(ParameterDescriptor[] parameterDescriptorArr, String str) {
-        for (ParameterDescriptor parameterDescriptor : parameterDescriptorArr) {
-            ParamName paramName = parameterDescriptor.getAnnotation(ParamName.class);
-            if (paramName != null && str.equals(paramName.value())) {
-                return parameterDescriptor;
+    private ParameterDescriptor findNamedParameter(ParameterDescriptor[] parameterDescriptors, String name) {
+        for (ParameterDescriptor pd : parameterDescriptors) {
+            ParamName pn = (ParamName) pd.getAnnotation(ParamName.class);
+            if (pn != null && name.equals(pn.value())) {
+                return pd;
             }
         }
         return null;
     }
 
-    private Subsystem[] getNeededLocks(Method method) {
-        if (method.getAnnotation(GiantLocked.class) != null) {
+    private Subsystem[] getNeededLocks(Method handlerMethod) {
+        if (handlerMethod.getAnnotation(GiantLocked.class) != null) {
             return Subsystem.values();
         }
-        Locks locks = method.getAnnotation(Locks.class);
-        if (locks == null) {
+        Locks description = (Locks) handlerMethod.getAnnotation(Locks.class);
+        if (description == null) {
             return new Subsystem[0];
         }
-        String[] value = locks.value();
-        int length = value.length;
-        Subsystem[] subsystemArr = new Subsystem[length];
-        for (int i = 0; i < length; i++) {
-            subsystemArr[i] = Subsystem.valueOf(value[i]);
+        String[] lockNames = description.value();
+        int nLocks = lockNames.length;
+        Subsystem[] locks = new Subsystem[nLocks];
+        for (int i = 0; i < nLocks; i++) {
+            locks[i] = Subsystem.valueOf(lockNames[i]);
         }
-        return subsystemArr;
+        return locks;
     }
 }
+

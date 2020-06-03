@@ -21,7 +21,8 @@ public class SystemRequests extends HandlerObjectBase {
     }
 
     @RequestHandler(opcode = 104)
-    public void Bell(@OOBParam @RequestParam byte b) {
+	@OOBParam(index = 0)
+    public void Bell(@RequestParam byte b) {
     }
 
     @RequestHandler(opcode = 127)

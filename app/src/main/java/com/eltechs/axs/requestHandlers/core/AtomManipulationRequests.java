@@ -26,7 +26,8 @@ public class AtomManipulationRequests extends HandlerObjectBase {
 
     @RequestHandler(opcode = 16)
     @Locks({"ATOMS_MANAGER"})
-    public void InternAtom(XResponse xResponse, @OOBParam @RequestParam boolean z, @RequestParam @ParamName("nameLength") short s, @RequestParam short s2, @RequestParam @ParamLength("nameLength") String str) throws IOException {
+	@OOBParam(index = 1)
+    public void InternAtom(XResponse xResponse, @RequestParam boolean z, @RequestParam @ParamName("nameLength") short s, @RequestParam short s2, @RequestParam @ParamLength("nameLength") String str) throws IOException {
         final int i;
         AtomsManager atomsManager = this.xServer.getAtomsManager();
         if (z) {

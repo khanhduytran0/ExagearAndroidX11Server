@@ -144,7 +144,8 @@ public class WindowManipulationRequests extends HandlerObjectBase {
 
     @RequestHandler(opcode = 20)
     @Locks({"WINDOWS_MANAGER", "ATOMS_MANAGER"})
-    public void GetProperty(XResponse xResponse, @OOBParam @RequestParam boolean z, @RequestParam Window window, @RequestParam Atom atom, @RequestParam @SpecialNullValue(0) Atom atom2, @RequestParam int i, @RequestParam int i2) throws IOException, XProtocolError {
+	@OOBParam(index = 1)
+    public void GetProperty(XResponse xResponse, @RequestParam boolean z, @RequestParam Window window, @RequestParam Atom atom, @RequestParam @SpecialNullValue(0) Atom atom2, @RequestParam int i, @RequestParam int i2) throws IOException, XProtocolError {
         XResponse xResponse2 = xResponse;
         Atom atom3 = atom;
         Atom atom4 = atom2;
@@ -194,7 +195,8 @@ public class WindowManipulationRequests extends HandlerObjectBase {
 
     @RequestHandler(opcode = 18)
     @Locks({"WINDOWS_MANAGER", "ATOMS_MANAGER"})
-    public void ChangeProperty(@OOBParam @RequestParam PropertyModification propertyModification, @RequestParam Window window, @RequestParam Atom atom, @RequestParam Atom atom2, @RequestParam byte b, @RequestParam byte b2, @RequestParam byte b3, @RequestParam byte b4, @RequestParam int i, @RequestParam ByteBuffer byteBuffer) throws XProtocolError {
+	@OOBParam(index = 0)
+    public void ChangeProperty(@RequestParam PropertyModification propertyModification, @RequestParam Window window, @RequestParam Atom atom, @RequestParam Atom atom2, @RequestParam byte b, @RequestParam byte b2, @RequestParam byte b3, @RequestParam byte b4, @RequestParam int i, @RequestParam ByteBuffer byteBuffer) throws XProtocolError {
         Format format;
         Object obj;
         byte b5 = b;
@@ -247,7 +249,8 @@ public class WindowManipulationRequests extends HandlerObjectBase {
 
     @RequestHandler(opcode = 1)
     @Locks({"WINDOWS_MANAGER", "DRAWABLES_MANAGER", "INPUT_DEVICES", "COLORMAPS_MANAGER", "CURSORS_MANAGER", "FOCUS_MANAGER"})
-    public void CreateWindow(XClient xClient, @OOBParam @RequestParam byte b, @NewXId @RequestParam int i, @RequestParam Window window, @RequestParam @Width(2) IntegerSigned i2, @RequestParam @Width(2) IntegerSigned i3, @RequestParam @Width(2) IntegerUnsigned i4, @RequestParam @Width(2) IntegerUnsigned i5, @RequestParam @Width(2) IntegerUnsigned i6, @RequestParam @Width(2) WindowClass windowClass, @RequestParam @SpecialNullValue(0) Visual visual, @RequestParam @ParamName("mask") Mask<WindowAttributeNames> mask, @RequestParam @Optional(bit = "BACKGROUND_PIXMAP") Integer num, @RequestParam @Optional(bit = "BACKGROUND_PIXEL") Integer num2, @RequestParam @Optional(bit = "BORDER_PIXMAP") Integer num3, @RequestParam @Optional(bit = "BORDER_PIXEL") Integer num4, @RequestParam @Width(4) @Optional(bit = "BIT_GRAVITY") BitGravity bitGravity, @RequestParam @Width(4) @Optional(bit = "WIN_GRAVITY") WinGravity winGravity, @RequestParam @Width(4) @Optional(bit = "BACKING_STORE") BackingStore backingStore, @RequestParam @Optional(bit = "BACKING_PLANES") Integer num5, @RequestParam @Optional(bit = "BACKING_PIXEL") Integer num6, @RequestParam @Width(4) @Optional(bit = "OVERRIDE_REDIRECT") Boolean bool, @RequestParam @Width(4) @Optional(bit = "SAVE_UNDER") Boolean bool2, @RequestParam @Optional(bit = "EVENT_MASK") Mask<EventName> mask2, @RequestParam @Optional(bit = "DO_NOT_PROPAGATE_MASK") Mask<EventName> mask3, @RequestParam @Optional(bit = "COLORMAP") Integer num7, @RequestParam @SpecialNullValue(0) @Optional(bit = "CURSOR") Cursor cursor) throws XProtocolError {
+	@OOBParam(index = 1)
+    public void CreateWindow(XClient xClient, @RequestParam byte b, @NewXId @RequestParam int i, @RequestParam Window window, @RequestParam @Width(2) IntegerSigned i2, @RequestParam @Width(2) IntegerSigned i3, @RequestParam @Width(2) IntegerUnsigned i4, @RequestParam @Width(2) IntegerUnsigned i5, @RequestParam @Width(2) IntegerUnsigned i6, @RequestParam @Width(2) WindowClass windowClass, @RequestParam @SpecialNullValue(0) Visual visual, @RequestParam @ParamName("mask") Mask<WindowAttributeNames> mask, @RequestParam @Optional(bit = "BACKGROUND_PIXMAP") Integer num, @RequestParam @Optional(bit = "BACKGROUND_PIXEL") Integer num2, @RequestParam @Optional(bit = "BORDER_PIXMAP") Integer num3, @RequestParam @Optional(bit = "BORDER_PIXEL") Integer num4, @RequestParam @Width(4) @Optional(bit = "BIT_GRAVITY") BitGravity bitGravity, @RequestParam @Width(4) @Optional(bit = "WIN_GRAVITY") WinGravity winGravity, @RequestParam @Width(4) @Optional(bit = "BACKING_STORE") BackingStore backingStore, @RequestParam @Optional(bit = "BACKING_PLANES") Integer num5, @RequestParam @Optional(bit = "BACKING_PIXEL") Integer num6, @RequestParam @Width(4) @Optional(bit = "OVERRIDE_REDIRECT") Boolean bool, @RequestParam @Width(4) @Optional(bit = "SAVE_UNDER") Boolean bool2, @RequestParam @Optional(bit = "EVENT_MASK") Mask<EventName> mask2, @RequestParam @Optional(bit = "DO_NOT_PROPAGATE_MASK") Mask<EventName> mask3, @RequestParam @Optional(bit = "COLORMAP") Integer num7, @RequestParam @SpecialNullValue(0) @Optional(bit = "CURSOR") Cursor cursor) throws XProtocolError {
         boolean z;
         byte b2;
         WindowManipulationRequests windowManipulationRequests;
@@ -346,8 +349,8 @@ public class WindowManipulationRequests extends HandlerObjectBase {
                 } else {
                     byteBuffer.putInt(0);
                 }
-                byteBuffer.putShort((short)(short) convertRootCoordsToWindow.x);
-                byteBuffer.putShort((short)(short) convertRootCoordsToWindow.y);
+                byteBuffer.putShort((short) convertRootCoordsToWindow.x);
+                byteBuffer.putShort((short) convertRootCoordsToWindow.y);
             }
         });
     }

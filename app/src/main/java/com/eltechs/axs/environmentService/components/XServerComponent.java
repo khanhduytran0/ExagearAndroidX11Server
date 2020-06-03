@@ -75,7 +75,12 @@ public class XServerComponent extends EnvironmentComponent {
     }
 	
     private void startXConnector(XServer xServer) throws IOException {
-        this.connector = new NioConnector(new InetSocketAddress(InetAddress.getLocalHost(), this.displayNumber + 6000), new XClientConnectionHandler(xServer), RootXRequestHandlerConfigurer.createRequestHandler(xServer));
+		int xDisplayPort = this.displayNumber + 6000;
+		
+		// TODO remove after debug
+		xDisplayPort = 0;
+		
+        this.connector = new NioConnector<XClient>(new InetSocketAddress(InetAddress.getLocalHost(), xDisplayPort), new XClientConnectionHandler(xServer), RootXRequestHandlerConfigurer.createRequestHandler(xServer));
         this.connector.setInitialInputBufferCapacity(262144);
         this.connector.start();
     }

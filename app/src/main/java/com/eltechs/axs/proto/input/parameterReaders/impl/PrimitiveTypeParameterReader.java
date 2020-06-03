@@ -24,18 +24,6 @@ public abstract class PrimitiveTypeParameterReader extends ParameterReaderBase {
         } else {
             this.width = width2.value();
         }
-        /*
-        Signed signed = (Signed) parameterDescriptor.getAnnotation(Signed.class);
-        Unsigned unsigned = (Unsigned) parameterDescriptor.getAnnotation(Unsigned.class);
-        boolean z2 = false;
-        boolean z3 = width2 != null && i > width2.value();
-        Assert.isTrue(z || !z3 || (signed == null && unsigned != null) || (signed != null && unsigned == null), "Primitive type with extension must be specified with extension type and extension type must be specified only once.");
-        this.isZXT = z || (z3 && unsigned != null);
-        Assert.isTrue(this.naturalWidth == 1 || this.naturalWidth == 2 || this.naturalWidth == 4, "Primitive types can only be 1, 2 or 4 bytes wide.");
-        if (this.width == 1 || this.width == 2 || this.width == 4) {
-            z2 = true;
-        }
-		*/
 		
 		boolean signed = parameterDescriptor.getType() instanceof IntegerSigned;
 		boolean unsigned = parameterDescriptor.getType() instanceof IntegerUnsigned;

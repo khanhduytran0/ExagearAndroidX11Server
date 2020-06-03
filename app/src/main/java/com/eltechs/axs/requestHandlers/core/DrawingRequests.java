@@ -47,7 +47,8 @@ public class DrawingRequests extends HandlerObjectBase {
 
     @RequestHandler(opcode = 72)
     @Locks({"DRAWABLES_MANAGER", "WINDOWS_MANAGER", "PIXMAPS_MANAGER", "GRAPHICS_CONTEXTS_MANAGER"})
-    public void PutImage(@OOBParam @RequestParam IncomingImageFormat incomingImageFormat, @RequestParam Drawable drawable, @RequestParam GraphicsContext graphicsContext, @RequestParam @Width(2) IntegerUnsigned i, @RequestParam @Width(2) IntegerUnsigned i2, @RequestParam @Width(2) IntegerSigned i3, @RequestParam @Width(2) IntegerSigned i4, @RequestParam byte b, @RequestParam byte b2, @RequestParam short s, @RequestParam ByteBuffer byteBuffer) throws XProtocolError {
+	@OOBParam(index = 0)
+    public void PutImage(@RequestParam IncomingImageFormat incomingImageFormat, @RequestParam Drawable drawable, @RequestParam GraphicsContext graphicsContext, @RequestParam @Width(2) IntegerUnsigned i, @RequestParam @Width(2) IntegerUnsigned i2, @RequestParam @Width(2) IntegerSigned i3, @RequestParam @Width(2) IntegerSigned i4, @RequestParam byte b, @RequestParam byte b2, @RequestParam short s, @RequestParam ByteBuffer byteBuffer) throws XProtocolError {
         IncomingImageFormat incomingImageFormat2 = incomingImageFormat;
         byte b3 = b2;
         Painter painter = drawable.getPainter();
@@ -83,7 +84,8 @@ public class DrawingRequests extends HandlerObjectBase {
 
     @RequestHandler(opcode = 73)
     @Locks({"DRAWABLES_MANAGER", "PIXMAPS_MANAGER"})
-    public void GetImage(XResponse xResponse, @OOBParam @RequestParam IncomingImageFormat incomingImageFormat, @RequestParam Drawable drawable, @RequestParam @Width(2) IntegerSigned i, @RequestParam @Width(2) IntegerSigned i2, @RequestParam @Width(2) IntegerUnsigned i3, @RequestParam @Width(2) IntegerUnsigned i4, @RequestParam int i5) throws XProtocolError, IOException {
+	@OOBParam(index = 1)
+    public void GetImage(XResponse xResponse, @RequestParam IncomingImageFormat incomingImageFormat, @RequestParam Drawable drawable, @RequestParam @Width(2) IntegerSigned i, @RequestParam @Width(2) IntegerSigned i2, @RequestParam @Width(2) IntegerUnsigned i3, @RequestParam @Width(2) IntegerUnsigned i4, @RequestParam int i5) throws XProtocolError, IOException {
         final int i6;
         if (incomingImageFormat == IncomingImageFormat.BITMAP) {
             throw new BadValue(incomingImageFormat.ordinal());
@@ -129,7 +131,8 @@ public class DrawingRequests extends HandlerObjectBase {
 
     @RequestHandler(opcode = 61)
     @Locks({"WINDOWS_MANAGER"})
-    public void ClearArea(@OOBParam @RequestParam Boolean bool, @RequestParam Window window, @RequestParam @Width(2) IntegerSigned i, @RequestParam @Width(2) IntegerSigned i2, @RequestParam @Width(2) IntegerUnsigned i3, @RequestParam @Width(2) IntegerUnsigned i4) {
+	@OOBParam(index = 0)
+    public void ClearArea(@RequestParam Boolean bool, @RequestParam Window window, @RequestParam @Width(2) IntegerSigned i, @RequestParam @Width(2) IntegerSigned i2, @RequestParam @Width(2) IntegerUnsigned i3, @RequestParam @Width(2) IntegerUnsigned i4) {
         if (i3.value != 0 || i4.value != 0) {
             Assert.notImplementedYet("ClearArea is not implemented");
         }
@@ -145,7 +148,8 @@ public class DrawingRequests extends HandlerObjectBase {
 
     @RequestHandler(opcode = 65)
     @Locks({"DRAWABLES_MANAGER", "GRAPHICS_CONTEXTS_MANAGER"})
-    public void PolyLine(@OOBParam @RequestParam CoordinateMode coordinateMode, @RequestParam Drawable drawable, @RequestParam GraphicsContext graphicsContext, @RequestParam ByteBuffer byteBuffer) {
+	@OOBParam(index = 0)
+    public void PolyLine(@RequestParam CoordinateMode coordinateMode, @RequestParam Drawable drawable, @RequestParam GraphicsContext graphicsContext, @RequestParam ByteBuffer byteBuffer) {
         if (coordinateMode == CoordinateMode.ORIGIN && graphicsContext.getLineWidth() == 1 && graphicsContext.getFunction() == PixelCompositionRule.COPY) {
             drawable.getPainter().drawLines(byteBuffer, graphicsContext.getForeground(), graphicsContext.getLineWidth());
         }

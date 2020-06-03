@@ -40,7 +40,8 @@ public class FocusManipulationRequests extends HandlerObjectBase {
 
     @RequestHandler(opcode = 42)
     @Locks({"WINDOWS_MANAGER", "FOCUS_MANAGER"})
-    public void SetInputFocus(@OOBParam @RequestParam FocusReversionPolicy focusReversionPolicy, @RequestParam int i, @RequestParam int i2) throws BadValue, BadWindow {
+	@OOBParam(index = 0)
+    public void SetInputFocus(@RequestParam FocusReversionPolicy focusReversionPolicy, @RequestParam int i, @RequestParam int i2) throws BadValue, BadWindow {
         Window window;
         this.xServer.getFocusManager();
         switch (i) {
