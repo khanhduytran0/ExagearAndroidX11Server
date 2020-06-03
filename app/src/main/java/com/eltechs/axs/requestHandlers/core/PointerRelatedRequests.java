@@ -46,7 +46,8 @@ public class PointerRelatedRequests extends HandlerObjectBase {
 
     @RequestHandler(opcode = 41)
     @Locks({"INPUT_DEVICES", "WINDOWS_MANAGER", "FOCUS_MANAGER"})
-    public void WarpPointer(@RequestParam @SpecialNullValue(0) Window window, @RequestParam @SpecialNullValue(0) Window window2, @RequestParam short s, @RequestParam short s2, @RequestParam short s3, @RequestParam short s4, @RequestParam short s5, @RequestParam short s6) {
+	@SpecialNullValue(indexes = {0, 1})
+    public void WarpPointer(@RequestParam Window window, @RequestParam Window window2, @RequestParam short s, @RequestParam short s2, @RequestParam short s3, @RequestParam short s4, @RequestParam short s5, @RequestParam short s6) {
         int i;
         int i2;
         int i3;

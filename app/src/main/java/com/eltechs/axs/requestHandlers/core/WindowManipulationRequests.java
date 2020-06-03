@@ -149,7 +149,8 @@ public class WindowManipulationRequests extends HandlerObjectBase {
     @RequestHandler(opcode = 20)
     @Locks({"WINDOWS_MANAGER", "ATOMS_MANAGER"})
 	@OOBParam(index = 1)
-    public void GetProperty(XResponse xResponse, @RequestParam boolean z, @RequestParam Window window, @RequestParam Atom atom, @RequestParam @SpecialNullValue(0) Atom atom2, @RequestParam int i, @RequestParam int i2) throws IOException, XProtocolError {
+	@SpecialNullValue(indexes = {4})
+    public void GetProperty(XResponse xResponse, @RequestParam boolean z, @RequestParam Window window, @RequestParam Atom atom, @RequestParam Atom atom2, @RequestParam int i, @RequestParam int i2) throws IOException, XProtocolError {
         XResponse xResponse2 = xResponse;
         Atom atom3 = atom;
         Atom atom4 = atom2;
@@ -255,6 +256,7 @@ public class WindowManipulationRequests extends HandlerObjectBase {
     @Locks({"WINDOWS_MANAGER", "DRAWABLES_MANAGER", "INPUT_DEVICES", "COLORMAPS_MANAGER", "CURSORS_MANAGER", "FOCUS_MANAGER"})
 	@OOBParam(index = 1)
 	@NewXId(index = 2)
+	@SpecialNullValue(indexes = {10, 14})
     @Optional(
 		indexes = {12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26},
 		bits = {
@@ -264,7 +266,7 @@ public class WindowManipulationRequests extends HandlerObjectBase {
 			"DO_NOT_PROPAGATE_MASK", "COLORMAP", "CURSOR"
 		}
 	)
-    public void CreateWindow(XClient xClient, @RequestParam byte b, @RequestParam int i, @RequestParam Window window, @RequestParam @Width(2) IntegerSigned i2, @RequestParam @Width(2) IntegerSigned i3, @RequestParam @Width(2) IntegerUnsigned i4, @RequestParam @Width(2) IntegerUnsigned i5, @RequestParam @Width(2) IntegerUnsigned i6, @RequestParam @Width(2) WindowClass windowClass, @RequestParam @SpecialNullValue(0) Visual visual, @RequestParam @ParamName("mask") Mask<WindowAttributeNames> mask,
+    public void CreateWindow(XClient xClient, @RequestParam byte b, @RequestParam int i, @RequestParam Window window, @RequestParam @Width(2) IntegerSigned i2, @RequestParam @Width(2) IntegerSigned i3, @RequestParam @Width(2) IntegerUnsigned i4, @RequestParam @Width(2) IntegerUnsigned i5, @RequestParam @Width(2) IntegerUnsigned i6, @RequestParam @Width(2) WindowClass windowClass, @RequestParam Visual visual, @RequestParam @ParamName("mask") Mask<WindowAttributeNames> mask,
 		@RequestParam Integer num,
 		@RequestParam Integer num2,
 		@RequestParam Integer num3,
@@ -279,7 +281,7 @@ public class WindowManipulationRequests extends HandlerObjectBase {
 		@RequestParam Mask<EventName> mask2,
 		@RequestParam Mask<EventName> mask3,
 		@RequestParam Integer num7,
-		@RequestParam @SpecialNullValue(0) Cursor cursor
+		@RequestParam Cursor cursor
 	) throws XProtocolError {
         
 			
@@ -341,6 +343,7 @@ public class WindowManipulationRequests extends HandlerObjectBase {
 
     @RequestHandler(opcode = 2)
     @Locks({"WINDOWS_MANAGER", "COLORMAPS_MANAGER", "CURSORS_MANAGER"})
+	@SpecialNullValue(indexes = {17})
     @Optional(
 		indexes = {3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17},
 		bits = {
@@ -368,7 +371,7 @@ public class WindowManipulationRequests extends HandlerObjectBase {
 		@RequestParam Mask<EventName> mask2,
 		@RequestParam Mask<EventName> mask3,
 		@RequestParam Integer num7, 
-		@RequestParam @SpecialNullValue(0) Cursor cursor
+		@RequestParam Cursor cursor
 	) throws XProtocolError {
         if (mask2 != null) {
             if ((!mask2.isSet(EventName.SUBSTRUCTURE_REDIRECT) || !willBeInConflict(xClient, window, EventName.SUBSTRUCTURE_REDIRECT)) && ((!mask2.isSet(EventName.RESIZE_REDIRECT) || !willBeInConflict(xClient, window, EventName.RESIZE_REDIRECT)) && (!mask2.isSet(EventName.BUTTON_PRESS) || !willBeInConflict(xClient, window, EventName.BUTTON_PRESS)))) {

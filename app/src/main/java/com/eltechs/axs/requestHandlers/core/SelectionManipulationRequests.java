@@ -22,7 +22,8 @@ public class SelectionManipulationRequests extends HandlerObjectBase {
 
     @RequestHandler(opcode = 22)
     @Locks({"WINDOWS_MANAGER", "ATOMS_MANAGER", "SELECTIONS_MANAGER"})
-    public void SetSelectionOwner(XClient xClient, XResponse xResponse, @RequestParam @SpecialNullValue(0) Window window, @RequestParam Atom atom, @RequestParam int i) throws XProtocolError, IOException {
+	@SpecialNullValue(indexes = {2})
+    public void SetSelectionOwner(XClient xClient, XResponse xResponse, @RequestParam Window window, @RequestParam Atom atom, @RequestParam int i) throws XProtocolError, IOException {
         this.xServer.getSelectionsManager().setSelectionOwner(atom, window, xClient, i);
     }
 
@@ -39,7 +40,8 @@ public class SelectionManipulationRequests extends HandlerObjectBase {
 
     @RequestHandler(opcode = 24)
     @Locks({"WINDOWS_MANAGER", "ATOMS_MANAGER", "SELECTIONS_MANAGER"})
-    public void ConvertSelection(XClient xClient, XResponse xResponse, @RequestParam Window window, @RequestParam Atom atom, @RequestParam Atom atom2, @RequestParam @SpecialNullValue(0) Atom atom3, @RequestParam int i) throws XProtocolError, IOException {
+	@SpecialNullValue(indexes = {5})
+    public void ConvertSelection(XClient xClient, XResponse xResponse, @RequestParam Window window, @RequestParam Atom atom, @RequestParam Atom atom2, @RequestParam Atom atom3, @RequestParam int i) throws XProtocolError, IOException {
         this.xServer.getSelectionsManager().convertSelection(window, xClient, atom, atom2, atom3, i);
     }
 }

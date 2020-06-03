@@ -16,11 +16,15 @@ public abstract class ReferenceToObjectParameterReader extends ParameterReaderBa
 
     public ReferenceToObjectParameterReader(RequestDataReader requestDataReader, ParameterDescriptor parameterDescriptor) {
         super(requestDataReader);
-        SpecialNullValue specialNullValue2 = (SpecialNullValue) parameterDescriptor.getAnnotation(SpecialNullValue.class);
+        SpecialNullValue specialNullValue2 = (SpecialNullValue) parameterDescriptor.getOwnerMethod().getAnnotation(SpecialNullValue.class);
         if (specialNullValue2 != null) {
-            this.nullable = true;
-            this.specialNullValue = specialNullValue2.value();
-            return;
+			for (int nullIndex : specialNullValue2.indexes()) {
+				if (nullIndex == parameterDescriptor.getIndex()) {
+					this.nullable = true;
+					this.specialNullValue = 0; // specialNullValue2.value();
+					return;
+				}
+			}
         }
         this.nullable = false;
         this.specialNullValue = -1;

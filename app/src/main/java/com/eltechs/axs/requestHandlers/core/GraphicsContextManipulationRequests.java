@@ -58,6 +58,7 @@ public class GraphicsContextManipulationRequests extends HandlerObjectBase {
     @RequestHandler(opcode = 55)
     @Locks({"GRAPHICS_CONTEXTS_MANAGER", "DRAWABLES_MANAGER", "PIXMAPS_MANAGER"})
 	@NewXId(index = 2)
+	@SpecialNullValue(indexes = {20})
     @Optional(
 		indexes = {5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27},
 		bits = {
@@ -91,7 +92,7 @@ public class GraphicsContextManipulationRequests extends HandlerObjectBase {
 		@RequestParam @Width(4) Boolean bool, 
 		@RequestParam Integer num9,
 		@RequestParam Integer num10, 
-		@RequestParam @SpecialNullValue(0) Pixmap pixmap3, 
+		@RequestParam Pixmap pixmap3, 
 		@RequestParam Integer num11, 
 		@RequestParam Integer num12,
 		@RequestParam @Width(4) ArcMode arcMode
@@ -108,7 +109,7 @@ public class GraphicsContextManipulationRequests extends HandlerObjectBase {
 
     @RequestHandler(opcode = 56)
     @Locks({"GRAPHICS_CONTEXTS_MANAGER", "PIXMAPS_MANAGER"})
-
+	@SpecialNullValue(indexes = {20})
     @Optional(
 		indexes = {2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24},
 		bits = {
@@ -142,7 +143,7 @@ public class GraphicsContextManipulationRequests extends HandlerObjectBase {
 		@RequestParam @Width(4) Boolean bool,
 		@RequestParam Integer num9,
 		@RequestParam Integer num10, 
-		@RequestParam @SpecialNullValue(0) Pixmap pixmap3,
+		@RequestParam Pixmap pixmap3,
 		@RequestParam Integer num11, 
 		@RequestParam Integer num12,
 		@RequestParam @Width(4) ArcMode arcMode

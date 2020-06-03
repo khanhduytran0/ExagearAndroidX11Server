@@ -26,7 +26,8 @@ public class CursorManipulationRequests extends HandlerObjectBase {
     @RequestHandler(opcode = 93)
     @Locks({"CURSORS_MANAGER", "PIXMAPS_MANAGER", "DRAWABLES_MANAGER"})
 	@NewXId(index = 1)
-    public void CreateCursor(XClient xClient, @RequestParam int i, @RequestParam Pixmap pixmap, @RequestParam @SpecialNullValue(0) Pixmap pixmap2, @RequestParam @Width(2) IntegerUnsigned i2, @RequestParam @Width(2) IntegerUnsigned i3, @RequestParam @Width(2) IntegerUnsigned i4, @RequestParam @Width(2) IntegerUnsigned i5, @RequestParam @Width(2) IntegerUnsigned i6, @RequestParam @Width(2) IntegerUnsigned i7, @RequestParam @Width(2) IntegerUnsigned i8, @RequestParam @Width(2) IntegerUnsigned i9) throws XProtocolError {
+	@SpecialNullValue(indexes = {3})
+    public void CreateCursor(XClient xClient, @RequestParam int i, @RequestParam Pixmap pixmap, @RequestParam Pixmap pixmap2, @RequestParam @Width(2) IntegerUnsigned i2, @RequestParam @Width(2) IntegerUnsigned i3, @RequestParam @Width(2) IntegerUnsigned i4, @RequestParam @Width(2) IntegerUnsigned i5, @RequestParam @Width(2) IntegerUnsigned i6, @RequestParam @Width(2) IntegerUnsigned i7, @RequestParam @Width(2) IntegerUnsigned i8, @RequestParam @Width(2) IntegerUnsigned i9) throws XProtocolError {
         Drawable backingStore = pixmap.getBackingStore();
         if (pixmap2 != null) {
             Drawable backingStore2 = pixmap2.getBackingStore();

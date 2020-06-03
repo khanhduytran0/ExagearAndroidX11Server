@@ -34,7 +34,8 @@ public class XTestRequests extends HandlerObjectBase {
 
     @RequestHandler(opcode = 2)
     @Locks({"INPUT_DEVICES", "WINDOWS_MANAGER", "FOCUS_MANAGER"})
-    public void FakeInput(@RequestParam byte b, @RequestParam byte b2, @RequestParam short s, @RequestParam int i, @RequestParam @SpecialNullValue(0) Window window, @RequestParam int i2, @RequestParam int i3, @RequestParam @Width(2) IntegerSigned i4, @RequestParam @Width(2) IntegerSigned i5, @RequestParam int i6, @RequestParam int i7) throws XProtocolError {
+	@SpecialNullValue(indexes = {4})
+    public void FakeInput(@RequestParam byte b, @RequestParam byte b2, @RequestParam short s, @RequestParam int i, @RequestParam Window window, @RequestParam int i2, @RequestParam int i3, @RequestParam @Width(2) IntegerSigned i4, @RequestParam @Width(2) IntegerSigned i5, @RequestParam int i6, @RequestParam int i7) throws XProtocolError {
         if (b < 2 || b > 6) {
             throw new BadValue(b);
         }

@@ -13,6 +13,7 @@ A X11 Server for Android take from Exagear AXS library in Exagear Windows Emulat
 - [x] `Optional` (Change from Param Annotation to Method Annotation)
 - [ ] `ParamName`
 - [x] `RequestParam` (Unused it by check if it's `XClient` or `XResponse`: both are not have `RequestParam`.
+- [x] `SpecialNullValue` (Change from Param Annotation to Method Annotation)
 
 ## Building
 - Clone to Android Studio or other similar IDEs.

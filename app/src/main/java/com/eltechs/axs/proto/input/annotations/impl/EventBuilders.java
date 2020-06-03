@@ -18,7 +18,8 @@ public abstract class EventBuilders {
     }
 
     @EventId(id = 31)
-    public static SelectionNotify parseSelectionNotify(byte paramByte, short paramShort, int paramInt, Window paramWindow, Atom paramAtom1, Atom paramAtom2, @SpecialNullValue(0) Atom paramAtom3, ByteBuffer paramByteBuffer) {
+	@SpecialNullValue(indexes = {6})
+    public static SelectionNotify parseSelectionNotify(byte paramByte, short paramShort, int paramInt, Window paramWindow, Atom paramAtom1, Atom paramAtom2, Atom paramAtom3, ByteBuffer paramByteBuffer) {
         return new SelectionNotify(paramInt, paramWindow, paramAtom1, paramAtom2, paramAtom3);
     }
 
