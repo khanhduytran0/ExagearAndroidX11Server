@@ -163,19 +163,40 @@ public class XRequestParameterReaderFactories {
         return new RemainingRequestDataAsByteBufferParameterReader();
     }
 
+	public static int indexFromArray(int[] intArr, int find) {
+		for (int i = 0; i < intArr.length; i++) {
+			if (intArr[i] == find) return i;
+		}
+		
+		return -1;
+	}
+	
     /* access modifiers changed from: private */
-    public static ParameterReader applyMask(final ParameterReader parameterReader, ParameterDescriptor parameterDescriptor, ConfigurationContext configurationContext) {
-        Optional optional = (Optional) parameterDescriptor.getAnnotation(Optional.class);
+	public static ParameterReader applyMask(final ParameterReader parameterReader, ParameterDescriptor parameterDescriptor, ConfigurationContext configurationContext) {
+        Optional optional = parameterDescriptor.getOwnerMethod().getAnnotation(Optional.class);
         if (optional == null) {
             return parameterReader;
         }
-        ParameterDescriptor findNamedParameter = configurationContext.findNamedParameter(optional.mask());
+		
+		int optionalIndex = indexFromArray(optional.indexes(), parameterDescriptor.getIndex());
+		
+		String[] optionalMaskArr = optional.masks();
+		String optionalMask = "mask";
+		if (optionalMaskArr != null &&
+			optionalMaskArr.length > 0 &&
+			optionalMaskArr.length - 1 >= optionalIndex &&
+			optionalMaskArr[optionalIndex] != null)
+		{
+			optionalMask = optionalMaskArr[optionalIndex];
+		}
+		
+        ParameterDescriptor findNamedParameter = configurationContext.findNamedParameter(optionalMask);
         Assert.notNull(findNamedParameter, String.format("Parameter %d of the request handler method %s specifies an invalid name of parameter holding the mask.", new Object[]{Integer.valueOf(parameterDescriptor.getIndex()), configurationContext.getHandlerMethodName()}));
         Assert.isTrue(findNamedParameter.getIndex() < parameterDescriptor.getIndex(), String.format("Parameter %d of the request handler method %s must have its presence specified by a mask in a preceding parameter.", new Object[]{Integer.valueOf(parameterDescriptor.getIndex()), configurationContext.getHandlerMethodName()}));
         Class flagsClass = getFlagsClass(findNamedParameter.getType());
-        Assert.notNull(flagsClass, String.format("The parameter '%s' specified as a presence marker mask to the parameter %d of %s must be of type type Mask<>.", new Object[]{optional.mask(), Integer.valueOf(parameterDescriptor.getIndex()), configurationContext.getHandlerMethodName()}));
-        final FlagsEnum enumValue = getEnumValue(flagsClass, optional.bit());
-        Assert.notNull(enumValue, String.format("Invalid flag name '%s' in the specification of the parameter %d of the request handler method %s.", new Object[]{optional.bit(), Integer.valueOf(parameterDescriptor.getIndex()), configurationContext.getHandlerMethodName()}));
+        Assert.notNull(flagsClass, String.format("The parameter '%s' specified as a presence marker mask to the parameter %d of %s must be of type type Mask<>.", new Object[]{optionalMask, Integer.valueOf(parameterDescriptor.getIndex()), configurationContext.getHandlerMethodName()}));
+        final FlagsEnum enumValue = getEnumValue(flagsClass, optional.bits()[optionalIndex]);
+        Assert.notNull(enumValue, String.format("Invalid flag name '%s' in the specification of the parameter %d of the request handler method %s.", new Object[]{optional.bits()[optionalIndex], Integer.valueOf(parameterDescriptor.getIndex()), configurationContext.getHandlerMethodName()}));
         final int index = findNamedParameter.getIndex();
         return new ParameterReader() {
             public void readParameter(ParametersCollectionContext parametersCollectionContext) throws XProtocolError {

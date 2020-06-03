@@ -100,7 +100,11 @@ public class WindowManipulationRequests extends HandlerObjectBase {
 
     @RequestHandler(opcode = 12)
     @Locks({"WINDOWS_MANAGER", "FOCUS_MANAGER", "INPUT_DEVICES"})
-    public void ConfigureWindow(@RequestParam Window window, @RequestParam @Width(2) @ParamName("mask") Mask<ConfigureWindowParts> mask, @RequestParam short s, @RequestParam @Width(4) @Optional(bit = "X") Integer num, @RequestParam @Width(4) @Optional(bit = "Y") Integer num2, @RequestParam @Width(4) @Optional(bit = "WIDTH") Integer num3, @RequestParam @Width(4) @Optional(bit = "HEIGHT") Integer num4, @RequestParam @Width(4) @Optional(bit = "BORDER_WIDTH") Short sh, @RequestParam @Optional(bit = "SIBLING") Window window2, @RequestParam @Width(4) @Optional(bit = "STACK_MODE") StackMode stackMode) {
+	@Optional(
+		indexes = {3, 4, 5, 6, 7, 8},
+		bits = {"X", "Y", "WIDTH", "HEIGHT", "BORDER_WIDTH", "SIBLING", "STACK_MODE"}
+	)
+    public void ConfigureWindow(@RequestParam Window window, @RequestParam @Width(2) @ParamName("mask") Mask<ConfigureWindowParts> mask, @RequestParam short s, @RequestParam @Width(4) Integer num, @RequestParam @Width(4) Integer num2, @RequestParam @Width(4) Integer num3, @RequestParam @Width(4) Integer num4, @RequestParam @Width(4) Short sh, @RequestParam Window window2, @RequestParam @Width(4) StackMode stackMode) {
         int borderWidth;
         Window window3 = window;
         Mask<ConfigureWindowParts> mask2 = mask;
@@ -251,8 +255,35 @@ public class WindowManipulationRequests extends HandlerObjectBase {
     @Locks({"WINDOWS_MANAGER", "DRAWABLES_MANAGER", "INPUT_DEVICES", "COLORMAPS_MANAGER", "CURSORS_MANAGER", "FOCUS_MANAGER"})
 	@OOBParam(index = 1)
 	@NewXId(index = 2)
-    public void CreateWindow(XClient xClient, @RequestParam byte b, @RequestParam int i, @RequestParam Window window, @RequestParam @Width(2) IntegerSigned i2, @RequestParam @Width(2) IntegerSigned i3, @RequestParam @Width(2) IntegerUnsigned i4, @RequestParam @Width(2) IntegerUnsigned i5, @RequestParam @Width(2) IntegerUnsigned i6, @RequestParam @Width(2) WindowClass windowClass, @RequestParam @SpecialNullValue(0) Visual visual, @RequestParam @ParamName("mask") Mask<WindowAttributeNames> mask, @RequestParam @Optional(bit = "BACKGROUND_PIXMAP") Integer num, @RequestParam @Optional(bit = "BACKGROUND_PIXEL") Integer num2, @RequestParam @Optional(bit = "BORDER_PIXMAP") Integer num3, @RequestParam @Optional(bit = "BORDER_PIXEL") Integer num4, @RequestParam @Width(4) @Optional(bit = "BIT_GRAVITY") BitGravity bitGravity, @RequestParam @Width(4) @Optional(bit = "WIN_GRAVITY") WinGravity winGravity, @RequestParam @Width(4) @Optional(bit = "BACKING_STORE") BackingStore backingStore, @RequestParam @Optional(bit = "BACKING_PLANES") Integer num5, @RequestParam @Optional(bit = "BACKING_PIXEL") Integer num6, @RequestParam @Width(4) @Optional(bit = "OVERRIDE_REDIRECT") Boolean bool, @RequestParam @Width(4) @Optional(bit = "SAVE_UNDER") Boolean bool2, @RequestParam @Optional(bit = "EVENT_MASK") Mask<EventName> mask2, @RequestParam @Optional(bit = "DO_NOT_PROPAGATE_MASK") Mask<EventName> mask3, @RequestParam @Optional(bit = "COLORMAP") Integer num7, @RequestParam @SpecialNullValue(0) @Optional(bit = "CURSOR") Cursor cursor) throws XProtocolError {
-        boolean z;
+    @Optional(
+		indexes = {12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26},
+		bits = {
+			"BACKGROUND_PIXMAP", "BACKGROUND_PIXEL", "BORDER_PIXMAP", "BORDER_PIXEL",
+			"BIT_GRAVITY", "WIN_GRAVITY", "BACKING_STORE", "BACKING_PLANES",
+			"BACKING_PIXEL", "OVERRIDE_REDIRECT", "SAVE_UNDER", "EVENT_MASK",
+			"DO_NOT_PROPAGATE_MASK", "COLORMAP", "CURSOR"
+		}
+	)
+    public void CreateWindow(XClient xClient, @RequestParam byte b, @RequestParam int i, @RequestParam Window window, @RequestParam @Width(2) IntegerSigned i2, @RequestParam @Width(2) IntegerSigned i3, @RequestParam @Width(2) IntegerUnsigned i4, @RequestParam @Width(2) IntegerUnsigned i5, @RequestParam @Width(2) IntegerUnsigned i6, @RequestParam @Width(2) WindowClass windowClass, @RequestParam @SpecialNullValue(0) Visual visual, @RequestParam @ParamName("mask") Mask<WindowAttributeNames> mask,
+		@RequestParam Integer num,
+		@RequestParam Integer num2,
+		@RequestParam Integer num3,
+		@RequestParam Integer num4,
+		@RequestParam @Width(4) BitGravity bitGravity,
+		@RequestParam @Width(4) WinGravity winGravity,
+		@RequestParam @Width(4) BackingStore backingStore,
+		@RequestParam Integer num5,
+		@RequestParam Integer num6,
+		@RequestParam @Width(4) Boolean bool,
+		@RequestParam @Width(4) Boolean bool2,
+		@RequestParam Mask<EventName> mask2,
+		@RequestParam Mask<EventName> mask3,
+		@RequestParam Integer num7,
+		@RequestParam @SpecialNullValue(0) Cursor cursor
+	) throws XProtocolError {
+        
+			
+		boolean z;
         byte b2;
         WindowManipulationRequests windowManipulationRequests;
         Visual visual2;
@@ -310,7 +341,35 @@ public class WindowManipulationRequests extends HandlerObjectBase {
 
     @RequestHandler(opcode = 2)
     @Locks({"WINDOWS_MANAGER", "COLORMAPS_MANAGER", "CURSORS_MANAGER"})
-    public void ChangeWindowAttributes(XClient xClient, @RequestParam Window window, @RequestParam @ParamName("mask") Mask<WindowAttributeNames> mask, @RequestParam @Optional(bit = "BACKGROUND_PIXMAP") Integer num, @RequestParam @Optional(bit = "BACKGROUND_PIXEL") Integer num2, @RequestParam @Optional(bit = "BORDER_PIXMAP") Integer num3, @RequestParam @Optional(bit = "BORDER_PIXEL") Integer num4, @RequestParam @Width(4) @Optional(bit = "BIT_GRAVITY") BitGravity bitGravity, @RequestParam @Width(4) @Optional(bit = "WIN_GRAVITY") WinGravity winGravity, @RequestParam @Width(4) @Optional(bit = "BACKING_STORE") BackingStore backingStore, @RequestParam @Optional(bit = "BACKING_PLANES") Integer num5, @RequestParam @Optional(bit = "BACKING_PIXEL") Integer num6, @RequestParam @Width(4) @Optional(bit = "OVERRIDE_REDIRECT") Boolean bool, @RequestParam @Width(4) @Optional(bit = "SAVE_UNDER") Boolean bool2, @RequestParam @Optional(bit = "EVENT_MASK") Mask<EventName> mask2, @RequestParam @Optional(bit = "DO_NOT_PROPAGATE_MASK") Mask<EventName> mask3, @RequestParam @Optional(bit = "COLORMAP") Integer num7, @RequestParam @SpecialNullValue(0) @Optional(bit = "CURSOR") Cursor cursor) throws XProtocolError {
+    @Optional(
+		indexes = {3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17},
+		bits = {
+			"BACKGROUND_PIXMAP", "BACKGROUND_PIXEL", "BORDER_PIXMAP", "BORDER_PIXEL",
+			"BIT_GRAVITY", "WIN_GRAVITY", "BACKING_STORE", "BACKING_PLANES",
+			"BACKING_PIXEL", "OVERRIDE_REDIRECT", "SAVE_UNDER", "EVENT_MASK",
+			"DO_NOT_PROPAGATE_MASK", "COLORMAP", "CURSOR"
+		}
+	)
+    public void ChangeWindowAttributes(
+		XClient xClient,
+		@RequestParam Window window,
+		@RequestParam @ParamName("mask") Mask<WindowAttributeNames> mask,
+		@RequestParam Integer num,
+		@RequestParam Integer num2,
+		@RequestParam Integer num3,
+		@RequestParam Integer num4,
+		@RequestParam @Width(4) BitGravity bitGravity,
+		@RequestParam @Width(4) WinGravity winGravity,
+		@RequestParam @Width(4) BackingStore backingStore,
+		@RequestParam Integer num5,
+		@RequestParam Integer num6,
+		@RequestParam @Width(4) Boolean bool,
+		@RequestParam @Width(4) Boolean bool2,
+		@RequestParam Mask<EventName> mask2,
+		@RequestParam Mask<EventName> mask3,
+		@RequestParam Integer num7, 
+		@RequestParam @SpecialNullValue(0) Cursor cursor
+	) throws XProtocolError {
         if (mask2 != null) {
             if ((!mask2.isSet(EventName.SUBSTRUCTURE_REDIRECT) || !willBeInConflict(xClient, window, EventName.SUBSTRUCTURE_REDIRECT)) && ((!mask2.isSet(EventName.RESIZE_REDIRECT) || !willBeInConflict(xClient, window, EventName.RESIZE_REDIRECT)) && (!mask2.isSet(EventName.BUTTON_PRESS) || !willBeInConflict(xClient, window, EventName.BUTTON_PRESS)))) {
                 xClient.installEventListener(window, mask2);

@@ -58,7 +58,44 @@ public class GraphicsContextManipulationRequests extends HandlerObjectBase {
     @RequestHandler(opcode = 55)
     @Locks({"GRAPHICS_CONTEXTS_MANAGER", "DRAWABLES_MANAGER", "PIXMAPS_MANAGER"})
 	@NewXId(index = 2)
-    public void CreateGC(XClient xClient, XResponse xResponse, @RequestParam int i, @RequestParam Drawable drawable, @RequestParam @ParamName("mask") Mask<GraphicsContextParts> mask, @RequestParam @Width(4) @Optional(bit = "FUNCTION") PixelCompositionRule pixelCompositionRule, @RequestParam @Optional(bit = "PLANE_MASK") Integer num, @RequestParam @Optional(bit = "FOREGROUND") Integer num2, @RequestParam @Optional(bit = "BACKGROUND") Integer num3, @RequestParam @Optional(bit = "LINE_WIDTH") Integer num4, @RequestParam @Width(4) @Optional(bit = "LINE_STYLE") LineStyle lineStyle, @RequestParam @Optional(bit = "CAP_STYLE") Integer num5, @RequestParam @Width(4) @Optional(bit = "JOIN_STYLE") JoinStyle joinStyle, @RequestParam @Width(4) @Optional(bit = "FILL_STYLE") FillStyle fillStyle, @RequestParam @Width(4) @Optional(bit = "FILL_RULE") FillRule fillRule, @RequestParam @Optional(bit = "TILE") Pixmap pixmap, @RequestParam @Optional(bit = "STIPPLE") Pixmap pixmap2, @RequestParam @Optional(bit = "TILE_STIPPLE_X_ORIGIN") Integer num6, @RequestParam @Optional(bit = "TILE_STIPPLE_Y_ORIGIN") Integer num7, @RequestParam @Optional(bit = "FONT") Integer num8, @RequestParam @Width(4) @Optional(bit = "SUBWINDOW_MODE") SubwindowMode subwindowMode, @RequestParam @Width(4) @Optional(bit = "GRAPHICS_EXPOSURES") Boolean bool, @RequestParam @Optional(bit = "CLIP_X_ORIGIN") Integer num9, @RequestParam @Optional(bit = "CLIP_Y_ORIGIN") Integer num10, @RequestParam @SpecialNullValue(0) @Optional(bit = "CLIP_MASK") Pixmap pixmap3, @RequestParam @Optional(bit = "DASH_OFFSET") Integer num11, @RequestParam @Optional(bit = "DASHES") Integer num12, @RequestParam @Width(4) @Optional(bit = "ARC_MODE") ArcMode arcMode) throws IOException, XProtocolError {
+    @Optional(
+		indexes = {5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27},
+		bits = {
+			"FUNCTION", "PLANE_MASK", "FOREGROUND", "BACKGROUND",
+			"LINE_WIDTH", "LINE_STYLE", "CAP_STYLE", "JOIN_STYLE",
+			"FILL_STYLE", "FILL_RULE", "TILE", "STIPPLE",
+			"TILE_STIPPLE_X_ORIGIN", "TILE_STIPPLE_Y_ORIGIN",
+			"FONT", "SUBWINDOW_MODE", "GRAPHICS_EXPOSURES",
+			"CLIP_X_ORIGIN", "CLIP_Y_ORIGIN", "CLIP_MASK",
+			"DASH_OFFSET", "DASHES", "ARC_MODE"
+		}
+	)
+    public void CreateGC(
+		XClient xClient, XResponse xResponse, @RequestParam int i, @RequestParam Drawable drawable, @RequestParam @ParamName("mask") Mask<GraphicsContextParts> mask,
+		@RequestParam @Width(4) PixelCompositionRule pixelCompositionRule,
+		@RequestParam Integer num,
+		@RequestParam Integer num2,
+		@RequestParam Integer num3,
+		@RequestParam Integer num4,
+		@RequestParam @Width(4) LineStyle lineStyle,
+		@RequestParam Integer num5,
+		@RequestParam @Width(4) JoinStyle joinStyle,
+		@RequestParam @Width(4) FillStyle fillStyle,
+		@RequestParam @Width(4) FillRule fillRule,
+		@RequestParam Pixmap pixmap, 
+		@RequestParam Pixmap pixmap2, 
+		@RequestParam Integer num6, 
+		@RequestParam Integer num7,
+		@RequestParam Integer num8, 
+		@RequestParam @Width(4) SubwindowMode subwindowMode,
+		@RequestParam @Width(4) Boolean bool, 
+		@RequestParam Integer num9,
+		@RequestParam Integer num10, 
+		@RequestParam @SpecialNullValue(0) Pixmap pixmap3, 
+		@RequestParam Integer num11, 
+		@RequestParam Integer num12,
+		@RequestParam @Width(4) ArcMode arcMode
+	) throws IOException, XProtocolError {
         int i2 = i;
         GraphicsContextsManager graphicsContextsManager = this.xServer.getGraphicsContextsManager();
         GraphicsContext createGraphicsContext = graphicsContextsManager.createGraphicsContext(i2, drawable);
@@ -71,7 +108,45 @@ public class GraphicsContextManipulationRequests extends HandlerObjectBase {
 
     @RequestHandler(opcode = 56)
     @Locks({"GRAPHICS_CONTEXTS_MANAGER", "PIXMAPS_MANAGER"})
-    public void ChangeGC(@RequestParam GraphicsContext graphicsContext, @RequestParam @ParamName("mask") Mask<GraphicsContextParts> mask, @RequestParam @Width(4) @Optional(bit = "FUNCTION") PixelCompositionRule pixelCompositionRule, @RequestParam @Optional(bit = "PLANE_MASK") Integer num, @RequestParam @Optional(bit = "FOREGROUND") Integer num2, @RequestParam @Optional(bit = "BACKGROUND") Integer num3, @RequestParam @Optional(bit = "LINE_WIDTH") Integer num4, @RequestParam @Width(4) @Optional(bit = "LINE_STYLE") LineStyle lineStyle, @RequestParam @Optional(bit = "CAP_STYLE") Integer num5, @RequestParam @Width(4) @Optional(bit = "JOIN_STYLE") JoinStyle joinStyle, @RequestParam @Width(4) @Optional(bit = "FILL_STYLE") FillStyle fillStyle, @RequestParam @Width(4) @Optional(bit = "FILL_RULE") FillRule fillRule, @RequestParam @Optional(bit = "TILE") Pixmap pixmap, @RequestParam @Optional(bit = "STIPPLE") Pixmap pixmap2, @RequestParam @Optional(bit = "TILE_STIPPLE_X_ORIGIN") Integer num6, @RequestParam @Optional(bit = "TILE_STIPPLE_Y_ORIGIN") Integer num7, @RequestParam @Optional(bit = "FONT") Integer num8, @RequestParam @Width(4) @Optional(bit = "SUBWINDOW_MODE") SubwindowMode subwindowMode, @RequestParam @Width(4) @Optional(bit = "GRAPHICS_EXPOSURES") Boolean bool, @RequestParam @Optional(bit = "CLIP_X_ORIGIN") Integer num9, @RequestParam @Optional(bit = "CLIP_Y_ORIGIN") Integer num10, @RequestParam @SpecialNullValue(0) @Optional(bit = "CLIP_MASK") Pixmap pixmap3, @RequestParam @Optional(bit = "DASH_OFFSET") Integer num11, @RequestParam @Optional(bit = "DASHES") Integer num12, @RequestParam @Width(4) @Optional(bit = "ARC_MODE") ArcMode arcMode) throws IOException, XProtocolError {
+
+    @Optional(
+		indexes = {2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24},
+		bits = {
+			"FUNCTION", "PLANE_MASK", "FOREGROUND", "BACKGROUND",
+			"LINE_WIDTH", "LINE_STYLE", "CAP_STYLE", "JOIN_STYLE",
+			"FILL_STYLE", "FILL_RULE", "TILE", "STIPPLE",
+			"TILE_STIPPLE_X_ORIGIN", "TILE_STIPPLE_Y_ORIGIN",
+			"FONT", "SUBWINDOW_MODE", "GRAPHICS_EXPOSURES",
+			"CLIP_X_ORIGIN", "CLIP_Y_ORIGIN", "CLIP_MASK",
+			"DASH_OFFSET", "DASHES", "ARC_MODE"
+		}
+	)
+    public void ChangeGC(
+		@RequestParam GraphicsContext graphicsContext, @RequestParam @ParamName("mask") Mask<GraphicsContextParts> mask,
+		@RequestParam @Width(4) PixelCompositionRule pixelCompositionRule,
+		@RequestParam Integer num,
+		@RequestParam Integer num2,
+		@RequestParam Integer num3,
+		@RequestParam Integer num4,
+		@RequestParam @Width(4) LineStyle lineStyle,
+		@RequestParam Integer num5, 
+		@RequestParam @Width(4) JoinStyle joinStyle,
+		@RequestParam @Width(4) FillStyle fillStyle,
+		@RequestParam @Width(4) FillRule fillRule, 
+		@RequestParam Pixmap pixmap,
+		@RequestParam Pixmap pixmap2, 
+		@RequestParam Integer num6,
+		@RequestParam Integer num7,
+		@RequestParam Integer num8,
+		@RequestParam @Width(4) SubwindowMode subwindowMode, 
+		@RequestParam @Width(4) Boolean bool,
+		@RequestParam Integer num9,
+		@RequestParam Integer num10, 
+		@RequestParam @SpecialNullValue(0) Pixmap pixmap3,
+		@RequestParam Integer num11, 
+		@RequestParam Integer num12,
+		@RequestParam @Width(4) ArcMode arcMode
+	) throws IOException, XProtocolError {
         this.xServer.getGraphicsContextsManager().updateGraphicsContext(graphicsContext, mask, pixelCompositionRule, num, num2, num3, num4, lineStyle, num5, joinStyle, fillStyle, fillRule, pixmap, pixmap2, num6, num7, num8, subwindowMode, bool, num9, num10, pixmap3, num11, num12, arcMode);
     }
 
