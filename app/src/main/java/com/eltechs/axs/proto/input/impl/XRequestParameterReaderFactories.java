@@ -139,7 +139,7 @@ public class XRequestParameterReaderFactories {
 
     /* access modifiers changed from: private */
     public static RequestDataReader selectRequestDataReaderForParameter(ParameterDescriptor parameterDescriptor) {
-		OOBParam oobParam = parameterDescriptor.getAnnotation(OOBParam.class);
+		OOBParam oobParam = parameterDescriptor.getOwnerMethod().getAnnotation(OOBParam.class);
 		if (oobParam == null && oobParam.index() != parameterDescriptor.getIndex()) {
 			return NormalRequestDataReader.INSTANCE;
 		} else {

@@ -25,7 +25,8 @@ public class CursorManipulationRequests extends HandlerObjectBase {
 
     @RequestHandler(opcode = 93)
     @Locks({"CURSORS_MANAGER", "PIXMAPS_MANAGER", "DRAWABLES_MANAGER"})
-    public void CreateCursor(XClient xClient, @NewXId @RequestParam int i, @RequestParam Pixmap pixmap, @RequestParam @SpecialNullValue(0) Pixmap pixmap2, @RequestParam @Width(2) IntegerUnsigned i2, @RequestParam @Width(2) IntegerUnsigned i3, @RequestParam @Width(2) IntegerUnsigned i4, @RequestParam @Width(2) IntegerUnsigned i5, @RequestParam @Width(2) IntegerUnsigned i6, @RequestParam @Width(2) IntegerUnsigned i7, @RequestParam @Width(2) IntegerUnsigned i8, @RequestParam @Width(2) IntegerUnsigned i9) throws XProtocolError {
+	@NewXId(index = 1)
+    public void CreateCursor(XClient xClient, @RequestParam int i, @RequestParam Pixmap pixmap, @RequestParam @SpecialNullValue(0) Pixmap pixmap2, @RequestParam @Width(2) IntegerUnsigned i2, @RequestParam @Width(2) IntegerUnsigned i3, @RequestParam @Width(2) IntegerUnsigned i4, @RequestParam @Width(2) IntegerUnsigned i5, @RequestParam @Width(2) IntegerUnsigned i6, @RequestParam @Width(2) IntegerUnsigned i7, @RequestParam @Width(2) IntegerUnsigned i8, @RequestParam @Width(2) IntegerUnsigned i9) throws XProtocolError {
         Drawable backingStore = pixmap.getBackingStore();
         if (pixmap2 != null) {
             Drawable backingStore2 = pixmap2.getBackingStore();
@@ -50,7 +51,8 @@ public class CursorManipulationRequests extends HandlerObjectBase {
 
     @RequestHandler(opcode = 94)
     @Locks({"CURSORS_MANAGER", "PIXMAPS_MANAGER", "DRAWABLES_MANAGER"})
-    public void CreateGlyphCursor(XClient xClient, @NewXId @RequestParam int i, @RequestParam Integer num, @RequestParam Integer num2, @RequestParam @Width(2) IntegerUnsigned i2, @RequestParam @Width(2) IntegerUnsigned i3, @RequestParam @Width(2) IntegerUnsigned i4, @RequestParam @Width(2) IntegerUnsigned i5, @RequestParam @Width(2) IntegerUnsigned i6, @RequestParam @Width(2) IntegerUnsigned i7, @RequestParam @Width(2) IntegerUnsigned i8, @RequestParam @Width(2) IntegerUnsigned i9) throws XProtocolError {
+	@NewXId(index = 1)
+    public void CreateGlyphCursor(XClient xClient, @RequestParam int i, @RequestParam Integer num, @RequestParam Integer num2, @RequestParam @Width(2) IntegerUnsigned i2, @RequestParam @Width(2) IntegerUnsigned i3, @RequestParam @Width(2) IntegerUnsigned i4, @RequestParam @Width(2) IntegerUnsigned i5, @RequestParam @Width(2) IntegerUnsigned i6, @RequestParam @Width(2) IntegerUnsigned i7, @RequestParam @Width(2) IntegerUnsigned i8, @RequestParam @Width(2) IntegerUnsigned i9) throws XProtocolError {
         int i10 = i;
         CursorsManager cursorsManager = this.xServer.getCursorsManager();
         Cursor createFakeCursor = cursorsManager.createFakeCursor(i10);

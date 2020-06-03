@@ -14,7 +14,8 @@ public class IntegerParameterReader extends PrimitiveTypeParameterReader {
     public IntegerParameterReader(RequestDataReader requestDataReader, ParameterDescriptor parameterDescriptor) {
         super(requestDataReader, parameterDescriptor, 4, false);
 		boolean z = false;
-        if (((NewXId) parameterDescriptor.getAnnotation(NewXId.class)) != null) {
+		NewXId annotation = parameterDescriptor.getOwnerMethod().getAnnotation(NewXId.class);
+        if (annotation != null && annotation.index() == parameterDescriptor.getIndex()) {
             z = true;
         }
         this.newXId = z;

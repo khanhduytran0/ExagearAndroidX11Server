@@ -48,7 +48,8 @@ public class MITShmRequests extends HandlerObjectBase {
 
     @RequestHandler(opcode = 1)
     @Locks({"SHM_SEGMENTS_MANAGER"})
-    public void Attach(@NewXId @RequestParam int i, @RequestParam int i2, @RequestParam boolean z, @RequestParam byte b, @RequestParam short s) throws XProtocolError {
+	@NewXId(index = 0)
+    public void Attach(@RequestParam int i, @RequestParam int i2, @RequestParam boolean z, @RequestParam byte b, @RequestParam short s) throws XProtocolError {
         this.xServer.getShmSegmentsManager().attachSegment(i, i2, !z);
     }
 
@@ -124,7 +125,8 @@ public class MITShmRequests extends HandlerObjectBase {
 
     @RequestHandler(opcode = 5)
     @Locks({"PIXMAPS_MANAGER", "DRAWABLES_MANAGER"})
-    public void CreatePixmap(@NewXId @RequestParam int i, @RequestParam Drawable drawable, @RequestParam @Width(2) IntegerUnsigned i2, @RequestParam @Width(2) IntegerUnsigned i3, @RequestParam byte b, @RequestParam byte b2, @RequestParam byte b3, @RequestParam byte b4, @RequestParam ShmSegment shmSegment, @RequestParam int i4) throws XProtocolError {
+	@NewXId(index = 0)
+    public void CreatePixmap(@RequestParam int i, @RequestParam Drawable drawable, @RequestParam @Width(2) IntegerUnsigned i2, @RequestParam @Width(2) IntegerUnsigned i3, @RequestParam byte b, @RequestParam byte b2, @RequestParam byte b3, @RequestParam byte b4, @RequestParam ShmSegment shmSegment, @RequestParam int i4) throws XProtocolError {
         if (!shmSegment.isWritable()) {
             throw new BadAccess();
         }

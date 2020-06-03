@@ -8,9 +8,10 @@ A X11 Server for Android take from Exagear AXS library in Exagear Windows Emulat
 `AIDE`, the current development don't support `Annotation` in Parameter of Method.
 - [x] `Signed` (int)
 - [x] `Unsigned` (int)
+- [x] `NewXId` (Change from Param Annotation to Method Annotation)
 - [x] `OOBParam` (Change from Param Annotation to Method Annotation)
 - [ ] `ParamName`
-- [ ] `RequestParam`
+- [x] `RequestParam` (Unused it by check if it's `XClient` or `XResponse`: both are not have `RequestParam`.
 
 ## Building
 - Clone to Android Studio or other similar IDEs.
