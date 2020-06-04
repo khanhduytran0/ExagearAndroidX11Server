@@ -44,6 +44,7 @@ public class WaitForXClientConnection<StateClass extends EnvironmentAware> exten
         };
 		
 		if (!NEED_WAIT_FOR_CLIENT) {
+			/*
 			new Timer().schedule(new TimerTask(){
 
 					@Override
@@ -52,6 +53,9 @@ public class WaitForXClientConnection<StateClass extends EnvironmentAware> exten
 						WaitForXClientConnection.this.startedDrawing();
 					}
 				}, 500);
+			*/
+			
+			WaitForXClientConnection.this.startedDrawing();
 		}
 		
 		/*
@@ -85,11 +89,13 @@ public class WaitForXClientConnection<StateClass extends EnvironmentAware> exten
     /* access modifiers changed from: private */
     public synchronized void startedDrawing() {
         if (!this.receivedEvent) {
+			/*
             AppConfig instance = AppConfig.getInstance(getAppContext());
             if (!instance.isXServerFirstConnectDone()) {
                 instance.setXServerFirstConnectDone(true);
             }
             instance.setGuestLaunchesCount(instance.getGuestLaunchesCount() + 1);
+			*/
             this.receivedEvent = true;
             // ((GuestApplicationsTrackerComponent) ((EnvironmentAware) getApplicationState()).getEnvironment().getComponent(GuestApplicationsTrackerComponent.class)).freezeGuestApplications();
             sendDone();

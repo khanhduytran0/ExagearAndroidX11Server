@@ -24,16 +24,18 @@ public class ExtensionInquiries extends HandlerObjectBase {
     }
 
     @RequestHandler(opcode = 98)
-    public void QueryExtension(XResponse xResponse, @RequestParam @ParamName("nameLength") short s, @RequestParam short s2, @RequestParam @ParamLength("nameLength") String str) throws IOException {
+	@ParamLength(index = 3, "nameLength")
+	@ParamName(index = 1, "nameLength")
+    public void QueryExtension(XResponse xResponse, @RequestParam short s, @RequestParam short s2, @RequestParam String str) throws IOException {
         final ExtensionRequestHandler findExtensionByName = findExtensionByName(str);
         xResponse.sendSimpleSuccessReply((byte) 0, (ResponseDataWriter) new ResponseDataWriter() {
             public void write(ByteBuffer byteBuffer) {
                 int i = findExtensionByName != null ? 1 : 0;
-                byteBuffer.put((byte)(byte) i);
+                byteBuffer.put((byte) i);
                 if (i != 0) {
-                    byteBuffer.put((byte)findExtensionByName.getAssignedMajorOpcode());
-                    byteBuffer.put((byte)findExtensionByName.getFirstAssignedEventId());
-                    byteBuffer.put((byte)findExtensionByName.getFirstAssignedErrorId());
+                    byteBuffer.put(findExtensionByName.getAssignedMajorOpcode());
+                    byteBuffer.put(findExtensionByName.getFirstAssignedEventId());
+                    byteBuffer.put(findExtensionByName.getFirstAssignedErrorId());
                 }
             }
         });

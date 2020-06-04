@@ -13,13 +13,13 @@ public class EnumParameterReader extends PrimitiveTypeParameterReader {
     public EnumParameterReader(RequestDataReader requestDataReader, ParameterDescriptor parameterDescriptor) {
         super(requestDataReader, parameterDescriptor, 1, true);
         Assert.isTrue(Enum.class.isAssignableFrom(parameterDescriptor.getRawType()));
-        this.enumClass = (Class) parameterDescriptor.getRawType();
+        this.enumClass = (Class<Enum<?>>) parameterDescriptor.getRawType();
     }
 
     /* access modifiers changed from: protected */
     public Object readParameterImpl(ParametersCollectionContext parametersCollectionContext) throws XProtocolError {
         int underlyingValue = getUnderlyingValue(parametersCollectionContext);
-        Enum[] enumArr = (Enum[]) this.enumClass.getEnumConstants();
+        Enum[] enumArr = this.enumClass.getEnumConstants();
         if (underlyingValue >= 0 && underlyingValue < enumArr.length) {
             return enumArr[underlyingValue];
         }

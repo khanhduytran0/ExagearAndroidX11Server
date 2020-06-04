@@ -26,7 +26,11 @@ public class KeyboardRelatedRequest extends HandlerObjectBase {
 
     @RequestHandler(opcode = 101)
     @Locks({"KEYBOARD_MODEL_MANAGER"})
-    public void GetKeyboardMapping(XResponse xResponse, @RequestParam @Width(1) IntegerUnsigned i, @RequestParam @Width(1) IntegerUnsigned i2, @RequestParam short s) throws IOException {
+	@Width(
+		indexes = {1, 2},
+		values = {1, 1}
+	)
+    public void GetKeyboardMapping(XResponse xResponse, @RequestParam IntegerUnsigned i, @RequestParam IntegerUnsigned i2, @RequestParam short s) throws IOException {
         KeyboardModel keyboardModel = this.xServer.getKeyboardModelManager().getKeyboardModel();
         int layoutsCount = 2 * keyboardModel.getLayoutsCount();
         final int[] iArr = new int[(i2.value * layoutsCount)];

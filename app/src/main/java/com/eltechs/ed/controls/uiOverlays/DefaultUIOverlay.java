@@ -1,7 +1,6 @@
 package com.eltechs.ed.controls.uiOverlays;
 
 import android.content.*;
-import android.support.constraint.*;
 import android.support.v7.app.AlertDialog.*;
 import android.util.*;
 import android.view.*;
@@ -86,7 +85,7 @@ public class DefaultUIOverlay implements XServerDisplayActivityInterfaceOverlay 
     }
 
     private View createToolbar() {
-        ConstraintLayout constraintLayout = (ConstraintLayout) this.mHostActivity.getLayoutInflater().inflate(R.layout.default_ui_overlay_toolbar, null);
+        LinearLayout constraintLayout = (LinearLayout) this.mHostActivity.getLayoutInflater().inflate(R.layout.default_ui_overlay_toolbar, null);
         final ImageButton imageButton = (ImageButton) constraintLayout.findViewById(R.id.button_fullscreen);
         imageButton.setOnClickListener(new OnClickListener() {
             public void onClick(View view) {
@@ -133,7 +132,7 @@ public class DefaultUIOverlay implements XServerDisplayActivityInterfaceOverlay 
             }
         });
         DisplayMetrics displayMetrics = AndroidHelpers.getDisplayMetrics();
-        constraintLayout.setMaxHeight((int) ((isDisplaySmallHeight(displayMetrics) ? toolbarHeightSmallDisplayInches : toolbarHeightNormalDisplayInches) * displayMetrics.ydpi));
+        constraintLayout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ((int) ((isDisplaySmallHeight(displayMetrics) ? toolbarHeightSmallDisplayInches : toolbarHeightNormalDisplayInches) * displayMetrics.ydpi))));
         this.mToolbar = constraintLayout;
         return constraintLayout;
     }

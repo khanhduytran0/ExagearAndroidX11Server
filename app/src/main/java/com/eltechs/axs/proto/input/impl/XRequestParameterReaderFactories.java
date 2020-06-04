@@ -53,6 +53,7 @@ import java.lang.reflect.Type;
 import java.nio.ByteBuffer;
 import java.lang.annotation.*;
 import android.support.v4.graphics.*;
+import com.eltechs.axs.integersign.*;
 
 public class XRequestParameterReaderFactories {
     public static final RequestContextParamReadersFactory CONTEXT_PARAM_READERS_FACTORY = new RequestContextParamReadersFactory() {
@@ -87,6 +88,9 @@ public class XRequestParameterReaderFactories {
             if (rawType == Integer.TYPE || rawType == Integer.class) {
                 return new IntegerParameterReader(access, parameterDescriptor);
             }
+			if (rawType == IntegerSigned.class || rawType == IntegerUnsigned.class) {
+				return new IntegerParameterReader(access, parameterDescriptor);
+			}
             if (rawType == String.class) {
                 return XRequestParameterReaderFactories.createString8Reader(parameterDescriptor, configurationContext);
             }
@@ -149,8 +153,10 @@ public class XRequestParameterReaderFactories {
 
     /* access modifiers changed from: private */
     public static ParameterReader createString8Reader(ParameterDescriptor parameterDescriptor, ConfigurationContext configurationContext) {
-        ParamLength paramLength = parameterDescriptor.getAnnotation(ParamLength.class);
-        Assert.notNull(paramLength, String.format("Parameter %d of the request handler method %s has type String and must be tagged with @ParamLength.", new Object[]{Integer.valueOf(parameterDescriptor.getIndex()), configurationContext.getHandlerMethodName()}));
+        ParamLength paramLength = parameterDescriptor.getOwnerMethod().getAnnotation(ParamLength.class);
+        // Assert.notNull(paramLength, String.format("Parameter %d of the request handler method %s has type String and must be tagged with @ParamLength.", new Object[]{Integer.valueOf(parameterDescriptor.getIndex()), configurationContext.getHandlerMethodName()}));
+		Assert.notNull(paramLength, String.format("Request handler method %s must be tagged with @ParamLength.", configurationContext.getHandlerMethodName()));
+		Assert.state(paramLength.index() == parameterDescriptor.getIndex(), String.format("Request handler method %s has an invalid index: paramLength.index()=%d but parameterDescriptor.getIndex()=%d", configurationContext.getHandlerMethodName(), paramLength.index(), parameterDescriptor.getIndex()));
         ParameterDescriptor findNamedParameter = configurationContext.findNamedParameter(paramLength.value());
         Assert.notNull(findNamedParameter, String.format("Parameter %d of the request handler method %s specifies an invalid name of parameter holding the length.", new Object[]{Integer.valueOf(parameterDescriptor.getIndex()), configurationContext.getHandlerMethodName()}));
         Assert.isTrue(findNamedParameter.getIndex() < parameterDescriptor.getIndex(), String.format("Parameter %d of the request handler method %s must have its length specified by a preceding parameter.", new Object[]{Integer.valueOf(parameterDescriptor.getIndex()), configurationContext.getHandlerMethodName()}));
@@ -176,12 +182,20 @@ public class XRequestParameterReaderFactories {
         Optional optional = parameterDescriptor.getOwnerMethod().getAnnotation(Optional.class);
         if (optional == null) {
             return parameterReader;
-        }
+        } else {
+			for (int optionalIndex : optional.indexes()) {
+				if (optionalIndex != parameterDescriptor.getIndex()) {
+					return parameterReader;
+				}
+			}
+		}
 		
 		int optionalIndex = indexFromArray(optional.indexes(), parameterDescriptor.getIndex());
-		
-		String[] optionalMaskArr = optional.masks();
+
 		String optionalMask = "mask";
+		
+		/*
+		String[] optionalMaskArr = optional.masks();
 		if (optionalMaskArr != null &&
 			optionalMaskArr.length > 0 &&
 			optionalMaskArr.length - 1 >= optionalIndex &&
@@ -189,6 +203,7 @@ public class XRequestParameterReaderFactories {
 		{
 			optionalMask = optionalMaskArr[optionalIndex];
 		}
+		*/
 		
         ParameterDescriptor findNamedParameter = configurationContext.findNamedParameter(optionalMask);
         Assert.notNull(findNamedParameter, String.format("Parameter %d of the request handler method %s specifies an invalid name of parameter holding the mask.", new Object[]{Integer.valueOf(parameterDescriptor.getIndex()), configurationContext.getHandlerMethodName()}));

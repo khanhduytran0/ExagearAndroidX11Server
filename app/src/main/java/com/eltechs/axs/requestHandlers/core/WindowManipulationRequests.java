@@ -100,11 +100,27 @@ public class WindowManipulationRequests extends HandlerObjectBase {
 
     @RequestHandler(opcode = 12)
     @Locks({"WINDOWS_MANAGER", "FOCUS_MANAGER", "INPUT_DEVICES"})
+	@ParamName(index = 1, "mask")
 	@Optional(
 		indexes = {3, 4, 5, 6, 7, 8},
 		bits = {"X", "Y", "WIDTH", "HEIGHT", "BORDER_WIDTH", "SIBLING", "STACK_MODE"}
 	)
-    public void ConfigureWindow(@RequestParam Window window, @RequestParam @Width(2) @ParamName("mask") Mask<ConfigureWindowParts> mask, @RequestParam short s, @RequestParam @Width(4) Integer num, @RequestParam @Width(4) Integer num2, @RequestParam @Width(4) Integer num3, @RequestParam @Width(4) Integer num4, @RequestParam @Width(4) Short sh, @RequestParam Window window2, @RequestParam @Width(4) StackMode stackMode) {
+	@Width(
+		indexes = {1, 3, 4, 5, 6, 7, 9},
+		values = {2, 4, 4, 4, 4, 4, 4}
+	)
+    public void ConfigureWindow(
+		@RequestParam Window window,
+		@RequestParam Mask<ConfigureWindowParts> mask,
+		@RequestParam short s,
+		@RequestParam Integer num,
+		@RequestParam Integer num2,
+		@RequestParam Integer num3,
+		@RequestParam Integer num4,
+		@RequestParam Short sh,
+		@RequestParam Window window2,
+		@RequestParam StackMode stackMode
+	) {
         int borderWidth;
         Window window3 = window;
         Mask<ConfigureWindowParts> mask2 = mask;
@@ -257,6 +273,7 @@ public class WindowManipulationRequests extends HandlerObjectBase {
 	@OOBParam(index = 1)
 	@NewXId(index = 2)
 	@SpecialNullValue(indexes = {10, 14})
+	@ParamName(index = 11, "mask")
     @Optional(
 		indexes = {12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26},
 		bits = {
@@ -266,18 +283,33 @@ public class WindowManipulationRequests extends HandlerObjectBase {
 			"DO_NOT_PROPAGATE_MASK", "COLORMAP", "CURSOR"
 		}
 	)
-    public void CreateWindow(XClient xClient, @RequestParam byte b, @RequestParam int i, @RequestParam Window window, @RequestParam @Width(2) IntegerSigned i2, @RequestParam @Width(2) IntegerSigned i3, @RequestParam @Width(2) IntegerUnsigned i4, @RequestParam @Width(2) IntegerUnsigned i5, @RequestParam @Width(2) IntegerUnsigned i6, @RequestParam @Width(2) WindowClass windowClass, @RequestParam Visual visual, @RequestParam @ParamName("mask") Mask<WindowAttributeNames> mask,
+	@Width(
+		indexes = {3, 4, 5, 6, 7, 8, 15, 16, 17, 20, 21},
+		values = {2, 2, 2, 2, 2, 2, 4, 4, 4, 4, 4}
+	)
+    public void CreateWindow(XClient xClient,
+		@RequestParam byte b,
+		@RequestParam int i,
+		@RequestParam Window window,
+		@RequestParam IntegerSigned i2,
+		@RequestParam IntegerSigned i3,
+		@RequestParam IntegerUnsigned i4,
+		@RequestParam IntegerUnsigned i5,
+		@RequestParam IntegerUnsigned i6,
+		@RequestParam WindowClass windowClass,
+		@RequestParam Visual visual,
+		@RequestParam Mask<WindowAttributeNames> mask,
 		@RequestParam Integer num,
 		@RequestParam Integer num2,
 		@RequestParam Integer num3,
 		@RequestParam Integer num4,
-		@RequestParam @Width(4) BitGravity bitGravity,
-		@RequestParam @Width(4) WinGravity winGravity,
-		@RequestParam @Width(4) BackingStore backingStore,
+		@RequestParam BitGravity bitGravity,
+		@RequestParam WinGravity winGravity,
+		@RequestParam BackingStore backingStore,
 		@RequestParam Integer num5,
 		@RequestParam Integer num6,
-		@RequestParam @Width(4) Boolean bool,
-		@RequestParam @Width(4) Boolean bool2,
+		@RequestParam Boolean bool,
+		@RequestParam Boolean bool2,
 		@RequestParam Mask<EventName> mask2,
 		@RequestParam Mask<EventName> mask3,
 		@RequestParam Integer num7,
@@ -344,6 +376,7 @@ public class WindowManipulationRequests extends HandlerObjectBase {
     @RequestHandler(opcode = 2)
     @Locks({"WINDOWS_MANAGER", "COLORMAPS_MANAGER", "CURSORS_MANAGER"})
 	@SpecialNullValue(indexes = {17})
+	@ParamName(index = 2, "mask")
     @Optional(
 		indexes = {3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17},
 		bits = {
@@ -353,21 +386,25 @@ public class WindowManipulationRequests extends HandlerObjectBase {
 			"DO_NOT_PROPAGATE_MASK", "COLORMAP", "CURSOR"
 		}
 	)
+	@Width(
+		indexes = {7, 8, 9, 12, 13},
+		values = {4, 4, 4, 4, 4}
+	)
     public void ChangeWindowAttributes(
 		XClient xClient,
 		@RequestParam Window window,
-		@RequestParam @ParamName("mask") Mask<WindowAttributeNames> mask,
+		@RequestParam Mask<WindowAttributeNames> mask,
 		@RequestParam Integer num,
 		@RequestParam Integer num2,
 		@RequestParam Integer num3,
 		@RequestParam Integer num4,
-		@RequestParam @Width(4) BitGravity bitGravity,
-		@RequestParam @Width(4) WinGravity winGravity,
-		@RequestParam @Width(4) BackingStore backingStore,
+		@RequestParam BitGravity bitGravity,
+		@RequestParam WinGravity winGravity,
+		@RequestParam BackingStore backingStore,
 		@RequestParam Integer num5,
 		@RequestParam Integer num6,
-		@RequestParam @Width(4) Boolean bool,
-		@RequestParam @Width(4) Boolean bool2,
+		@RequestParam Boolean bool,
+		@RequestParam Boolean bool2,
 		@RequestParam Mask<EventName> mask2,
 		@RequestParam Mask<EventName> mask3,
 		@RequestParam Integer num7, 
@@ -401,7 +438,11 @@ public class WindowManipulationRequests extends HandlerObjectBase {
 
     @RequestHandler(opcode = 40)
     @Locks({"WINDOWS_MANAGER"})
-    public void TranslateCoordinates(XResponse xResponse, @RequestParam Window window, @RequestParam Window window2, @RequestParam @Width(2) IntegerSigned i, @RequestParam @Width(2) IntegerSigned i2) throws IOException, XProtocolError {
+	@Width(
+		indexes = {3, 4},
+		values = {2, 2}
+	)
+    public void TranslateCoordinates(XResponse xResponse, @RequestParam Window window, @RequestParam Window window2, @RequestParam IntegerSigned i, @RequestParam IntegerSigned i2) throws IOException, XProtocolError {
         Point convertWindowCoordsToRoot = WindowHelpers.convertWindowCoordsToRoot(window, i.value, i2.value);
         final Point convertRootCoordsToWindow = WindowHelpers.convertRootCoordsToWindow(window2, convertWindowCoordsToRoot.x, convertWindowCoordsToRoot.y);
         final Window directMappedSubWindowByCoords = WindowHelpers.getDirectMappedSubWindowByCoords(window2, convertWindowCoordsToRoot.x, convertWindowCoordsToRoot.y);
@@ -420,7 +461,11 @@ public class WindowManipulationRequests extends HandlerObjectBase {
 
     @RequestHandler(opcode = 7)
     @Locks({"WINDOWS_MANAGER"})
-    public void ReparentWindow(XResponse xResponse, @RequestParam Window window, @RequestParam Window window2, @RequestParam @Width(2) IntegerSigned i, @RequestParam @Width(2) IntegerSigned i2) {
+	@Width(
+		indexes = {3, 4},
+		values = {2, 2}
+	)
+    public void ReparentWindow(XResponse xResponse, @RequestParam Window window, @RequestParam Window window2, @RequestParam IntegerSigned i, @RequestParam IntegerSigned i2) {
         Window parent = window.getParent();
         if (parent != null) {
             parent.getChildrenList().remove(window);

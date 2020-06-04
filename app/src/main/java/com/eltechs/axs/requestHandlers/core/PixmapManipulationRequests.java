@@ -25,7 +25,11 @@ public class PixmapManipulationRequests extends HandlerObjectBase {
     @Locks({"PIXMAPS_MANAGER", "DRAWABLES_MANAGER"})
 	@OOBParam(index = 1)
 	@NewXId(index = 2)
-    public void CreatePixmap(XClient xClient, @RequestParam byte b, @RequestParam int i, @RequestParam Drawable drawable, @RequestParam @Width(2) IntegerUnsigned i2, @RequestParam @Width(2) IntegerUnsigned i3) throws XProtocolError {
+	@Width(
+		indexes = {4, 5},
+		values = {2, 2}
+	)
+    public void CreatePixmap(XClient xClient, @RequestParam byte b, @RequestParam int i, @RequestParam Drawable drawable, @RequestParam IntegerUnsigned i2, @RequestParam IntegerUnsigned i3) throws XProtocolError {
         Drawable createDrawable = this.xServer.getDrawablesManager().createDrawable(i, drawable.getRoot(), i2.value, i3.value, b);
         if (createDrawable == null) {
             throw new BadIdChoice(i);

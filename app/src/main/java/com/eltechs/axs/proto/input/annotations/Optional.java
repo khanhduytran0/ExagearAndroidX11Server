@@ -19,6 +19,6 @@ public @interface Optional {
 public @interface Optional {
 	int[] indexes();
     String[] bits();
-    String[] masks();
+    // String[] masks();
 }
 

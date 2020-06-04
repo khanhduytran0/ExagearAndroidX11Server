@@ -18,7 +18,9 @@ public class FontManipulationRequests extends HandlerObjectBase {
     }
 
     @RequestHandler(opcode = 45)
-    public void OpenFont(@RequestParam int i, @RequestParam @ParamName("nameLength") short s, @RequestParam short s2, @RequestParam @ParamLength("nameLength") String str) {
+	@ParamLength(index = 3, "nameLength")
+	@ParamName(index = 1, "nameLength")
+    public void OpenFont(@RequestParam int i, @RequestParam short s, @RequestParam short s2, @RequestParam String str) {
         if (!str.equals("cursor")) {
             Assert.notImplementedYet(String.format("OpenFont supports only font='cursor', but got '%s'.", new Object[]{str}));
         }

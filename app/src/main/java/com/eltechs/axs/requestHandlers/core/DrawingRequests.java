@@ -48,7 +48,11 @@ public class DrawingRequests extends HandlerObjectBase {
     @RequestHandler(opcode = 72)
     @Locks({"DRAWABLES_MANAGER", "WINDOWS_MANAGER", "PIXMAPS_MANAGER", "GRAPHICS_CONTEXTS_MANAGER"})
 	@OOBParam(index = 0)
-    public void PutImage(@RequestParam IncomingImageFormat incomingImageFormat, @RequestParam Drawable drawable, @RequestParam GraphicsContext graphicsContext, @RequestParam @Width(2) IntegerUnsigned i, @RequestParam @Width(2) IntegerUnsigned i2, @RequestParam @Width(2) IntegerSigned i3, @RequestParam @Width(2) IntegerSigned i4, @RequestParam byte b, @RequestParam byte b2, @RequestParam short s, @RequestParam ByteBuffer byteBuffer) throws XProtocolError {
+	@Width(
+		indexes = {3, 4, 5, 6},
+		values = {2, 2, 2, 2}
+	)
+    public void PutImage(@RequestParam IncomingImageFormat incomingImageFormat, @RequestParam Drawable drawable, @RequestParam GraphicsContext graphicsContext, @RequestParam IntegerUnsigned i, @RequestParam IntegerUnsigned i2, @RequestParam IntegerSigned i3, @RequestParam IntegerSigned i4, @RequestParam byte b, @RequestParam byte b2, @RequestParam short s, @RequestParam ByteBuffer byteBuffer) throws XProtocolError {
         IncomingImageFormat incomingImageFormat2 = incomingImageFormat;
         byte b3 = b2;
         Painter painter = drawable.getPainter();
@@ -85,7 +89,11 @@ public class DrawingRequests extends HandlerObjectBase {
     @RequestHandler(opcode = 73)
     @Locks({"DRAWABLES_MANAGER", "PIXMAPS_MANAGER"})
 	@OOBParam(index = 1)
-    public void GetImage(XResponse xResponse, @RequestParam IncomingImageFormat incomingImageFormat, @RequestParam Drawable drawable, @RequestParam @Width(2) IntegerSigned i, @RequestParam @Width(2) IntegerSigned i2, @RequestParam @Width(2) IntegerUnsigned i3, @RequestParam @Width(2) IntegerUnsigned i4, @RequestParam int i5) throws XProtocolError, IOException {
+	@Width(
+		indexes = {3, 4, 5, 6},
+		values = {2, 2, 2, 2}
+	)
+    public void GetImage(XResponse xResponse, @RequestParam IncomingImageFormat incomingImageFormat, @RequestParam Drawable drawable, @RequestParam IntegerSigned i, @RequestParam IntegerSigned i2, @RequestParam IntegerUnsigned i3, @RequestParam IntegerUnsigned i4, @RequestParam int i5) throws XProtocolError, IOException {
         final int i6;
         if (incomingImageFormat == IncomingImageFormat.BITMAP) {
             throw new BadValue(incomingImageFormat.ordinal());
@@ -125,14 +133,22 @@ public class DrawingRequests extends HandlerObjectBase {
 
     @RequestHandler(opcode = 62)
     @Locks({"DRAWABLES_MANAGER", "GRAPHICS_CONTEXTS_MANAGER"})
-    public void CopyArea(@RequestParam Drawable drawable, @RequestParam Drawable drawable2, @RequestParam GraphicsContext graphicsContext, @RequestParam @Width(2) IntegerSigned i, @RequestParam @Width(2) IntegerSigned i2, @RequestParam @Width(2) IntegerSigned i3, @RequestParam @Width(2) IntegerSigned i4, @RequestParam @Width(2) IntegerUnsigned i5, @RequestParam @Width(2) IntegerUnsigned i6) {
+	@Width(
+		indexes = {3, 4, 5, 6, 7, 8},
+		values = {2, 2, 2, 2, 2, 2}
+	)
+    public void CopyArea(@RequestParam Drawable drawable, @RequestParam Drawable drawable2, @RequestParam GraphicsContext graphicsContext, @RequestParam IntegerSigned i, @RequestParam IntegerSigned i2, @RequestParam IntegerSigned i3, @RequestParam IntegerSigned i4, @RequestParam IntegerUnsigned i5, @RequestParam IntegerUnsigned i6) {
         drawable2.getPainter().copyArea(graphicsContext, drawable, i.value, i2.value, i3.value, i4.value, i5.value, i6.value);
     }
 
     @RequestHandler(opcode = 61)
     @Locks({"WINDOWS_MANAGER"})
 	@OOBParam(index = 0)
-    public void ClearArea(@RequestParam Boolean bool, @RequestParam Window window, @RequestParam @Width(2) IntegerSigned i, @RequestParam @Width(2) IntegerSigned i2, @RequestParam @Width(2) IntegerUnsigned i3, @RequestParam @Width(2) IntegerUnsigned i4) {
+	@Width(
+		indexes = {2, 3, 4, 5},
+		values = {2, 2, 2, 2}
+	)
+    public void ClearArea(@RequestParam Boolean bool, @RequestParam Window window, @RequestParam IntegerSigned i, @RequestParam IntegerSigned i2, @RequestParam IntegerUnsigned i3, @RequestParam IntegerUnsigned i4) {
         if (i3.value != 0 || i4.value != 0) {
             Assert.notImplementedYet("ClearArea is not implemented");
         }

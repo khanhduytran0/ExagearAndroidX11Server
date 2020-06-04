@@ -71,54 +71,6 @@ public class AppConfig {
         this.sp.edit().putStringSet("COMLPETED_REMIND_ACTIONS", set).apply();
     }
 
-    public boolean isXServerFirstConnectDone() {
-        return this.sp.getBoolean("XSERVER_FIRST_CONNECT", false);
-    }
-
-    public void setXServerFirstConnectDone(boolean z) {
-        this.sp.edit().putBoolean("XSERVER_FIRST_CONNECT", z).apply();
-    }
-
-    public Long getCurrentGuestContId() {
-        return Long.valueOf(this.sp.getLong("CURRENT_GUEST_CONT_ID", 0));
-    }
-
-    public void setCurrentGuestContId(Long l) {
-        this.sp.edit().putLong("CURRENT_GUEST_CONT_ID", l.longValue()).apply();
-    }
-
-    public Integer getEDMainOnStartAction() {
-        return Integer.valueOf(this.sp.getInt("ED_MAIN_ON_START_ACTION", -1));
-    }
-
-    public void setEDMainOnStartAction(Integer num) {
-        this.sp.edit().putInt("ED_MAIN_ON_START_ACTION", num.intValue()).apply();
-    }
-
-    public int getGuestLaunchesCount() {
-        return this.sp.getInt("GUEST_LAUNCHES_COUNT", 0);
-    }
-
-    public void setGuestLaunchesCount(int i) {
-        this.sp.edit().putInt("GUEST_LAUNCHES_COUNT", i).apply();
-    }
-
-    public boolean getRateAppDontShowAgain() {
-        return this.sp.getBoolean("RATE_APP_DONT_SHOW_AGAIN", false);
-    }
-
-    public void setRateAppDontShowAgain(boolean z) {
-        this.sp.edit().putBoolean("RATE_APP_DONT_SHOW_AGAIN", z).apply();
-    }
-
-    public Date getRateAppLastShowTime() {
-        return new Date(this.sp.getLong("RATE_APP_LAST_SHOW_TIME", 0));
-    }
-
-    public void setRateAppLastShowTime(Date date) {
-        this.sp.edit().putLong("RATE_APP_LAST_SHOW_TIME", date.getTime()).apply();
-    }
-
     public Set<String> getControlsWithInfoShown() {
         return this.sp.getStringSet("CONTROLS_WITH_INFO_SHOWN", new HashSet());
     }

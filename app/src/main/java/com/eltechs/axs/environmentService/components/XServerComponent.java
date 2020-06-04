@@ -24,13 +24,23 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import com.eltechs.axs.rendering.impl.virglRenderer.*;
 import com.eltechs.axs.xserver.keysyms.*;
+import java.net.*;
+import com.eltechs.axs.xconnectors.epoll.*;
 
 public class XServerComponent extends EnvironmentComponent {
-    private NioConnector<XClient> connector;
+    // private NioConnector<XClient> connector;
+	private FairEpollConnector<XClient> connector;
     private DesktopExperience desktopExperience;
     private final int displayNumber;
     private final ScreenInfo screenInfo;
+    private UnixSocketConfiguration socketConf;
     private XServer xServer;
+
+    public XServerComponent(ScreenInfo screenInfo2, int i, UnixSocketConfiguration unixSocketConfiguration) {
+        this.screenInfo = screenInfo2;
+        this.displayNumber = i;
+        this.socketConf = unixSocketConfiguration;
+    }
 
     public XServerComponent(ScreenInfo screenInfo, int displayNumber) {
         this.screenInfo = screenInfo;
@@ -38,7 +48,7 @@ public class XServerComponent extends EnvironmentComponent {
     }
 
     public void start() throws IOException {
-        Assert.state(this.connector == null, "X-server component is already started.");
+        Assert.state(connector == null, "X-server component is already started.");
         this.xServer = createXServer(this.screenInfo, createKeyboardModel());
         this.desktopExperience = new DesktopExperienceImpl();
         this.desktopExperience.attachToXServer(this.xServer);
@@ -75,12 +85,21 @@ public class XServerComponent extends EnvironmentComponent {
     }
 	
     private void startXConnector(XServer xServer) throws IOException {
+		
 		int xDisplayPort = this.displayNumber + 6000;
 		
 		// TODO remove after debug
-		xDisplayPort = 0;
+		// xDisplayPort = 0;
+		/*
+		InetSocketAddress inetSocketAddr = (InetSocketAddress) new ServerSocket(xDisplayPort).accept().getRemoteSocketAddress();
+		InetAddress addr = inetSocketAddr.getAddress();
+		System.out.println("HostAddr=" + addr.getHostAddress() + "," + addr.getHostName());
+        this.connector = new NioConnector<XClient>(inetSocketAddr, new XClientConnectionHandler(xServer), RootXRequestHandlerConfigurer.createRequestHandler(xServer));
+		*/
 		
-        this.connector = new NioConnector<XClient>(new InetSocketAddress(InetAddress.getLocalHost(), xDisplayPort), new XClientConnectionHandler(xServer), RootXRequestHandlerConfigurer.createRequestHandler(xServer));
+		this.connector =
+		// FairEpollConnector.listenOnLoopbackInetAddress(0, new XClientConnectionHandler(xServer), RootXRequestHandlerConfigurer.createRequestHandler(xServer));
+		FairEpollConnector.listenOnSpecifiedUnixSocket(socketConf, new XClientConnectionHandler(xServer), RootXRequestHandlerConfigurer.createRequestHandler(xServer));
         this.connector.setInitialInputBufferCapacity(262144);
         this.connector.start();
     }

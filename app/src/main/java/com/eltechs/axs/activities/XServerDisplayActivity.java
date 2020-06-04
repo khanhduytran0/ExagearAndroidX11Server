@@ -56,6 +56,7 @@ public class XServerDisplayActivity<StateClass extends ApplicationStateBase<Stat
     public void onCreate(Bundle bundle) {
         ViewFacade viewFacade = null;
         super.onCreate(bundle);
+		
         ApplicationStateBase applicationState = getApplicationState();
         XServerComponent xServerComponent = (XServerComponent) applicationState.getEnvironment().getComponent(XServerComponent.class);
         Class cls = (Class) getIntent().getSerializableExtra("facadeclass");

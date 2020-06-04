@@ -15,32 +15,32 @@ public abstract class PrimitiveTypeParameterReader extends ParameterReaderBase {
     private final int naturalWidth;
     private final int width;
 
-    protected PrimitiveTypeParameterReader(RequestDataReader requestDataReader, ParameterDescriptor parameterDescriptor, int i, boolean z) {
+    protected PrimitiveTypeParameterReader(RequestDataReader requestDataReader, ParameterDescriptor parameterDescriptor, int naturalWidth, boolean z) {
         super(requestDataReader);
-        this.naturalWidth = i;
-        Width width2 = (Width) parameterDescriptor.getAnnotation(Width.class);
-        if (width2 == null) {
-            this.width = i;
-        } else {
-            this.width = width2.value();
+        this.naturalWidth = naturalWidth;
+		this.width = naturalWidth;
+		
+        Width width2 = parameterDescriptor.getAnnotation(Width.class);
+        if (width2 != null) {
+			for (int i = 0; i < width2.indexes().length; i++) {
+				int index = width2.indexes()[i];
+				if (index == parameterDescriptor.getIndex()) {
+					this.width = width2.values()[i];
+					break;
+				}
+			}
         }
 		
 		boolean signed = parameterDescriptor.getType() instanceof IntegerSigned;
 		boolean unsigned = parameterDescriptor.getType() instanceof IntegerUnsigned;
-        boolean z2 = false;
-        boolean z3 = width2 != null && i > width2.value();
+        boolean z3 = width2 != null && naturalWidth > width;
         Assert.isTrue(z || !z3 || (!signed && unsigned) || (signed && !unsigned), "Primitive type with extension must be specified with extension type and extension type must be specified only once.");
         this.isZXT = z || (z3 && unsigned);
         Assert.isTrue(this.naturalWidth == 1 || this.naturalWidth == 2 || this.naturalWidth == 4, "Primitive types can only be 1, 2 or 4 bytes wide.");
-        if (this.width == 1 || this.width == 2 || this.width == 4) {
-            z2 = true;
-        }
-		
-        Assert.isTrue(z2, "Primitive types can only be 1, 2 or 4 bytes wide.");
+        Assert.isTrue(this.width == 1 || this.width == 2 || this.width == 4, "Primitive types can only be 1, 2 or 4 bytes wide.");
     }
 
-    /* access modifiers changed from: protected */
-    public final int getUnderlyingValue(ParametersCollectionContext parametersCollectionContext) throws XProtocolError {
+    protected final int getUnderlyingValue(ParametersCollectionContext parametersCollectionContext) throws XProtocolError {
         int i;
         RequestDataRetrievalContext dataRetrievalContext = parametersCollectionContext.getDataRetrievalContext();
         if (this.width > this.naturalWidth) {

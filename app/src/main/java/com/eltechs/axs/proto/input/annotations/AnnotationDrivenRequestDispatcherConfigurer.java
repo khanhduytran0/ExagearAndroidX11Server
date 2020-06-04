@@ -87,8 +87,8 @@ public class AnnotationDrivenRequestDispatcherConfigurer {
 
     private ParameterDescriptor findNamedParameter(ParameterDescriptor[] parameterDescriptors, String name) {
         for (ParameterDescriptor pd : parameterDescriptors) {
-            ParamName pn = (ParamName) pd.getAnnotation(ParamName.class);
-            if (pn != null && name.equals(pn.value())) {
+            ParamName pn = (ParamName) pd.getOwnerMethod().getAnnotation(ParamName.class);
+            if (pn != null && pn.index() == pd.getIndex() && name.equals(pn.value())) {
                 return pd;
             }
         }

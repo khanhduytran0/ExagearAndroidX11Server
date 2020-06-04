@@ -44,7 +44,11 @@ public class GrabManipulationRequests extends HandlerObjectBase {
     @Locks({"WINDOWS_MANAGER", "CURSORS_MANAGER", "INPUT_DEVICES", "FOCUS_MANAGER"})
 	@OOBParam(index = 2)
 	@SpecialNullValue(indexes = {7, 8})
-    public void GrabPointer(XClient xClient, XResponse xResponse, @RequestParam boolean z, @RequestParam Window window, @RequestParam @Width(2) Mask<EventName> mask, @RequestParam DeviceGrabMode deviceGrabMode, @RequestParam DeviceGrabMode deviceGrabMode2, @RequestParam Window window2, @RequestParam Cursor cursor, @RequestParam int i) throws IOException {
+	@Width(
+		indexes = {4},
+		values = {2}
+	)
+    public void GrabPointer(XClient xClient, XResponse xResponse, @RequestParam boolean z, @RequestParam Window window, @RequestParam Mask<EventName> mask, @RequestParam DeviceGrabMode deviceGrabMode, @RequestParam DeviceGrabMode deviceGrabMode2, @RequestParam Window window2, @RequestParam Cursor cursor, @RequestParam int i) throws IOException {
         GrabReplyTypes grabReplyTypes;
         XClient xClient2;
         GrabsManager grabsManager = this.xServer.getGrabsManager();

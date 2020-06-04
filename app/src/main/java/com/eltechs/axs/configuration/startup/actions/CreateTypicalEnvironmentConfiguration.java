@@ -35,7 +35,7 @@ public class CreateTypicalEnvironmentConfiguration<StateClass extends Environmen
         AXSEnvironment aXSEnvironment = new AXSEnvironment(getAppContext());
         int i = this.productId;
         // aXSEnvironment.addComponent(new SysVIPCEmulatorComponent(ProductIDs.getPackageName(this.productId)));
-        aXSEnvironment.addComponent(new XServerComponent(environmentCustomisationParameters.getScreenInfo(), i /* , createXServerSocketConf() */));
+        aXSEnvironment.addComponent(new XServerComponent(environmentCustomisationParameters.getScreenInfo(), i, createXServerSocketConf()));
 		
 		android.util.Log.d("ExagearAXS", "FIXME implement socket of ALSA Server, DirectSound Server or PulseAudio Server!");
         // aXSEnvironment.addComponent(new ALSAServerComponent(createALSASocketConf()));
