@@ -16,7 +16,7 @@ public class RequestStreamParser {
         ParametersCollectionContext parametersCollectionContext = new ParametersCollectionContext(obj, xServer, requestDataRetrievalContext, this.parameterReaders.length);
         for (ParameterReader readParameter : this.parameterReaders) {
 			if (parametersCollectionContext.getDataRetrievalContext().remainingBytesCount == 0) {
-				Log.e("Exagear", "Client sent a zero byte count. Ignoring");
+				Log.e("Exagear", "FIXME: Received a zero byte count. Ignoring");
 				continue;
 			}
             readParameter.readParameter(parametersCollectionContext);

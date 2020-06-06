@@ -8,6 +8,6 @@ import java.lang.annotation.Target;
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface IntSign {
-	int[] signedIndexes();
-	int[] unsignedIndexes();
+	int[] signedIndexes() default {};
+	int[] unsignedIndexes() default {};
 }

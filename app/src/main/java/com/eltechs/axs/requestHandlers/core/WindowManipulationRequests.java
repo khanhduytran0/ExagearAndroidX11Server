@@ -288,8 +288,8 @@ public class WindowManipulationRequests extends HandlerObjectBase {
 		values = {2, 2, 2, 2, 2, 2, 4, 4, 4, 4, 4}
 	)
 	@IntSign(
-		signedIndexes = {3, 4},
-		unsignedIndexes = {5, 6, 7}
+		signedIndexes = {4, 5},
+		unsignedIndexes = {6, 7, 8}
 	)
     public void CreateWindow(XClient xClient,
 		byte b,

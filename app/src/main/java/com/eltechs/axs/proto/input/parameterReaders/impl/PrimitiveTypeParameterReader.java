@@ -44,14 +44,14 @@ public abstract class PrimitiveTypeParameterReader extends ParameterReaderBase {
 		if (intSign != null) {
 			int[] signedIndexes = intSign.signedIndexes();
 			int[] unsignedIndexes = intSign.unsignedIndexes();
-			if (signedIndexes != null) {
+			if (signedIndexes.length != 0) {
 				for (int i = 0; i < signedIndexes.length; i++) {
 					if (parameterDescriptor.getIndex() == signedIndexes[i]) {
 						signed = true;
 						break;
 					}
 				}
-			} if (unsignedIndexes != null) {
+			} if (unsignedIndexes.length != 0) {
 				for (int i = 0; i < unsignedIndexes.length; i++) {
 					if (parameterDescriptor.getIndex() == unsignedIndexes[i]) {
 						unsigned = true;
@@ -60,6 +60,7 @@ public abstract class PrimitiveTypeParameterReader extends ParameterReaderBase {
 				}
 			}
 		}
+		Log.d("Exagear", parameterDescriptor.getOwnerMethod().getDeclaringClass().getName() + ":" + parameterDescriptor.getOwnerMethod().getName() + "(" + parameterDescriptor.getIndex() + "), Signed=" + signed + ", Unsigned=" + unsigned);
 		
         boolean z3 = width2 != null && naturalWidth > width;
         Assert.isTrue(ignoreErr || !z3 || (!signed && unsigned) || (signed && !unsigned), "Primitive type with extension must be specified with extension type and extension type must be specified only once.");
