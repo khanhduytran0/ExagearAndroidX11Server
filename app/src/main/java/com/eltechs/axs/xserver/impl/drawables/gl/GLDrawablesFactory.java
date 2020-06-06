@@ -66,7 +66,7 @@ public class GLDrawablesFactory extends DrawablesFactoryImplBase {
             case 16:
                 return create16Depth();
             case 32:
-                return create15Depth();
+                return create32Depth();
             default:
                 Assert.isTrue(false, "Invalid BPP.");
                 return null;

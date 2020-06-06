@@ -41,17 +41,19 @@ public abstract class DrawablesFactoryImplBase implements DrawablesFactory {
     }
 
     @Override
-    public final Visual getPreferredVisualForDepth(int i) {
-        if (i == this.preferredVisual.getDepth()) {
+    public final Visual getPreferredVisualForDepth(int depth) {
+		Log.d("Exagear", "Checking " + depth + " == " + this.preferredVisual.getDepth());
+        if (depth == this.preferredVisual.getDepth()) {
             return this.preferredVisual;
         }
 
         for (Visual visual : this.supportedVisuals) {
-            if (i == visual.getDepth()) {
+			Log.d("Exagear", "Checking " + depth + " == " + visual.getDepth());
+            if (depth == visual.getDepth()) {
                 return visual;
             }
         }
-        // TODO: FIXME it is always null.
+        
         return null;
     }
 }

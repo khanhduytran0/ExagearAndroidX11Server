@@ -2,7 +2,7 @@
 A X11 Server for Android take from Exagear AXS library in Exagear Windows Emulator app
 
 ## Current status
-- Some BadThings (XProtocolError) are being thrown after an X Client connect to.
+- While a client connect to, the X11 Server go to ANR (App Not Responding).
 
 ## TODO replace `Param Annotation` with other
 My current development don't support `Annotation` in Parameter of Method.

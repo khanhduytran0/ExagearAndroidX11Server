@@ -60,8 +60,7 @@ public abstract class PrimitiveTypeParameterReader extends ParameterReaderBase {
 				}
 			}
 		}
-		Log.d("Exagear", parameterDescriptor.getOwnerMethod().getDeclaringClass().getName() + ":" + parameterDescriptor.getOwnerMethod().getName() + "(" + parameterDescriptor.getIndex() + "), Signed=" + signed + ", Unsigned=" + unsigned);
-		
+		// Log.d("Exagear", parameterDescriptor.getOwnerMethod().getDeclaringClass().getName() + ":" + parameterDescriptor.getOwnerMethod().getName() + "(" + parameterDescriptor.getIndex() + "), Signed=" + signed + ", Unsigned=" + unsigned);
         boolean z3 = width2 != null && naturalWidth > width;
         Assert.isTrue(ignoreErr || !z3 || (!signed && unsigned) || (signed && !unsigned), "Primitive type with extension must be specified with extension type and extension type must be specified only once.");
         this.isZXT = ignoreErr || (z3 && unsigned);
@@ -72,7 +71,7 @@ public abstract class PrimitiveTypeParameterReader extends ParameterReaderBase {
     protected final int getUnderlyingValue(ParametersCollectionContext parametersCollectionContext) throws XProtocolError {
         int returningValue;
         RequestDataRetrievalContext dataRetrievalContext = parametersCollectionContext.getDataRetrievalContext();
-		Log.d("Exagear", "getUnderlyingValue has width=" + width + ",naturalWidth=" + naturalWidth);
+		// Log.d("Exagear", "getUnderlyingValue has width=" + width + ",naturalWidth=" + naturalWidth);
         if (this.width > this.naturalWidth) {
             if (this.naturalWidth == 1) {
                 returningValue = ArithHelpers.extendAsUnsigned(this.dataReader.readByte(dataRetrievalContext));
@@ -101,7 +100,7 @@ public abstract class PrimitiveTypeParameterReader extends ParameterReaderBase {
                 returningValue = ArithHelpers.extendAsUnsigned(readShort);
             }
         }
-		Log.d("Exagear", "getUnderlyingValue returing " + returningValue);
+		// Log.d("Exagear", "getUnderlyingValue returing " + returningValue);
 		return returningValue;
     }
 }

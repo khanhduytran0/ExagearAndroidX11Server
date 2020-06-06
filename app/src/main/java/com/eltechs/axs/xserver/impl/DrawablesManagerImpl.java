@@ -25,11 +25,11 @@ public class DrawablesManagerImpl implements DrawablesManager {
         return this.drawables.get(i);
     }
 
-    public Drawable createDrawable(int i, Window window, int i2, int i3, byte b) {
-        Visual preferredVisualForDepth = this.factory.getPreferredVisualForDepth(ArithHelpers.extendAsUnsigned(b));
+    public Drawable createDrawable(int i, Window window, int i2, int i3, byte depth) {
+        Visual preferredVisualForDepth = this.factory.getPreferredVisualForDepth(ArithHelpers.extendAsUnsigned(depth));
         if (preferredVisualForDepth == null) {
-            Log.w("FIXME", "Code modified to bypass createDrawable(preferredVisualForDepth==null)");
-            return null;
+			Log.w("Exagear", "Invalid depth " + depth + ". Using default");
+            preferredVisualForDepth = this.factory.getPreferredVisual();
         }
         return createDrawable(i, window, i2, i3, preferredVisualForDepth);
     }
