@@ -53,7 +53,6 @@ import java.lang.reflect.Type;
 import java.nio.ByteBuffer;
 import java.lang.annotation.*;
 import android.support.v4.graphics.*;
-import com.eltechs.axs.integersign.*;
 
 public class XRequestParameterReaderFactories {
     public static final RequestContextParamReadersFactory CONTEXT_PARAM_READERS_FACTORY = new RequestContextParamReadersFactory() {
@@ -88,9 +87,6 @@ public class XRequestParameterReaderFactories {
             if (rawType == Integer.TYPE || rawType == Integer.class) {
                 return new IntegerParameterReader(access, parameterDescriptor);
             }
-			if (rawType == IntegerSigned.class || rawType == IntegerUnsigned.class) {
-				return new IntegerParameterReader(access, parameterDescriptor);
-			}
             if (rawType == String.class) {
                 return XRequestParameterReaderFactories.createString8Reader(parameterDescriptor, configurationContext);
             }

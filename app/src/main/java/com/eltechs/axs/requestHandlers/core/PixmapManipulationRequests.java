@@ -14,7 +14,7 @@ import com.eltechs.axs.xserver.Drawable;
 import com.eltechs.axs.xserver.Pixmap;
 import com.eltechs.axs.xserver.XServer;
 import com.eltechs.axs.xserver.client.XClient;
-import com.eltechs.axs.integersign.*;
+import com.eltechs.axs.proto.input.annotations.*;
 
 public class PixmapManipulationRequests extends HandlerObjectBase {
     public PixmapManipulationRequests(XServer xServer) {
@@ -29,8 +29,11 @@ public class PixmapManipulationRequests extends HandlerObjectBase {
 		indexes = {4, 5},
 		values = {2, 2}
 	)
-    public void CreatePixmap(XClient xClient, @RequestParam byte b, @RequestParam int i, @RequestParam Drawable drawable, @RequestParam IntegerUnsigned i2, @RequestParam IntegerUnsigned i3) throws XProtocolError {
-        Drawable createDrawable = this.xServer.getDrawablesManager().createDrawable(i, drawable.getRoot(), i2.value, i3.value, b);
+	@IntSign(
+		unsignedIndexes = {4, 5}
+	)
+    public void CreatePixmap(XClient xClient, byte b, int i, Drawable drawable, int i2, int i3) throws XProtocolError {
+        Drawable createDrawable = this.xServer.getDrawablesManager().createDrawable(i, drawable.getRoot(), i2, i3, b);
         if (createDrawable == null) {
             throw new BadIdChoice(i);
         }
@@ -41,7 +44,7 @@ public class PixmapManipulationRequests extends HandlerObjectBase {
 
     @RequestHandler(opcode = 54)
     @Locks({"PIXMAPS_MANAGER", "DRAWABLES_MANAGER"})
-    public void FreePixmap(XClient xClient, @RequestParam Pixmap pixmap) {
+    public void FreePixmap(XClient xClient, Pixmap pixmap) {
         this.xServer.getPixmapsManager().freePixmap(pixmap);
     }
 }

@@ -11,7 +11,6 @@ import com.eltechs.axs.environmentService.components.ALSAServerComponent;
 import com.eltechs.axs.environmentService.components.DirectSoundServerComponent;
 import com.eltechs.axs.environmentService.components.XServerComponent;
 import com.eltechs.axs.network.SocketPaths;
-import com.eltechs.axs.productsRegistry.ProductIDs;
 import com.eltechs.axs.xconnectors.epoll.UnixSocketConfiguration;
 
 public class CreateTypicalEnvironmentConfiguration<StateClass extends EnvironmentAware & ExagearImageAware & SelectedExecutableFileAware<StateClass>> extends AbstractStartupAction<StateClass> {

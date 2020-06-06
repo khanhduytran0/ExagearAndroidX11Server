@@ -73,7 +73,9 @@ public class StartGuest<StateClass extends ApplicationStateBase<StateClass> & Se
                 ((XServerDisplayActivityConfigurationAware) ((ApplicationStateBase) StartGuest.this.getApplicationState())).setXServerDisplayActivityInterfaceOverlay(StartGuest.this.mControls.create());
             }
         });
-        arrayList.add(new CreateTypicalEnvironmentConfiguration(12, false));
+		
+		// 0 is the DISPLAY port and other like ALSA port...
+        arrayList.add(new CreateTypicalEnvironmentConfiguration(0, false));
         arrayList.add(new StartEnvironmentService(new TrayConfiguration(R.drawable.tray, R.string.host_app_name, R.string.host_app_name)));
         arrayList.add(new WaitForXClientConnection(this.mHideXServerImage));
         UiThread.post(new Runnable() {

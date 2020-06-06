@@ -2,6 +2,7 @@ package com.eltechs.axs.proto.input.annotations.impl;
 
 import com.eltechs.axs.proto.input.XProtocolError;
 import com.eltechs.axs.proto.input.errors.BadRequest;
+import android.util.*;
 
 public class NormalRequestDataReader implements RequestDataReader {
     public static final RequestDataReader INSTANCE = new NormalRequestDataReader();
@@ -38,6 +39,7 @@ public class NormalRequestDataReader implements RequestDataReader {
 
     private void updateRemainingBytesCount(RequestDataRetrievalContext requestDataRetrievalContext, int i) throws XProtocolError {
         if (requestDataRetrievalContext.remainingBytesCount < i) {
+			Log.e("Exagear", requestDataRetrievalContext.remainingBytesCount + " remaining bytes is below than the update request " + i + " bytes");
             throw new BadRequest();
         }
         requestDataRetrievalContext.remainingBytesCount -= i;

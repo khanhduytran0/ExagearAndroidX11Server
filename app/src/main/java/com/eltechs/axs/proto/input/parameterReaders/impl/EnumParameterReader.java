@@ -19,7 +19,8 @@ public class EnumParameterReader extends PrimitiveTypeParameterReader {
     /* access modifiers changed from: protected */
     public Object readParameterImpl(ParametersCollectionContext parametersCollectionContext) throws XProtocolError {
         int underlyingValue = getUnderlyingValue(parametersCollectionContext);
-        Enum[] enumArr = this.enumClass.getEnumConstants();
+		Enum[] enumArr = this.enumClass.getEnumConstants();
+		
         if (underlyingValue >= 0 && underlyingValue < enumArr.length) {
             return enumArr[underlyingValue];
         }

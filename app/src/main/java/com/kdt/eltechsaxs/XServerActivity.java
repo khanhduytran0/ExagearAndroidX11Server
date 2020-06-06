@@ -10,6 +10,7 @@ import com.eltechs.axs.configuration.startup.*;
 import com.eltechs.axs.configuration.startup.actions.*;
 import com.eltechs.ed.*;
 import com.eltechs.ed.startupActions.*;
+import java.io.*;
 
 public class XServerActivity extends StartupActivity<EDApplicationState>
 {
@@ -25,6 +26,14 @@ public class XServerActivity extends StartupActivity<EDApplicationState>
 		
         EDApplicationState eDApplicationState = (EDApplicationState) getApplicationState();
 		eDApplicationState.setExagearImage(ExagearImage.find(getApplicationContext(), GENERIC_IMAGE_DIRECTORY_NAME, true));
+		File tmpFile = new File(eDApplicationState.getExagearImage().getPath(), "tmp");
+		File x11UnixFolder = new File(tmpFile, ".X11-unix");
+		x11UnixFolder.mkdirs();
+		new File(x11UnixFolder, "X0").delete();
+		
+		File soundFolder = new File(tmpFile, ".sound");
+		soundFolder.mkdir();
+		new File(soundFolder, "ALSA0").delete();
 		
         StartupActionsCollection startupActionsCollection = eDApplicationState.getStartupActionsCollection();
         startupActionsCollection.addAction(new RequestPermissions(this, StartupActivity.REQUEST_CODE_GET_PERMISSIONS));

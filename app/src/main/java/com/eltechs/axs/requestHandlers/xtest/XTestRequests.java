@@ -16,7 +16,7 @@ import com.eltechs.axs.xserver.Window;
 import com.eltechs.axs.xserver.XServer;
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import com.eltechs.axs.integersign.*;
+import com.eltechs.axs.proto.input.annotations.*;
 
 public class XTestRequests extends HandlerObjectBase {
     public XTestRequests(XServer xServer) {
@@ -24,7 +24,7 @@ public class XTestRequests extends HandlerObjectBase {
     }
 
     @RequestHandler(opcode = 0)
-    public void GetVersion(XResponse xResponse, @RequestParam byte b, @RequestParam byte b2, @RequestParam short s) throws IOException {
+    public void GetVersion(XResponse xResponse, byte b, byte b2, short s) throws IOException {
         xResponse.sendSimpleSuccessReply((byte) 2, (ResponseDataWriter) new ResponseDataWriter() {
             public void write(ByteBuffer byteBuffer) {
                 byteBuffer.putShort((short)1);
@@ -39,7 +39,10 @@ public class XTestRequests extends HandlerObjectBase {
 		indexes = {7, 8},
 		values = {2, 2}
 	)
-    public void FakeInput(@RequestParam byte b, @RequestParam byte b2, @RequestParam short s, @RequestParam int i, @RequestParam Window window, @RequestParam int i2, @RequestParam int i3, @RequestParam IntegerSigned i4, @RequestParam IntegerSigned i5, @RequestParam int i6, @RequestParam int i7) throws XProtocolError {
+	@IntSign(
+		signedIndexes = {7, 8}
+	)
+    public void FakeInput(byte b, byte b2, short s, int i, Window window, int i2, int i3, int i4, int i5, int i6, int i7) throws XProtocolError {
         if (b < 2 || b > 6) {
             throw new BadValue(b);
         }
@@ -76,10 +79,10 @@ public class XTestRequests extends HandlerObjectBase {
                     if (b2 == 0 || b2 == 1) {
                         Pointer pointer = this.xServer.getPointer();
                         if (b2 == 1) {
-                            i4.value += pointer.getX();
-                            i5.value += pointer.getY();
+                            i4 += pointer.getX();
+                            i5 += pointer.getY();
                         }
-                        pointer.warpOnCoordinates(i4.value, i5.value);
+                        pointer.warpOnCoordinates(i4, i5);
                         return;
                     }
                     throw new BadValue(b2);

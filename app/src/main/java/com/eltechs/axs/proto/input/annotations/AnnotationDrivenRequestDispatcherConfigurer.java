@@ -27,7 +27,8 @@ public class AnnotationDrivenRequestDispatcherConfigurer {
             for (Method method : h.getClass().getMethods()) {
                 RequestHandler rh = (RequestHandler) method.getAnnotation(RequestHandler.class);
                 if (rh != null) {
-                    processOneHandler(rh.opcode(), h, method);
+					Object realObj = h;
+                    processOneHandler(rh.opcode(), realObj, method);
                 }
             }
         }

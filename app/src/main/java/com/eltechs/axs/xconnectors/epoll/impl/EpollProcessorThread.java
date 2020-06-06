@@ -10,6 +10,9 @@ import com.eltechs.axs.xconnectors.impl.XOutputStreamImpl;
 import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.Queue;
+import com.eltechs.axs.proto.input.*;
+import com.eltechs.axs.activities.*;
+import android.util.*;
 
 public class EpollProcessorThread<Context> extends Thread {
     private final int batchSize;
@@ -140,9 +143,15 @@ public class EpollProcessorThread<Context> extends Thread {
     }
 
     public void run() {
-        do {
-        } while (runOnce());
-        shutdown();
+        try {
+			do {
+			} while (runOnce());
+		} catch (Throwable th) {
+			th.printStackTrace();
+			FatalErrorActivity.showFatalError("Error X11 Server:\n" + Log.getStackTraceString(th));
+		} finally {
+			shutdown();
+		}
     }
 
     public synchronized void startProcessing() {

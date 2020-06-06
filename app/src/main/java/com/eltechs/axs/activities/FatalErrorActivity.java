@@ -34,7 +34,8 @@ public class FatalErrorActivity extends FrameworkActivity<ApplicationStateBase<?
         super.onCreate(bundle);
         setContentView(R.layout.fatal_error);
         TextView textView = (TextView) findViewById(R.id.fe_text_view);
-        textView.setText(Html.fromHtml((String) getExtraParameter()));
+        textView.setText((String) getExtraParameter());
+		// Html.fromHtml((String) getExtraParameter()));
         textView.setMovementMethod(LinkMovementMethod.getInstance());
     }
 

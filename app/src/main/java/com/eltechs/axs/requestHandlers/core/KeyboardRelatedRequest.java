@@ -11,7 +11,7 @@ import com.eltechs.axs.xserver.KeyboardModel;
 import com.eltechs.axs.xserver.XServer;
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import com.eltechs.axs.integersign.*;
+import com.eltechs.axs.proto.input.annotations.*;
 
 public class KeyboardRelatedRequest extends HandlerObjectBase {
     public KeyboardRelatedRequest(XServer xServer) {
@@ -30,14 +30,17 @@ public class KeyboardRelatedRequest extends HandlerObjectBase {
 		indexes = {1, 2},
 		values = {1, 1}
 	)
-    public void GetKeyboardMapping(XResponse xResponse, @RequestParam IntegerUnsigned i, @RequestParam IntegerUnsigned i2, @RequestParam short s) throws IOException {
+	@IntSign(
+		unsignedIndexes = {1, 2}
+	)
+    public void GetKeyboardMapping(XResponse xResponse, int i, int i2, short s) throws IOException {
         KeyboardModel keyboardModel = this.xServer.getKeyboardModelManager().getKeyboardModel();
         int layoutsCount = 2 * keyboardModel.getLayoutsCount();
-        final int[] iArr = new int[(i2.value * layoutsCount)];
+        final int[] iArr = new int[(i2 * layoutsCount)];
         int[] iArr2 = new int[layoutsCount];
         int i3 = 0;
-        for (int i4 = 0; i4 < i2.value; i4++) {
-            keyboardModel.getKeysymsForKeycode(i.value + i4, iArr2);
+        for (int i4 = 0; i4 < i2; i4++) {
+            keyboardModel.getKeysymsForKeycode(i + i4, iArr2);
             System.arraycopy(iArr2, 0, iArr, i3, iArr2.length);
             i3 += iArr2.length;
         }

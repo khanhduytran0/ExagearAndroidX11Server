@@ -48,7 +48,7 @@ import com.eltechs.axs.xserver.impl.drawables.Visual;
 import com.eltechs.axs.xserver.impl.masks.Mask;
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import com.eltechs.axs.integersign.*;
+import com.eltechs.axs.proto.input.annotations.*;
 
 public class WindowManipulationRequests extends HandlerObjectBase {
 
@@ -64,45 +64,45 @@ public class WindowManipulationRequests extends HandlerObjectBase {
 
     @RequestHandler(opcode = 8)
     @Locks({"WINDOWS_MANAGER", "FOCUS_MANAGER", "INPUT_DEVICES", "KEYBOARD_MODEL_MANAGER", "ATOMS_MANAGER"})
-    public void MapWindow(@RequestParam Window window) {
+    public void MapWindow(Window window) {
         this.xServer.getWindowsManager().mapWindow(window);
     }
 
     @RequestHandler(opcode = 9)
     @Locks({"WINDOWS_MANAGER", "FOCUS_MANAGER", "INPUT_DEVICES", "KEYBOARD_MODEL_MANAGER"})
-    public void MapSubwindows(@RequestParam Window window) {
+    public void MapSubwindows(Window window) {
         this.xServer.getWindowsManager().mapSubwindows(window);
     }
 
     @RequestHandler(opcode = 10)
     @Locks({"WINDOWS_MANAGER", "FOCUS_MANAGER", "INPUT_DEVICES", "KEYBOARD_MODEL_MANAGER"})
-    public void UnmapWindow(@RequestParam Window window) {
+    public void UnmapWindow(Window window) {
         this.xServer.getWindowsManager().unmapWindow(window);
     }
 
     @RequestHandler(opcode = 11)
     @Locks({"WINDOWS_MANAGER", "FOCUS_MANAGER", "INPUT_DEVICES", "KEYBOARD_MODEL_MANAGER"})
-    public void UnmapSubwindows(@RequestParam Window window) {
+    public void UnmapSubwindows(Window window) {
         this.xServer.getWindowsManager().unmapSubwindows(window);
     }
 
     @RequestHandler(opcode = 4)
     @Locks({"WINDOWS_MANAGER", "DRAWABLES_MANAGER", "FOCUS_MANAGER", "INPUT_DEVICES"})
-    public void DestroyWindow(@RequestParam Window window) {
+    public void DestroyWindow(Window window) {
         this.xServer.getWindowsManager().destroyWindow(window);
     }
 
     @RequestHandler(opcode = 5)
     @Locks({"WINDOWS_MANAGER", "DRAWABLES_MANAGER", "FOCUS_MANAGER", "INPUT_DEVICES"})
-    public void DestroySubwindows(@RequestParam Window window) {
+    public void DestroySubwindows(Window window) {
         this.xServer.getWindowsManager().destroySubwindows(window);
     }
-
+	
     @RequestHandler(opcode = 12)
     @Locks({"WINDOWS_MANAGER", "FOCUS_MANAGER", "INPUT_DEVICES"})
 	@ParamName(index = 1, "mask")
 	@Optional(
-		indexes = {3, 4, 5, 6, 7, 8},
+		indexes = {3, 4, 5, 6, 7, 8, 9},
 		bits = {"X", "Y", "WIDTH", "HEIGHT", "BORDER_WIDTH", "SIBLING", "STACK_MODE"}
 	)
 	@Width(
@@ -110,16 +110,16 @@ public class WindowManipulationRequests extends HandlerObjectBase {
 		values = {2, 4, 4, 4, 4, 4, 4}
 	)
     public void ConfigureWindow(
-		@RequestParam Window window,
-		@RequestParam Mask<ConfigureWindowParts> mask,
-		@RequestParam short s,
-		@RequestParam Integer num,
-		@RequestParam Integer num2,
-		@RequestParam Integer num3,
-		@RequestParam Integer num4,
-		@RequestParam Short sh,
-		@RequestParam Window window2,
-		@RequestParam StackMode stackMode
+		Window window,
+		Mask<ConfigureWindowParts> mask,
+		short s,
+		Integer num,
+		Integer num2,
+		Integer num3,
+		Integer num4,
+		Short sh,
+		Window window2,
+		StackMode stackMode
 	) {
         int borderWidth;
         Window window3 = window;
@@ -166,7 +166,7 @@ public class WindowManipulationRequests extends HandlerObjectBase {
     @Locks({"WINDOWS_MANAGER", "ATOMS_MANAGER"})
 	@OOBParam(index = 1)
 	@SpecialNullValue(indexes = {4})
-    public void GetProperty(XResponse xResponse, @RequestParam boolean z, @RequestParam Window window, @RequestParam Atom atom, @RequestParam Atom atom2, @RequestParam int i, @RequestParam int i2) throws IOException, XProtocolError {
+    public void GetProperty(XResponse xResponse, boolean z, Window window, Atom atom, Atom atom2, int i, int i2) throws IOException, XProtocolError {
         XResponse xResponse2 = xResponse;
         Atom atom3 = atom;
         Atom atom4 = atom2;
@@ -199,7 +199,7 @@ public class WindowManipulationRequests extends HandlerObjectBase {
                 System.arraycopy((short[]) property.getValues(), i4 / 2, sArr, 0, i7);
                 xResponse2.sendSimpleSuccessReply(formatValue, Integer.valueOf(type.getId()), Integer.valueOf(i6), Integer.valueOf(sArr.length), bArr, sArr, bArr3);
             } else if (formatValue != 32) {
-                Assert.state(false, String.format("Strange format value (%d) in GetProperty method.", new Object[]{Byte.valueOf(formatValue)}));
+                Assert.state(false, String.format("Strange format value (%d) in GetProperty method.", Byte.valueOf(formatValue)));
             } else {
                 int i8 = i5 / 4;
                 int[] iArr = new int[i8];
@@ -217,7 +217,7 @@ public class WindowManipulationRequests extends HandlerObjectBase {
     @RequestHandler(opcode = 18)
     @Locks({"WINDOWS_MANAGER", "ATOMS_MANAGER"})
 	@OOBParam(index = 0)
-    public void ChangeProperty(@RequestParam PropertyModification propertyModification, @RequestParam Window window, @RequestParam Atom atom, @RequestParam Atom atom2, @RequestParam byte b, @RequestParam byte b2, @RequestParam byte b3, @RequestParam byte b4, @RequestParam int i, @RequestParam ByteBuffer byteBuffer) throws XProtocolError {
+    public void ChangeProperty(PropertyModification propertyModification, Window window, Atom atom, Atom atom2, byte b, byte b2, byte b3, byte b4, int i, ByteBuffer byteBuffer) throws XProtocolError {
         Format format;
         Object obj;
         byte b5 = b;
@@ -264,7 +264,7 @@ public class WindowManipulationRequests extends HandlerObjectBase {
 
     @RequestHandler(opcode = 19)
     @Locks({"WINDOWS_MANAGER", "ATOMS_MANAGER"})
-    public void DeleteProperty(@RequestParam Window window, @RequestParam Atom atom) throws XProtocolError {
+    public void DeleteProperty(Window window, Atom atom) throws XProtocolError {
         window.getPropertiesManager().deleteProperty(atom);
     }
 
@@ -284,36 +284,40 @@ public class WindowManipulationRequests extends HandlerObjectBase {
 		}
 	)
 	@Width(
-		indexes = {3, 4, 5, 6, 7, 8, 15, 16, 17, 20, 21},
+		indexes = {4, 5, 6, 7, 8, 9, 16, 17, 18, 21, 22},
 		values = {2, 2, 2, 2, 2, 2, 4, 4, 4, 4, 4}
 	)
+	@IntSign(
+		signedIndexes = {3, 4},
+		unsignedIndexes = {5, 6, 7}
+	)
     public void CreateWindow(XClient xClient,
-		@RequestParam byte b,
-		@RequestParam int i,
-		@RequestParam Window window,
-		@RequestParam IntegerSigned i2,
-		@RequestParam IntegerSigned i3,
-		@RequestParam IntegerUnsigned i4,
-		@RequestParam IntegerUnsigned i5,
-		@RequestParam IntegerUnsigned i6,
-		@RequestParam WindowClass windowClass,
-		@RequestParam Visual visual,
-		@RequestParam Mask<WindowAttributeNames> mask,
-		@RequestParam Integer num,
-		@RequestParam Integer num2,
-		@RequestParam Integer num3,
-		@RequestParam Integer num4,
-		@RequestParam BitGravity bitGravity,
-		@RequestParam WinGravity winGravity,
-		@RequestParam BackingStore backingStore,
-		@RequestParam Integer num5,
-		@RequestParam Integer num6,
-		@RequestParam Boolean bool,
-		@RequestParam Boolean bool2,
-		@RequestParam Mask<EventName> mask2,
-		@RequestParam Mask<EventName> mask3,
-		@RequestParam Integer num7,
-		@RequestParam Cursor cursor
+		byte b,
+		int i,
+		Window window,
+		int i2,
+		int i3,
+		int i4,
+		int i5,
+		int i6,
+		WindowClass windowClass,
+		Visual visual,
+		Mask<WindowAttributeNames> mask,
+		Integer num,
+		Integer num2,
+		Integer num3,
+		Integer num4,
+		BitGravity bitGravity,
+		WinGravity winGravity,
+		BackingStore backingStore,
+		Integer num5,
+		Integer num6,
+		Boolean bool,
+		Boolean bool2,
+		Mask<EventName> mask2,
+		Mask<EventName> mask3,
+		Integer num7,
+		Cursor cursor
 	) throws XProtocolError {
         
 			
@@ -357,13 +361,13 @@ public class WindowManipulationRequests extends HandlerObjectBase {
             windowManipulationRequests = this;
             visual2 = visual;
         }
-        Window createWindow = windowManipulationRequests.xServer.getWindowsManager().createWindow(i, window, i2.value, i3.value, i4.value, i5.value, visual2, z, xClient2);
+        Window createWindow = windowManipulationRequests.xServer.getWindowsManager().createWindow(i, window, i2, i3, i4, i5, visual2, z, xClient2);
         if (createWindow == null) {
             throw new BadIdChoice(i);
         }
         xClient2.installEventListener(createWindow, emptyMask);
         WindowAttributes windowAttributes = createWindow.getWindowAttributes();
-        windowAttributes.setBorderWidth(i6.value);
+        windowAttributes.setBorderWidth(i6);
         windowAttributes.update(mask4, num3, num4, bitGravity, winGravity, backingStore, num5, num6, bool, bool2, mask3, num7, cursor);
         mask4.isSet(WindowAttributeNames.BACKGROUND_PIXMAP);
         if (mask4.isSet(WindowAttributeNames.BACKGROUND_PIXEL)) {
@@ -392,23 +396,23 @@ public class WindowManipulationRequests extends HandlerObjectBase {
 	)
     public void ChangeWindowAttributes(
 		XClient xClient,
-		@RequestParam Window window,
-		@RequestParam Mask<WindowAttributeNames> mask,
-		@RequestParam Integer num,
-		@RequestParam Integer num2,
-		@RequestParam Integer num3,
-		@RequestParam Integer num4,
-		@RequestParam BitGravity bitGravity,
-		@RequestParam WinGravity winGravity,
-		@RequestParam BackingStore backingStore,
-		@RequestParam Integer num5,
-		@RequestParam Integer num6,
-		@RequestParam Boolean bool,
-		@RequestParam Boolean bool2,
-		@RequestParam Mask<EventName> mask2,
-		@RequestParam Mask<EventName> mask3,
-		@RequestParam Integer num7, 
-		@RequestParam Cursor cursor
+		Window window,
+		Mask<WindowAttributeNames> mask,
+		Integer num,
+		Integer num2,
+		Integer num3,
+		Integer num4,
+		BitGravity bitGravity,
+		WinGravity winGravity,
+		BackingStore backingStore,
+		Integer num5,
+		Integer num6,
+		Boolean bool,
+		Boolean bool2,
+		Mask<EventName> mask2,
+		Mask<EventName> mask3,
+		Integer num7, 
+		Cursor cursor
 	) throws XProtocolError {
         if (mask2 != null) {
             if ((!mask2.isSet(EventName.SUBSTRUCTURE_REDIRECT) || !willBeInConflict(xClient, window, EventName.SUBSTRUCTURE_REDIRECT)) && ((!mask2.isSet(EventName.RESIZE_REDIRECT) || !willBeInConflict(xClient, window, EventName.RESIZE_REDIRECT)) && (!mask2.isSet(EventName.BUTTON_PRESS) || !willBeInConflict(xClient, window, EventName.BUTTON_PRESS)))) {
@@ -431,7 +435,7 @@ public class WindowManipulationRequests extends HandlerObjectBase {
 
     @RequestHandler(opcode = 3)
     @Locks({"WINDOWS_MANAGER"})
-    public void GetWindowAttributes(XClient xClient, XResponse xResponse, @RequestParam Window window) throws IOException {
+    public void GetWindowAttributes(XClient xClient, XResponse xResponse, Window window) throws IOException {
         WindowAttributes windowAttributes = window.getWindowAttributes();
         xResponse.sendSimpleSuccessReply((byte) windowAttributes.getBackingStore().ordinal(), Integer.valueOf(window.isInputOutput() ? window.getActiveBackingStore().getVisual().getId() : 0), Short.valueOf((short) windowAttributes.getWindowClass().ordinal()), Byte.valueOf((byte) windowAttributes.getBitGravity().ordinal()), Byte.valueOf((byte) windowAttributes.getWinGravity().ordinal()), Integer.valueOf(windowAttributes.getBackingPlanes()), Integer.valueOf(windowAttributes.getBackingPixel()), Boolean.valueOf(windowAttributes.isSaveUnder()), Boolean.valueOf(true), Byte.valueOf((byte) WindowHelpers.getWindowMapState(window).ordinal()), Boolean.valueOf(windowAttributes.isOverrideRedirect()), Integer.valueOf(0), Integer.valueOf(window.getEventListenersList().calculateAllEventsMask().getRawMask()), Integer.valueOf(xClient.getEventMask(window).getRawMask()), Short.valueOf((short) windowAttributes.getDoNotPropagateMask().getRawMask()));
     }
@@ -442,8 +446,11 @@ public class WindowManipulationRequests extends HandlerObjectBase {
 		indexes = {3, 4},
 		values = {2, 2}
 	)
-    public void TranslateCoordinates(XResponse xResponse, @RequestParam Window window, @RequestParam Window window2, @RequestParam IntegerSigned i, @RequestParam IntegerSigned i2) throws IOException, XProtocolError {
-        Point convertWindowCoordsToRoot = WindowHelpers.convertWindowCoordsToRoot(window, i.value, i2.value);
+	@IntSign(
+		signedIndexes = {3, 4}
+	)
+    public void TranslateCoordinates(XResponse xResponse, Window window, Window window2, int i, int i2) throws IOException, XProtocolError {
+        Point convertWindowCoordsToRoot = WindowHelpers.convertWindowCoordsToRoot(window, i, i2);
         final Point convertRootCoordsToWindow = WindowHelpers.convertRootCoordsToWindow(window2, convertWindowCoordsToRoot.x, convertWindowCoordsToRoot.y);
         final Window directMappedSubWindowByCoords = WindowHelpers.getDirectMappedSubWindowByCoords(window2, convertWindowCoordsToRoot.x, convertWindowCoordsToRoot.y);
         xResponse.sendSimpleSuccessReply((byte) 1, (ResponseDataWriter) new ResponseDataWriter() {
@@ -465,7 +472,10 @@ public class WindowManipulationRequests extends HandlerObjectBase {
 		indexes = {3, 4},
 		values = {2, 2}
 	)
-    public void ReparentWindow(XResponse xResponse, @RequestParam Window window, @RequestParam Window window2, @RequestParam IntegerSigned i, @RequestParam IntegerSigned i2) {
+	@IntSign(
+		signedIndexes = {3, 4}
+	)
+    public void ReparentWindow(XResponse xResponse, Window window, Window window2, int i, int i2) {
         Window parent = window.getParent();
         if (parent != null) {
             parent.getChildrenList().remove(window);
