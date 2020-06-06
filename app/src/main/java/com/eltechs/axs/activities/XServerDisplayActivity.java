@@ -22,9 +22,11 @@ import com.eltechs.axs.BuildConfig;
 import com.eltechs.ed.startupActions.*;
 
 public class XServerDisplayActivity<StateClass extends ApplicationStateBase<StateClass> /* & PurchasableComponentsCollectionAware */& XServerDisplayActivityConfigurationAware & SelectedExecutableFileAware<StateClass>> extends FrameworkActivity<StateClass> {
+/*
     private static final long COUNT_DOWN_INTERVAL = 20000;
     private static final long COUNT_DOWN_TOTAL = 86400000;
     private static final boolean ENABLE_TRACING_METHODS = false;
+*/
     private static final int REQUEST_CODE_INFORMER = 10003;
     private Runnable contextMenuRequestHandler;
     private XServerDisplayActivityInterfaceOverlay interfaceOverlay;
@@ -67,9 +69,8 @@ public class XServerDisplayActivity<StateClass extends ApplicationStateBase<Stat
                 Assert.state(false);
             }
         }
-        
-        getWindow().addFlags(128);
-        getWindow().addFlags(4194304);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
         setContentView(R.layout.main);
         checkForSuddenDeath();
 		

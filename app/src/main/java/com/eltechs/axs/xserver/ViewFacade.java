@@ -15,8 +15,8 @@ public class ViewFacade {
         void handle(PlacedDrawable placedDrawable);
     }
 
-    public ViewFacade(XServer xServer2) {
-        this.xServer = xServer2;
+    public ViewFacade(XServer xServer) {
+        this.xServer = xServer;
     }
 
     public XServer getXServer() {

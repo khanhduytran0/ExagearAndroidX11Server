@@ -42,11 +42,11 @@ public class AXSRendererGL implements Renderer {
     private List<PersistentGLDrawable> windowDrawables;
     private RectangleF xViewport;
 
-    public AXSRendererGL(ViewOfXServer viewOfXServer, ViewFacade viewFacade2) {
+    public AXSRendererGL(ViewOfXServer viewOfXServer, ViewFacade viewFacade) {
         this.host = viewOfXServer;
-        this.viewFacade = viewFacade2;
+        this.viewFacade = viewFacade;
         this.cursorDrawable = null;
-        ScreenInfo screenInfo = viewFacade2.getScreenInfo();
+        ScreenInfo screenInfo = viewFacade.getScreenInfo();
         this.xViewport = new RectangleF(0.0f, 0.0f, (float) screenInfo.widthInPixels, (float) screenInfo.heightInPixels);
         this.rootCursorBitmap = createXCursorBitmap();
         this.invisibleCursorBitmap = createInvisibleCursorBitmap();
@@ -69,10 +69,10 @@ public class AXSRendererGL implements Renderer {
 
     public synchronized void onSurfaceCreated(GL10 gl10, EGLConfig eGLConfig) {
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-        GLES20.glEnable(2884);
-        GLES20.glEnable(2929);
-        GLES20.glEnable(3042);
-        GLES20.glBlendFunc(770, 771);
+        GLES20.glEnable(GLES20.GL_CULL_FACE);
+        GLES20.glEnable(GLES20.GL_DEPTH_TEST);
+        GLES20.glEnable(GLES20.GL_BLEND);
+        GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
         this.created = true;
         recreateScene();
     }
@@ -91,11 +91,11 @@ public class AXSRendererGL implements Renderer {
     }
 
     public void onDrawFrame(GL10 gl10) {
-        GLES20.glClear(16640);
+        GLES20.glClear(16640); // ??? FIXME
         synchronized (this) {
             XLock lock = this.viewFacade.getXServer().getLocksManager().lock(Subsystem.DRAWABLES_MANAGER);
             try {
-                GLES20.glEnable(3089);
+                GLES20.glEnable(GLES20.GL_SCISSOR_TEST);
                 GLES20.glScissor(this.scX, this.glViewportHeight - (this.scY + this.scHeight), this.scWidth, this.scHeight);
                 if (!this.freeze) {
                     reloadWindowTextures(0);
@@ -103,7 +103,7 @@ public class AXSRendererGL implements Renderer {
                 }
                 this.scene.draw();
             } finally {
-                GLES20.glDisable(3089);
+                GLES20.glDisable(GLES20.GL_SCISSOR_TEST);
                 lock.close();
             }
         }
@@ -189,7 +189,7 @@ public class AXSRendererGL implements Renderer {
             int size = listNonRootWindowDrawables.size();
             int i = size + 1;
             int i2 = 0;
-            this.windowDrawables = new ArrayList(size);
+            this.windowDrawables = new ArrayList<PersistentGLDrawable>(size);
             setScene(new SceneOfRectangles(i, i));
             updateSceneViewports();
             while (i2 < size) {
@@ -203,6 +203,7 @@ public class AXSRendererGL implements Renderer {
     }
 
     private void recreateSceneOfControls() {
+		// FIXME this is the decompiled code
         boolean z = this.active;
     }
 
@@ -241,15 +242,10 @@ public class AXSRendererGL implements Renderer {
     public synchronized void windowGeometryChanged(Window window) {
         if (this.windowDrawables != null) {
             int size = this.windowDrawables.size();
-            int i = 0;
-            while (true) {
-                if (i >= size) {
-                    break;
-                } else if (this.windowDrawables.get(i) == window.getActiveBackingStore()) {
+            for (int i = 0; i < size; i++) {
+                if (this.windowDrawables.get(i) == window.getActiveBackingStore()) {
                     moveDrawable(i, (size - i) + 1, window.getBoundingRectangle());
                     break;
-                } else {
-                    i++;
                 }
             }
         }

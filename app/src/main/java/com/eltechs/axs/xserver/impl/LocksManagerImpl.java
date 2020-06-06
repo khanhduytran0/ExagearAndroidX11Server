@@ -27,8 +27,9 @@ public class LocksManagerImpl implements LocksManager {
             EnumMap access = LocksManagerImpl.this.locks;
             for (int length = this.systems.length - 1; length >= 0; length--) {
                 try {
-					// MOD: FIXME ABOUT IllegalMonitorStateException
-					((ReentrantLock) access.get(this.systems[length])).unlock();
+					// FIXME ABOUT IllegalMonitorStateException
+					ReentrantLock lock = ((ReentrantLock) access.get(this.systems[length]));
+					if (isLocked(this.systems[length])) lock.unlock();
 				} catch (IllegalMonitorStateException e) {
 					e.printStackTrace();
 				}
@@ -67,11 +68,11 @@ public class LocksManagerImpl implements LocksManager {
     }
 
     public boolean isLocked(Subsystem subsystem) {
-        return ((ReentrantLock) this.locks.get(subsystem)).isLocked();
+        return this.locks.get(subsystem).isLocked();
     }
 
     public XLock lock(Subsystem subsystem) {
-        return new SingleXLock((ReentrantLock) this.locks.get(subsystem));
+        return new SingleXLock(this.locks.get(subsystem));
     }
 
     public XLock lock(Subsystem[] subsystemArr) {
