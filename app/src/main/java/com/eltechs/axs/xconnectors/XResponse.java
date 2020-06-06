@@ -168,7 +168,7 @@ public class XResponse {
     }
 
     public void sendError(XProtocolError xProtocolError) throws IOException {
-        Throwable th;
+        // Throwable th;
         XStreamLock lock = this.outputStream.lock();
         try {
             this.outputStream.write(new byte[]{0, xProtocolError.getErrorCode()});

@@ -45,7 +45,7 @@ public abstract class TrivialExtensionDispatcher implements ConfigurableRequests
         xRequest.setMinorOpcode(extendAsUnsigned);
         if (handler == null) {
 			Log.e("Exagear", "Invalid request: b=" + b + ",b2=" + b2 + ",i=" + i);
-            throw new BadRequest();
+            xResponse.sendError(new BadRequest());
         }
         handler.handleRequest(xClient, i, b2, xRequest, xResponse);
     }

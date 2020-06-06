@@ -37,6 +37,7 @@ public class FatalErrorActivity extends FrameworkActivity<ApplicationStateBase<?
         textView.setText((String) getExtraParameter());
 		// Html.fromHtml((String) getExtraParameter()));
         textView.setMovementMethod(LinkMovementMethod.getInstance());
+		textView.setTextIsSelectable(true);
     }
 
     public void finish() {

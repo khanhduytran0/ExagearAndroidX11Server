@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import android.util.*;
 
 public class WindowsManagerImpl implements WindowsManager {
     private final DrawablesManager drawablesManager;
@@ -62,13 +63,15 @@ public class WindowsManagerImpl implements WindowsManager {
     }
 
     public Window getWindow(int i) {
-        return (Window) this.windows.get(i);
+        return this.windows.get(i);
     }
 
     public Window createWindow(int i, Window window, int i2, int i3, int i4, int i5, Visual visual, boolean z, XClient xClient) {
         Drawable drawable;
         if (this.windows.containsKey(i)) {
-            return null;
+			Log.w("Exagear", "Window " + i + " is already exists!");
+			return windows.get(i);
+            // return null;
         }
         if (!z) {
             drawable = null;
