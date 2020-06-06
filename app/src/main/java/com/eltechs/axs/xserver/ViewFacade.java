@@ -436,14 +436,13 @@ public class ViewFacade {
         XLock lock = this.xServer.getLocksManager().lock(Subsystem.WINDOWS_MANAGER);
         try {
             this.xServer.getWindowsManager().removeWindowLifecycleListener(windowLifecycleListener);
-            if (lock != null) {
-                lock.close();
-                return;
-            }
-            return;
         } catch (Throwable th2) {
             throw new RuntimeException(th2);
-        }
+        } finally {
+			if (lock != null) {
+                lock.close();
+            }
+		}
     }
 
     public void addWindowContentModificationListner(WindowContentModificationListener windowContentModificationListener) {

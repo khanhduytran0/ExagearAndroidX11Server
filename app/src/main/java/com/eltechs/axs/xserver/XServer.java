@@ -4,7 +4,6 @@ import com.eltechs.axs.helpers.Assert;
 import com.eltechs.axs.rendering.RenderingEngine;
 import com.eltechs.axs.sysvipc.SHMEngine;
 import com.eltechs.axs.xserver.LocksManager.Subsystem;
-import com.eltechs.axs.xserver.LocksManager.XLock;
 import com.eltechs.axs.xserver.impl.AtomsManagerImpl;
 import com.eltechs.axs.xserver.impl.ColormapsManagerImpl;
 import com.eltechs.axs.xserver.impl.CursorsManagerImpl;
@@ -46,20 +45,19 @@ public class XServer {
     private final SelectionsManagerImpl selectionsManager;
     private final ShmSegmentsManagerImpl shmSegmentsManager;
     private final WindowsManager windowsManager;
-// NEVER USED:
+
     public interface Lock extends AutoCloseable {
     }
 
-    public XServer(ScreenInfo screenInfo2, KeyboardModel keyboardModel, DrawablesFactory drawablesFactory, SHMEngine sHMEngine, RenderingEngine renderingEngine2, int i) {
-        // Throwable th;
-        this.screenInfo = screenInfo2;
-        this.renderingEngine = renderingEngine2;
+    public XServer(ScreenInfo screenInfo, KeyboardModel keyboardModel, DrawablesFactory drawablesFactory, SHMEngine sHMEngine, RenderingEngine renderingEngine, int i) {
+        this.screenInfo = screenInfo;
+        this.renderingEngine = renderingEngine;
         this.locksManager = new LocksManagerImpl();
         this.atomsManager = new AtomsManagerImpl();
         PredefinedAtoms.configurePredefinedAtoms(this.atomsManager);
         this.drawablesManager = new DrawablesManagerImpl(drawablesFactory);
         this.graphicsContextsManager = new GraphicsContextsManagerImpl();
-        this.windowsManager = new WindowsManagerImpl(screenInfo2, this.drawablesManager);
+        this.windowsManager = new WindowsManagerImpl(screenInfo, this.drawablesManager);
         this.pixmapsManager = new PixmapsManagerImpl(this.drawablesManager);
         this.cursorsManager = new CursorsManagerImpl(drawablesFactory);
         this.colormapsManager = new ColormapsManagerImpl();
@@ -70,7 +68,7 @@ public class XServer {
         this.pointer = new Pointer(this);
         this.keyboard = new Keyboard(this);
         this.idIntervalsManager = new IdIntervalsManagerImpl(i);
-        XLock lock = this.locksManager.lock(new Subsystem[]{Subsystem.WINDOWS_MANAGER, Subsystem.INPUT_DEVICES});
+        LocksManager.XLock lock = this.locksManager.lock(new Subsystem[]{Subsystem.WINDOWS_MANAGER, Subsystem.INPUT_DEVICES});
         try {
             this.grabsManager = new GrabsManagerImpl(this);
             this.pointerEventSender = new PointerEventSender(this);
@@ -79,11 +77,9 @@ public class XServer {
             if (lock != null) {
                 lock.close();
             }
-        } catch (Throwable th2) {
-            // th.addSuppressed(th2);
-			throw new RuntimeException(th2);
+        } catch (Throwable th) {
+            throw new RuntimeException(th);
         }
-        // throw th;
     }
 
     public ScreenInfo getScreenInfo() {
@@ -194,15 +190,16 @@ public class XServer {
         return this.renderingEngine != null && this.renderingEngine.isRenderingAvailable();
     }
 
-    public void desktopExperienceAttached(DesktopExperience desktopExperience2) {
+    public void desktopExperienceAttached(DesktopExperience desktopExperience) {
         Assert.state(this.locksManager.isLocked(Subsystem.DESKTOP_EXPERIENCE), "Access to the desktop experience plugin must be protected with a lock of type DESKTOP_EXPERIENCE.");
         Assert.state(this.desktopExperience == null, "Can have no more that 1 desktop experience module attached.");
-        this.desktopExperience = desktopExperience2;
+        this.desktopExperience = desktopExperience;
     }
 
-    public void desktopExperienceDetached(DesktopExperience desktopExperience2) {
+    public void desktopExperienceDetached(DesktopExperience desktopExperience) {
         Assert.state(this.locksManager.isLocked(Subsystem.DESKTOP_EXPERIENCE), "Access to the desktop experience plugin must be protected with a lock of type DESKTOP_EXPERIENCE.");
-        Assert.isTrue(desktopExperience2 == desktopExperience2);
+        Assert.isTrue(desktopExperience == desktopExperience ? true : null);
         this.desktopExperience = null;
     }
 }
+

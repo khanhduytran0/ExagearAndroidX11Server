@@ -2,6 +2,7 @@
 A X11 Server for Android take from Exagear AXS library in Exagear Windows Emulator app
 
 ## Current status
+- Logcat print a lot of exceptions while the app is running.
 - While a client connect to, the X11 Server go to ANR (App Not Responding).
 
 ## TODO replace `Param Annotation` with other

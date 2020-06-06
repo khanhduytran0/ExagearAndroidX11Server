@@ -25,9 +25,9 @@ public interface LocksManager {
         void close();
     }
 
-    XLock lock(Subsystem subsystem);
+    XLock lock(Subsystem lock);
 
-    XLock lock(Subsystem[] subsystemArr);
+    XLock lock(Subsystem[] locks);
 
     XLock lockAll();
 

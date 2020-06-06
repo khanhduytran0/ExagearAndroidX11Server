@@ -88,18 +88,9 @@ public class XServerComponent extends EnvironmentComponent {
 		
 		int xDisplayPort = this.displayNumber + 6000;
 		
-		// TODO remove after debug
-		// xDisplayPort = 0;
-		/*
-		InetSocketAddress inetSocketAddr = (InetSocketAddress) new ServerSocket(xDisplayPort).accept().getRemoteSocketAddress();
-		InetAddress addr = inetSocketAddr.getAddress();
-		System.out.println("HostAddr=" + addr.getHostAddress() + "," + addr.getHostName());
-        this.connector = new NioConnector<XClient>(inetSocketAddr, new XClientConnectionHandler(xServer), RootXRequestHandlerConfigurer.createRequestHandler(xServer));
-		*/
-		
-		this.connector =
+		this.connector = FairEpollConnector.listenOnSpecifiedUnixSocket(socketConf, new XClientConnectionHandler(xServer), RootXRequestHandlerConfigurer.createRequestHandler(xServer));
 		// FairEpollConnector.listenOnLoopbackInetAddress(0, new XClientConnectionHandler(xServer), RootXRequestHandlerConfigurer.createRequestHandler(xServer));
-		FairEpollConnector.listenOnSpecifiedUnixSocket(socketConf, new XClientConnectionHandler(xServer), RootXRequestHandlerConfigurer.createRequestHandler(xServer));
+		
         this.connector.setInitialInputBufferCapacity(262144);
         this.connector.start();
     }
